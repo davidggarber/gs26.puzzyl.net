@@ -1,0 +1,75 @@
+#scratch-pad {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    top: 0px;
+    z-index: 1050;
+    pointer-events: none;
+}
+
+@media print {
+    #scratch-pad {
+        display: none;
+    }    
+}
+
+.letter.portrait #scratch-pad {
+    height: 11in;
+}
+
+#scratch-pad textarea {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 10pt;
+    padding: 2px;
+    border: none;
+    color: #d2691e;
+    border-radius: 8px;
+}
+
+#scratch-pad textarea:focus {
+    outline: none;
+    background-color: #e3e3e388;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.scratch-div  {
+    position: absolute;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 10pt;
+    padding: 2px;
+    border: none;
+    color: olivedrab;
+    background-color: #eeffeecc;
+    pointer-events: none;
+}
+
+#scratch-pad.topmost {
+    z-index: 10000;
+    pointer-events: initial;
+}
+
+.scratch-div .scratch-drag-handle {
+    position: absolute;
+    height: 20px;
+    left: -14px;
+    top: -14px;
+    cursor: move;
+}
+
+#scratch-pad.topmost .scratch-div  {
+    pointer-events: initial;
+}
+
+.scratch-div.dragging textarea {
+    background-color: transparent;
+}
+
+.scratch-div ::-webkit-resizer {
+    display: none;
+  }

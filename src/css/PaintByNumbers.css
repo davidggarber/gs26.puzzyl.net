@@ -1,0 +1,161 @@
+.paint-by-numbers {
+  user-select: none;
+  border-spacing: 0px;
+}
+.pbn-corner {
+  position: relative;
+}
+.pbn-instructions {
+  position: absolute;
+  bottom: 20px;
+  right: 5px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: normal;
+  font-style: italic;
+  font-size: 8pt;
+  width: 1.5in;
+  text-align: center;
+}
+.pbn-instructions img {
+  margin: 5px;
+}
+
+.pbn-col-header {
+  vertical-align: bottom;
+  text-align: center;
+  width: 15px;
+  padding-bottom: 3px;
+}
+.pbn-col-group {
+  display:block;
+  border: solid 1px transparent;
+  letter-spacing: -1.5px;
+}
+.pbn-col-footer {
+  position: relative;
+  height: 0.5in;
+}
+.pbn-col-validation {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  vertical-align: top;
+  text-align: center;
+  font-size: small;
+  font-style: italic;
+}
+.pbn-col-header.done {
+  background-color: #80ff80;
+}
+.pbn-col-validation.done {
+  background-color: #80ff80;
+}
+.pbn-col-validation.exceeded {
+  background-color: #ff8080;
+}
+.pbn-corner-validation {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.pbn-row-header {
+  text-align: right;
+  letter-spacing: -1.5px;
+  padding-right: 8px;
+  width: 0.8in;
+  white-space: nowrap;
+}
+.pbn-row-group {
+  display: inline-block;
+  border: solid 1px transparent;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.pbn-row td {
+  border: dotted 0.5px #ccc;
+}
+.pbn-row-footer {
+  width: 0.5in;
+  position: relative;
+}
+.pbn-row-validation {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  font-size: small;
+  font-style: italic;
+  text-wrap: nowrap;
+}
+.pbn-row-header.done {
+  background-color: #80ff80;
+}
+.pbn-row-validation.done {
+  background-color: #80ff80;
+}
+.pbn-row-validation.exceeded {
+  background-color: #ff8080;
+}
+.pbn-check {
+  background-color: #80ff8080;
+  border: solid 1px #80ff80;
+}
+
+@media print {
+  .pbn-row-footer {
+    display: none;
+  }
+  .pbn-col-footer {
+    display: none;
+  }
+}
+
+.bolden_5 .pbn-col-header:nth-child(5n+2) {
+  border-left: solid 1px black;
+}
+.bolden_5 .pbn-col-footer:nth-child(5n+2) {
+  border-left: solid 1px black;
+}
+.bolden_5 .pbn-row:nth-child(5n+2) td {
+  border-top: solid 1px black;
+}
+.bolden_5 .pbn-row td:nth-child(5n+2) {
+  border-left: solid 1px black;
+}
+
+.bolden_10 .pbn-col-header:nth-child(10n+12) {
+  border-left: solid 2.5px #333;
+}
+.bolden_10 .pbn-col-footer:nth-child(10n+12) {
+  border-left: solid 2.5px #333;
+}
+.bolden_10 .pbn-row:nth-child(10n+12) td {
+  border-top: solid 2.5px #333;
+}
+.bolden_10 .pbn-row td:nth-child(10n+12) {
+  border-left: solid 2.5px #333;
+}
+
+.pbn-cell {
+  color: transparent;
+}
+.pbn-cell.stampPaint {
+  background-color: black;
+}
+.pbn-cell.stampBlank {
+  text-align: center;
+  vertical-align: middle;
+  color: #999;
+}
+
+.stampPaint-button {
+  background-color: black;
+}
+.stampBlank-button {
+  background-color: #aaa;
+}
+.stampErase-button {
+  background-color: #00000011;
+}

@@ -1,0 +1,505 @@
+.letter-cell {
+  display: inline-block;
+  position: relative;
+  width: 1em;
+  height: 3ex;
+  text-align: center;
+}
+
+.letter-cell-set {
+  white-space: nowrap;
+}
+
+.literal-underline {
+  border-bottom: solid 1px black;
+  margin-right: 0.05in;
+}
+
+.letter-underline {
+  border-bottom: solid 1px black;
+  margin-left: 0.025in;
+  margin-right: 0.025in;
+}
+
+.letter-cell.letter-underline {
+  width: 1.05em;
+}
+
+.letter-cell.multiple-letter {
+  width: 1.5em;
+}
+.letter-cell.multiple-letter.letter-underline {
+  width: 1.55em;
+}
+
+.literal-dotted {
+  border-bottom: dotted 1px black;
+  margin-right: 0.05in;
+}
+
+.letter-dotted {
+  border-bottom: dotted 1px black;
+  margin-left: 0.025in;
+  margin-right: 0.025in;
+}
+.letter-cell.letter-dotted {
+    width: 1.05em;
+}
+
+.literal-underline-faint {
+  border-bottom: solid 1px black;
+  margin-right: 0.05in;
+}
+.letter-underline-faint {
+  border-bottom: solid 1px #ddd;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+.letter-cell.letter-underline-faint {
+  width: 1em;
+}
+.letter-cell.multiple-letter {
+  width: 1.5em;
+}
+.letter-cell.multiple-letter.letter-underline-faint {
+  width: 1.55em;
+}
+@media print {
+  .literal-underline-faint {
+    border-bottom-color: transparent;
+  }
+  .letter-underline-faint {
+    border-bottom-color: transparent;
+  }
+}
+
+
+.letter-box {
+  border: solid 1px black;
+  margin-left: -1px;
+  height: 2.5ex;
+}
+
+.literal-box {
+  border: solid 1px black;
+  margin-left: -1px;
+  height: 2.5ex;
+}
+
+.letter-hover {
+  border: solid 1px transparent;
+  background-color: #ffffcc33;
+}
+
+.letter-hover:hover {
+  background-color: #80808010;
+}
+
+.extract-hover:hover {
+  border: dotted 1px #999;
+  background-color: #ffffcc33;
+}
+
+.letter-grid, .literal-grid, .extract-grid, .extract-grid-highlight {
+  width: 4ex;
+  height: 4ex;
+  border: solid 1px black;
+  margin-left: -1px;
+}
+
+.literal-gridgap {
+  width: 4ex;
+  height: 4ex;
+  border: solid 1px transparent;
+  margin-left: -1px;
+}
+
+.literal-block {
+  width: 4ex;
+  height: 4ex;
+  border: solid 1px black;
+  margin-left: -1px;
+  background-color: #7f7f7f;  
+}
+
+.letter-cell.read-only-overlay {
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  width: 90%;
+  height: 90%;
+}
+
+.block {
+  background-color: #7f7f7f;
+}
+
+.under-number {
+  display: block;
+  position: absolute;
+  bottom: -10pt;
+  height: initial;
+  line-height: initial;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 7pt;
+}
+
+.extract-box {
+  border: solid 1px black;
+  height: 2.5ex;
+}
+
+#fontExtents {
+  position: absolute;
+  top: 0px;
+  color: transparent;
+}
+
+.print #fontExtents {
+  display: none;
+}
+
+.horzScaleBox {
+  position: relative; 
+  display: inline-block; 
+}
+
+@media screen {
+  .extract-highlight, .extract-grid-highlight {
+    background-color: #cccccc;
+  }
+}
+@media print {
+  .extract-highlight, .extract-grid-highlight {
+    background-color: #999999;
+  }
+
+  #fontExtents {
+    display: none;
+  }
+}
+
+.extract-bold .letter-input {
+  font-weight: 900;
+  color: #cc0000;
+}
+
+.extract-underline {
+  border-bottom: solid 2.5px black;
+  margin-left: 0.025in;
+  margin-right: 0.025in;
+}
+.extract-thin-underline {
+  border-bottom: solid 1px black;
+  margin-left: 0.025in;
+  margin-right: 0.025in;
+}
+.letter-input {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: transparent;
+  padding: 0px;
+  border: none;
+  color: red;
+  font-family: inherit;
+  font-size: inherit;
+  text-transform: uppercase;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.letter-literal {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  line-height: 100%;
+  text-align: center;
+  font-family: 'Verdana';
+  font-size: 10pt;
+  color: black;
+}
+
+.letter-underline .letter-literal {
+  top: 0.5em;
+}
+
+.letter-grid .letter-literal {
+  top: 0.4em;
+}
+
+.literal-gridgap .letter-literal {
+  top: 0.4em;
+}
+
+.literal-block .letter-literal {
+  top: 0.4em;
+}
+
+.extract-image {
+  position: absolute;
+  width: 105%;
+  height: 107%;
+  left: -1px;
+  top: -1px;
+  z-index: 100;
+}
+
+.letter-grid .extract-image {
+  height: 105%;
+}
+
+#extracted {
+  letter-spacing: .2rem;
+  color: #ff0099;
+}
+.extractor-input {
+  color: #ff0099;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.debug #extracted {
+  box-shadow:0px 0px 15px #00cc00; 
+}
+
+#extracted .under-number {
+  letter-spacing: normal;
+}
+
+.notes-abs {
+  position: absolute;
+}
+
+.notes-above {
+  position: relative;
+}
+
+.notes-below {
+  position: relative;
+}
+
+.notes-left {
+  position: relative;
+}
+
+.notes-right {
+  position: relative;
+}
+
+.note-input {
+  display: inline-block;
+  height: 1.5ex;
+  background-color: transparent;
+  font-weight: 100;
+  font-style: italic;
+  border: solid 1px transparent;
+  color: #b97800;
+  cursor: alias;
+}
+
+.note-input.note-above {
+  position: absolute;
+  top: -2em;
+  width: 100%;
+  left: 0px;
+  text-align: center;
+}
+
+.note-input.note-below {
+  position: absolute;
+  bottom: -2em;
+  width: 100%;
+  left: 0px;
+  text-align: center;
+}
+
+.note-right {
+  position: absolute;
+  right: -1in;
+  width: 1in;
+}
+
+.disable-notes .note-input {
+  display: none;
+}
+
+.show-notes .note-input {
+  display: inline-block;
+  box-shadow:0px 0px 5px orange; 
+}
+
+.enable-notes .note-input {
+  border:dotted 1px #cccccc; 
+}
+
+.debug.enable-notes .note-input {
+  box-shadow:0px 0px 2px #cccccc; 
+}
+
+.check {
+  display: none;
+  position: absolute;
+  font-size: 16pt;
+  left: -0.6em;
+  top:-0.5em;
+  width: 1em;
+}
+.check::before {
+  background-image: url('../Icons/Check.png');
+  background-size: 30px 27px;
+  display: inline-block;
+  width: 30px; 
+  height: 27px;
+  content:"";
+}
+
+.crossed-off .check {
+  display: inline-block;
+}
+
+.cross-off {
+  position: relative;
+  cursor: pointer;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.extract-image {
+  z-index: 100;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+input {
+  z-index: 200;
+}
+
+.word-cell {
+  position: relative;
+  display: inline-block;
+  width: 1.5in;
+  height: 1.25em;
+}
+.word-cell .letter-index {
+  display: none;
+}
+.word-cell .letter-index::before {
+  content: '('
+}
+.word-cell .letter-index::after {
+  content: ')'
+}
+.word-cell .letter-index.index-under {
+  display: block;
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 7pt;
+  bottom: -2.4ex;
+}
+.word-cell .letter-index.index-after {
+  display: block;
+  position: absolute;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 8pt;
+  top: 25%;
+  right: -2em;
+}
+
+.word-input {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: transparent;
+  padding: 0px;
+  border: none;
+  color: red;
+  font-family: inherit;
+  font-size: inherit;
+  text-transform: uppercase;
+}
+
+.word-underline {
+  border-bottom: solid 1px black;
+}
+
+.word-dotted {
+  border-bottom: dotted 1px black;
+}
+
+.word-box {
+  border: solid 1px black;
+}
+
+.word-literal {
+  width: 1in;
+}
+
+.word-hover {
+  border: solid 1px transparent;
+}
+
+.word-hover:hover {
+  background-color: #80808010;
+}
+
+
+.highlighted {
+  background-color: yellow;
+}
+
+.btn-shift-up {
+  position: relative;
+  top: -6px;
+}
+
+#ability {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.hide-element {
+  display: none;
+}
+
+.no-user-select {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}

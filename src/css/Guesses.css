@@ -1,0 +1,177 @@
+body.solved {
+  background-color: green;
+  background-image: linear-gradient(to right, transparent, #efe);
+  animation: animate-gradient 2s;
+}
+
+@keyframes animate-gradient {
+  0% { background-color: white; }
+  20% { background-color: white; }
+  100% { background-color: green; }
+}
+
+#guess-log {
+  background-color: white;
+  position: absolute;
+  padding: 0.25in;
+  box-shadow: 0px 0px 5px gray;
+}
+.letter.portrait #guess-log {
+  width: 7.5in;
+  left: -0.25in;
+  top: 10.25in;
+}
+.letter.landscape #guess-log {
+  width: 10in;
+  left: -0.25in;
+  top: 7.75in;
+}
+.ledger.portrait #guess-log {
+  width: 10in;
+  left: -0.25in;
+  top: 16.75in;
+}
+.scrapbook #guess-log {
+  width: 11in;
+  left: -0.25in;
+  top: 11.25in;
+}
+
+.print #guess-log {
+  display: none;
+}
+
+@media print {
+  #guess-log {
+    display: none;
+  }
+}
+
+#guess-titlebar {
+  display: block;
+  background-color: #666;
+  color: white;
+  margin-top: -0.25in;
+  margin-left: -0.25in;
+  width: 100%;
+  padding: 0.05in 0.25in;
+}
+
+#guess-history {
+  overflow-y:scroll;
+  height: 5in;
+}
+
+#guess-history .rt-block {
+  position: relative;
+  display: block;
+  text-align: left;
+  width: 100%;
+  margin-top: 0px;
+  animation: animate-insert-row 1s;
+}
+
+@keyframes animate-insert-row2 {
+  0% { transform: translate(0px, -1in); }
+  100% { transform: translate(0px, 0px) }
+}
+@keyframes animate-insert-row {
+  0% { margin-top: -62px; opacity: 10%; }
+  100% { margin-top: 0px; opacity: 100%; }
+}
+
+#guess-history .rt-guess {
+  color: blue;
+  border: solid 2px blue;
+  background-color: #99f;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 0px;
+  margin-right: 40%;
+  margin-top: 10px;
+  text-align: left;
+  width: 60%;
+}
+
+#guess-history .rt-time {
+  position: absolute;
+  right: 10%;
+}
+
+#guess-history .response {
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 20%;
+  margin-right: 5%;
+  margin-top: 2px;
+  text-align: left;
+  width: 75%;
+}
+
+#guess-history .rt-img {
+  position: absolute;
+  left: 1in;
+  margin-top: -8px;
+  height: 0.3in;
+}
+
+#guess-history .rt-error {
+  color: #a00;
+  border: solid 2px #a00;
+  background-color: #f99;
+}
+
+#guess-history .rt-correct {
+  color: #080;
+  border: solid 2px #080;
+  background-color: #9f9;
+}
+
+#guess-history .rt-confirm {
+  color: #088;
+  border: solid 2px #088;
+  background-color: #9ff;
+}
+
+#guess-history .rt-hint {
+  color: rgb(136, 104, 0);
+  border: solid 2px rgb(136, 104, 0);
+  background-color: #fff599;
+}
+
+#guess-history .rt-unlock {
+  color: #080;
+  border: solid 2px #080;
+  background-color: #9f9;
+}
+
+#guess-history .rt-load {
+  display: none;
+}
+
+.rt-block .response {
+  scroll-margin-bottom: 0.75in;
+}
+
+@media screen {
+
+  .validater.ready {
+    display: inline-block;
+    position: absolute;
+    height: 2em;
+    top: 8px;
+    right: -40px;
+  }
+  .validater.inline.ready {
+    display: inline;
+  }
+  body.show-validater .validate-block {
+    display: block;
+  }
+  body.show-validater.print .validate-block.no-print {
+    display: none;
+  }
+  .copy-extracted.ready {
+    display: inline;
+  }
+}

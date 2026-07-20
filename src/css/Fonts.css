@@ -1,0 +1,97 @@
+:root {
+  --title-font: 'Henny Penny';
+  --input-font: 'Handlee';
+}
+
+.title {
+  font-size: 22pt;
+  font-family: var(--title-font);
+  letter-spacing: -1.5px;
+}
+
+.title-font {
+  font-family: var(--title-font);
+}
+
+.input-font {
+  font-family: var(--input-font);
+}
+
+._gs26 .input-font .letter-literal {
+  font-family: var(--input-font);
+}
+
+._gs26 .letter-cell {
+  font-family: var(--input-font);
+  font-size: 14pt;
+  width: 1.05em;
+}
+
+.word-cell {
+  font-family: var(--input-font);
+  font-size: 14pt;
+}
+
+#final .letter-cell {
+  font-family: var(--input-font);
+  font-size: 20pt;
+  color: #ff0099;
+}
+
+#extracted {
+  font-family: var(--input-font);
+  font-size: 20pt;
+  color: #ff0099;
+}
+
+.extracted {
+  font-family: var(--input-font);
+  font-size: 20pt;
+  color: #ff0099;
+}
+
+#extracted .letter-cell {
+  font-family: var(--input-font);
+  font-size: 20pt;
+  color: #ff0099;
+}
+
+#extracted .letter-input {
+  font-family: var(--input-font);
+  font-size: 20pt;
+  color: #ff0099;
+}
+
+@media print {
+  .screen-only {
+    display: none;
+  }
+}
+
+td:has(.input-group) {
+  background-color: #ff9;
+}
+.letter-cell:has(input:focus) {
+  background-color: gold;
+  color: black;
+}
+input::selection {
+  background-color: transparent;
+  color: #900;
+}
+.letter-cell.extract-highlight:has(input:focus) {
+  background-color: #dc9;
+  color: black;
+}
+.letter-cell.extract-highlight input::selection {
+  background-color: transparent;
+  color: #900;
+}
+.word-cell:has(input:focus) {
+  background-color: gold;
+  color: black;
+}
+.word-cell input::selection {
+  background-color: transparent;
+  color: #900;
+}

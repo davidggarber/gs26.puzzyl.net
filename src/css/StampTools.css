@@ -1,0 +1,165 @@
+@media screen {
+  #stampPalette {
+    display: block;
+  }
+  .print #stampPalette {
+    display: none;
+  }
+}
+@media print {
+  #stampPalette {
+      display: none;
+  }
+}
+
+#stampPalette {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#stampPalette.hidden {
+  display: none;
+}
+
+.stampTool {
+  position: relative;
+  display: inline-block;
+  width: 78px;
+  height: 78px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.stampTool.hidden {
+  display: none;
+}
+
+.stampTool div {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border: solid 3px transparent;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stampTool .label {
+  padding-bottom: 2px;
+}
+
+.stampTool .emoji {
+  display: block;
+  top: 4px;
+  font-size: 24pt;
+}
+
+.stampTool .label {
+  bottom: 4px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12pt;
+}
+
+.stampTool.selected div {
+  border: solid 3px #00ff00;
+}
+
+.stampTool.medium {
+  width: 62px;
+  height: 62px;
+}
+
+.stampTool.medium div {
+  width: 56px;
+  height: 56px;
+}
+
+.stampTool.small {
+  width: 54px;
+  height: 54px;
+}
+
+.stampTool.small div {
+  width: 48px;
+  height: 48px;
+}
+
+.stampToolTemplates {
+  display: none;
+}
+
+.stampable {
+  position: relative;
+  cursor: pointer;
+}
+
+.stampable-container.stamp-drag {
+  touch-action: none;
+}
+
+.stampable-container.stamp-drag .stampable {
+  touch-action: none;
+}
+
+.stampIcon img {
+  width: 64px;
+  height: 64px;
+}
+
+.stampTool.medium .stampIcon img {
+  width: 54px;
+  height: 54px;
+}
+
+.stampTool.small .stampIcon img {
+  width: 40px;
+  height: 40px;
+}
+
+.stampTool .stampLabel {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}
+
+.stampTool .stampMod {
+  position: absolute;
+  bottom: -10pt;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}
+
+.stampTool.medium .stampLabel {
+  font-size: 8pt;
+}
+
+.stampTool.medium .stampMod {
+  font-size: 6pt;
+}
+
+.stampTool.small .stampLabel {
+  font-size: 7pt;
+}
+.stampTool.small .stampMod {
+  font-size: 5pt;
+}
+
+.stampTool.selected .stampMod {
+  display: none;
+}
+
+#stampPaint-label {
+  color: #aaa;
+}
+
+img.stampTool {
+  border: solid 2px transparent;
+}
+img.stampTool.selected {
+  border: solid 2px black;
+}

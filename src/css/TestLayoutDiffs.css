@@ -1,0 +1,37 @@
+#render-diffs {
+  position: absolute;
+  top: 0px;
+  left:0px;
+}
+
+.diff-div {
+  position: absolute;
+}
+.diff-div div {
+  position: absolute;
+}
+
+.diff-div.diff-add {
+  border: #00ff0088, solid 1px;
+}
+
+.diff-div.diff-rem {
+  border: #ff000088, solid 1px;
+}
+
+.diff-div.diff-text {
+  box-shadow:0px 0px 4px #66ffff, 0px 0px 8px #66ffff;
+}
+
+
+.diff-div.diff-rect {
+  border: gray, solid 1px;
+}
+
+.diff-div.diff-rect .diff-shrink {
+  background-color: #ffcccc88;
+}
+
+.diff-div.diff-rect .diff-grow {
+  background-color: #ccffcc88;
+}

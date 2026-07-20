@@ -1,0 +1,47 @@
+.vertex-g {
+  z-index: 200;
+}
+.vertex {
+  z-index: 201;
+}
+
+.word-select-area {
+  touch-action: none;
+}
+.word-select-area .vertex {
+  fill:transparent;
+}
+.word-select-area .hover .vertex {
+  fill:#ffff9999;
+}
+.word-select-area .hover text {
+  text-shadow: 2px 2px #ccc;
+}
+.word-select {
+  stroke:#ff000066;
+  stroke-width: 34px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  z-index: 101;
+}
+.word-select-fill {
+  stroke:#ffffff33;
+  stroke-width: 31px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  z-index: 102;
+}
+
+.word-select.building {
+  stroke: #ff000099;
+  z-index: 110;
+}
+.word-select.building.open-ended {
+  stroke: #ff550066;
+  stroke-width: 25px;
+}
+.vertex.building {
+  stroke:red;
+}

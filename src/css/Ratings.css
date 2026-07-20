@@ -1,0 +1,67 @@
+#__puzzle_rating_ui {
+  position: absolute;
+  display: block;
+  left: 2in;
+  width: 7in;
+  top: 6px;
+  z-index: 200;
+
+  .rating-label {
+    position: relative;
+    top: -8px;
+    margin-left: 0.25in;
+  }
+
+  .rating-star {
+    position: relative;
+    height: 24px;
+    z-index: 100;
+    filter: saturate(0.5);
+    transform-origin: 50% 50%;
+  }
+  .rating-star:hover {
+    z-index: 110;
+    filter: saturate(1.5);
+    transform: scale(1.5);
+    animation-name: scale-to-15;
+    animation-duration: 200ms;
+  }
+  .rating-star.selected {
+    z-index: 110;
+    filter: saturate(1.5);
+    transform: scale(1.5);
+  }
+
+  .rating-feedback-button {
+    position: relative;
+    top: -2px;
+  }
+
+  .rating-feedback-button.sent:after {
+    background-image: url('../Icons/Check.png');
+    background-size: 15px 14px;
+    content: ' ';
+    display: block;
+    position: absolute;
+    right: -9px;
+    top: -4px;
+    width: 15px;
+    height: 14px;
+  }
+}
+@keyframes scale-to-15 {
+  from { transform: scale(1); }
+  to { transform: scale(1.5); }
+}
+
+@media print {
+  #__puzzle_rating_ui {
+    display: none;
+  }
+}
+
+.print {
+  #__puzzle_rating_ui {
+    display: none;
+  }
+}

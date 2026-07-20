@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev-server",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "____never_match____"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^____never_match____",
+          "endsPattern": "^Dev server:"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "msedge",
+      "request": "launch",
+      "name": "Launch Edge against dev server",
+      "url": "http://127.0.0.1:3000/__Template.xhtml",
+      "webRoot": "${workspaceFolder}/src",
+      "preLaunchTask": "dev-server"
+    },
+    {
+      "type": "msedge",
+      "request": "attach",
+      "name": "Attach to Edge",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/src"
+    }
+  ]
+}

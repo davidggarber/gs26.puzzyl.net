@@ -1,0 +1,41 @@
+.hashi-bridge-area {
+  touch-action: none;
+}
+.hashi-bridge-area .vertex {
+  fill:black;
+  stroke:none;
+}
+.hashi-bridge-area .hover .vertex {
+  fill:red;
+}
+.hashi-bridge-area .hover text {
+  stroke:red;
+}
+.hashi-bridge {
+  stroke: #ff000066;
+  stroke-width: 6px;
+  cursor: grab;
+  fill: none;
+}
+.hashi-bridge-fill {
+  stroke:#ffffff66;
+  stroke-width: 5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  cursor: grab;
+  z-index: 102;
+}
+
+.hashi-bridge.building {
+  stroke: red;
+  stroke-width: 4px;
+  cursor: default;
+}
+.hashi-bridge.building.open-ended {
+  stroke-width: 3px;
+}
+.vertex.building {
+  stroke:red;
+  stroke-width: 1px;
+}

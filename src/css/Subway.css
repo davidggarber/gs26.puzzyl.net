@@ -1,0 +1,32 @@
+.subway {
+  position: absolute;
+  min-width: 10px;
+  min-height: 10px;
+}
+
+.subway path {
+  stroke-width: 1px;
+  fill: none;
+}
+
+.subway.red path {
+  stroke: rgb(181, 0, 0);
+}
+.subway.green path {
+  stroke: rgb(12, 234, 0);
+}
+.subway.blue path {
+  stroke: rgb(0, 162, 255);
+}
+.subway.indigo path {
+  stroke: rgb(15, 31, 253);
+}
+.subway.orange path {
+  stroke: orange;
+}
+.subway.purple path {
+  stroke: rgb(159, 0, 159);
+}
+.subway.pink path {
+  stroke: rgb(255, 80, 255);
+}

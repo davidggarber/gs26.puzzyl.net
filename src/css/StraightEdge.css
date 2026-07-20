@@ -1,0 +1,30 @@
+.straight-edge-area {
+  touch-action: none;
+}
+.straight-edge-area .vertex {
+  fill:black;
+  stroke:none;
+}
+.straight-edge-area .hover .vertex {
+  fill:red;
+}
+.straight-edge-area .hover text {
+  stroke:red;
+}
+.straight-edge {
+  stroke: #b00;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  fill: none;
+}
+.straight-edge.building {
+  stroke: red;
+  stroke-width: 4px;
+}
+.straight-edge.building.open-ended {
+  stroke-width: 3px;
+}
+.vertex.building {
+  stroke:red;
+  stroke-width: 1px;
+}
