@@ -4,3 +4,4 @@ src/event.js
 src/event.js.map
 .DS_Store
 *.log
+src/kit.umd.js

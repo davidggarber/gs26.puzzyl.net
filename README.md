@@ -14,11 +14,10 @@ This is a proof of concept, and we can adjust the contract between this project 
 
 ### Recap of the puzzyl-kit mechanism
 
-Puzzyl-kit is written in TypeScript.
+Puzzyl-kit is written in TypeScript. When developing the kit and an event together,
+`<puzzyl-kit-root>` below means the local puzzyl-kit checkout on the current machine.
 It post-processes a web-page, looking for special elements, and converting them in-place into more complex structures.
 Each web page can provide runtime settings and variables for that post processing, in the form of the `boiler` global variable that every page must create in a script on the page.
-
-On this computer, the puzzyl-kit is found at `d:\git\puzzyl-kit`.
 
 ## Goal 2: Be able to test a puzzle webpage locally
 
@@ -82,7 +81,7 @@ npm install
 npm run typecheck   # type-check src/*.ts — no output, just errors
 npm run build       # compiles our .ts files
 npm run dev         # start dev server at http://127.0.0.1:3000
-npm run dev:alpha   # same server, but /kit.umd.js comes from D:\git\puzzyl-kit\dist
+npm run dev:alpha   # same server, but /kit.umd.js comes from <puzzyl-kit-root>\dist
 ```
 
 Visit `http://127.0.0.1:3000/[name].xhtml` to test the puzzle page.

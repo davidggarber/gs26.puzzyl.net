@@ -1,14 +1,21 @@
 # Puzzyl Event Project Setup Checklist
 
 Generic instructions for creating a new puzzle event repo.
-Replace `<event-slug>` with the subdomain name (e.g. `safariposters.puzzyl.net`).
+
+- `<projects-root>` is the local parent directory that contains your Git repository
+  checkouts. The template and event repositories are sibling directories beneath it;
+  no particular drive or folder name is required.
+- `<event-slug>` is the event's complete hostname, such as `safariposters.puzzyl.net`.
+  The same value is used for the event's directory, npm package, and GitHub repository
+  names. Where a service does not allow periods, replace them with hyphens; for example,
+  the Azure resource name would be `safariposters-puzzyl-net`.
 
 ---
 
 ## Phase 1 — Local project
 
-- [ ] Create the directory `D:\git\<event-slug>`
-- [ ] Copy all template files from `D:\git\puzzyl-event-template`:
+- [ ] Create the directory `<projects-root>\<event-slug>`
+- [ ] Copy all template files from `<projects-root>\puzzyl-event-template`:
   - `.npmrc`
   - `.gitignore`
   - `package.json`

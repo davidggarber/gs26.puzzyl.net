@@ -1,20 +1,20 @@
-{
-  "name": "safariposters-puzzyl-net",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev:alpha": "set \"PUZZYL_DEV_MODE=alpha\" && set \"PUZZYL_KIT_DIST=D:\\git\\puzzyl-kit\\dist\" && set \"PUZZYL_KIT_SRC=D:\\git\\puzzyl-kit\\src\" && node dev-server.mjs",
-    "dev": "node dev-server.mjs",
-    "testport": "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host ('No listening process on port ' + $port); exit 0}; $conns | Select-Object LocalAddress,LocalPort,OwningProcess\"",
-    "stopport": "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host ('No listening process on port ' + $port); exit 0}; $pids=$conns | Select-Object -ExpandProperty OwningProcess -Unique; foreach($pid in $pids){Stop-Process -Id $pid -Force -ErrorAction Stop; Write-Host ('Stopped PID ' + $pid + ' on port ' + $port)}\"",
-    "build": "tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@davidggarber/puzzyl-kit": "0.1.9"
-  },
-  "devDependencies": {
-    "typescript": "^5.9.2"
-  }
+﻿{
+    "name":  "gs26.puzzyl.net",
+    "private":  true,
+    "version":  "0.0.0",
+    "type":  "module",
+    "scripts":  {
+                    "dev:alpha":  "set \"PUZZYL_DEV_MODE=alpha\" \u0026\u0026 set \"PUZZYL_KIT_DIST=D:\\git\\puzzyl-kit\\dist\" \u0026\u0026 set \"PUZZYL_KIT_SRC=D:\\git\\puzzyl-kit\\src\" \u0026\u0026 node dev-server.mjs",
+                    "dev":  "node dev-server.mjs",
+                    "testport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $conns | Select-Object LocalAddress,LocalPort,OwningProcess\"",
+                    "stopport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $pids=$conns | Select-Object -ExpandProperty OwningProcess -Unique; foreach($pid in $pids){Stop-Process -Id $pid -Force -ErrorAction Stop; Write-Host (\u0027Stopped PID \u0027 + $pid + \u0027 on port \u0027 + $port)}\"",
+                    "build":  "tsc -p tsconfig.build.json \u0026\u0026 node -e \"import(\u0027node:fs\u0027).then(fs =\u003e fs.default.cpSync(\u0027node_modules/@davidggarber/puzzyl-kit/dist/kit.umd.js\u0027, \u0027src/kit.umd.js\u0027))\"",
+                    "typecheck":  "tsc --noEmit"
+                },
+    "dependencies":  {
+                         "@davidggarber/puzzyl-kit":  "0.1.9"
+                     },
+    "devDependencies":  {
+                            "typescript":  "^5.9.2"
+                        }
 }

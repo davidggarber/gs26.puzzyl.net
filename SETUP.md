@@ -1,14 +1,96 @@
 # Puzzyl Event Project Setup Checklist
 
 Generic instructions for creating a new puzzle event repo.
-Replace `<event-slug>` with the subdomain name (e.g. `safariposters.puzzyl.net`).
+
+- `<projects-root>` is the local parent directory that contains your Git repository
+  checkouts. The template and event repositories are sibling directories beneath it;
+  no particular drive or folder name is required.
+- `<event-slug>` is the event's complete hostname, such as `safariposters.puzzyl.net`.
+  The same value is used for the event's directory, npm package, and GitHub repository
+  names. Where a service does not allow periods, replace them with hyphens; for example,
+  the Azure resource name would be `safariposters-puzzyl-net`.
+
+---
+
+## setup-check.md
+
+Most setup steps can be achieved by running `setup-check.ps1`.
+
+It takes these arguments:
+- Fix: attepts to fix each step itself
+- Manual: guides the user to fix the next unfinished step, skipping steps that are already working
+- (no arguments): reports on the status of each step, without changing anything
+- Verbose: prints out any configuration steps that have been decided and stored locally
+
+## Local npm authentication for GitHub Packages
+
+`@davidggarber/puzzyl-kit` is stored in GitHub Packages. Even on a computer that is
+already signed in to GitHub, `npm install` needs a GitHub Personal Access Token (PAT)
+belonging to an account that can read the package.
+
+Personal and business PATs can coexist on one computer, but npm identifies credentials
+by registry host, and both accounts use `npm.pkg.github.com`. Avoid `npm login` for this
+setup because logging in again can replace the token for the other account. Puzzyl event
+projects instead share the user-scoped `PUZZYL_KIT_NODE_AUTH_TOKEN` variable. Its specific
+name avoids collision with unrelated npm projects and lets `setup-check.ps1 -Verbose`
+query the package registry without prompting every time.
+
+### One-time setup for each GitHub account
+
+1. In GitHub, open **Settings → Developer settings → Personal access tokens → Tokens
+  (classic) → Generate new token (classic)**.
+2. Give the token a recognizable name, such as `Personal npm packages`, and choose a
+  reasonable expiration date.
+3. Select only the `read:packages` scope. The GitHub account must also have access to the
+  repository/package being installed.
+4. Generate the token and save it in a password manager immediately. GitHub displays the
+  value only once.
+5. If an organization uses SAML SSO, use **Configure SSO** beside the token to authorize
+  it for that organization.
+
+### Install the package for this project
+
+1. Run the guided setup:
+
+  ```powershell
+  .\setup-check.ps1 -Manual
+  ```
+
+2. At **Configure npm registry**, choose `F` if the script reports a problem. The script
+  will write these project-local settings:
+
+  ```ini
+  @davidggarber:registry=https://npm.pkg.github.com
+  //npm.pkg.github.com/:_authToken=${PUZZYL_KIT_NODE_AUTH_TOKEN}
+  ```
+
+  `${PUZZYL_KIT_NODE_AUTH_TOKEN}` is a placeholder, not the PAT itself.
+
+3. At **Configure Puzzyl Kit credential**, choose `F`. The script reads the PAT from the
+  clipboard or hidden input and stores it in `PUZZYL_KIT_NODE_AUTH_TOKEN` for the current
+  Windows user. New terminals inherit it; the current setup process can use it immediately.
+
+4. At **Install puzzyl-kit**, choose `F` to run authenticated `npm install`.
+
+### Token safety
+
+- Never put a literal PAT in `.npmrc`, `package.json`, a script, source control, chat,
+  screenshots, or build logs. Do not rely on `.gitignore` to protect a secret after it
+  has been committed.
+- A user environment variable is persistent configuration, not a protected secret store.
+  Processes running as the same Windows user may be able to read it. Use a dedicated,
+  minimally scoped PAT and revoke it if the machine or account is compromised.
+- Give tokens the minimum scope and a finite expiration. `npm install` needs
+  `read:packages`, not package-write or repository-write access.
+- If a token is exposed, revoke it immediately in GitHub, create a replacement, and
+  update any password-manager or CI-secret entry that used it.
 
 ---
 
 ## Phase 1 — Local project
 
-- [ ] Create the directory `D:\git\<event-slug>`
-- [ ] Copy all template files from `D:\git\puzzyl-event-template`:
+- [ ] Create the directory `<projects-root>\<event-slug>`
+- [ ] Copy all template files from `<projects-root>\puzzyl-event-template`:
   - `.npmrc`
   - `.gitignore`
   - `package.json`
@@ -27,6 +109,7 @@ Replace `<event-slug>` with the subdomain name (e.g. `safariposters.puzzyl.net`)
   - `fontCss` (event-specific font stylesheet, e.g. `'css/Fonts26.css'`)
   - `icon` (favicon filename)
   - `logo` (banner image filename)
+- [ ] Complete **Local npm authentication for GitHub Packages** above
 - [ ] Run `npm install`
 - [ ] Run `npm run build`  *(compiles `src/event.ts` → `src/event.js`)*
 - [ ] Run `npm run typecheck`  *(should produce no errors)*
@@ -149,11 +232,12 @@ has access to the *current* repo, not to packages from other repos. A PAT is req
         with:
           ...
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PUZZYL_KIT_NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
-*(The `.npmrc` template already contains `//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}`,
-so npm will pick this up automatically.)*
+*(The local authentication setup above ensures `.npmrc` contains
+`//npm.pkg.github.com/:_authToken=${PUZZYL_KIT_NODE_AUTH_TOKEN}`, so npm will pick up the
+Actions secret automatically.)*
 
 Commit and push the updated workflow file to trigger a fresh build.
 
