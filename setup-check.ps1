@@ -327,53 +327,70 @@ function Test-AzureDeployment {
     $text = ($files | ForEach-Object { Get-Content $_.FullName -Raw }) -join [Environment]::NewLine
     $problems = @()
     if ($text -notmatch 'actions/checkout@v4') { $problems += 'actions/checkout@v4 is missing' }
+    if ($text -notmatch '(?m)^\s*app_location:\s*["'']?/["'']?\s*(?:#.*)?$') { $problems += 'app_location must be /' }
+    if ($text -notmatch '(?m)^\s*api_location:\s*["'']{2}\s*(?:#.*)?$') { $problems += 'api_location must be blank' }
+    if ($text -notmatch '(?m)^\s*output_location:\s*["'']?src["'']?\s*(?:#.*)?$') { $problems += 'output_location must be src' }
+    if ($text -notmatch '(?m)^\s*app_build_command:\s*["'']?npm run build["'']?\s*(?:#.*)?$') { $problems += 'app_build_command must be npm run build' }
     if ($text -notmatch 'PUZZYL_KIT_NODE_AUTH_TOKEN:\s*\$\{\{\s*secrets\.NPM_TOKEN\s*\}\}') { $problems += 'NPM_TOKEN mapping is missing' }
     if ($problems.Count) { return New-StepResult $false ($problems -join '; ') }
-    New-StepResult $true 'Azure workflow checkout and package authentication are configured.'
+    New-StepResult $true 'Azure workflow build settings and package authentication are configured.'
 }
 function Show-ManualAzureDeployment {
     $origin = Get-GitValue @('remote', 'get-url', 'origin')
     $repository = if ($origin -match 'github\.com[/:]([^/]+)/([^/]+?)(?:\.git)?$') { "$($Matches[1])/$($Matches[2])" } else { '<GitHub account>/<repository>' }
     $workflowFolder = Join-Path $repoRoot '.github\workflows'
+    $workflowFiles = @(Get-ChildItem $workflowFolder -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in @('.yml', '.yaml') })
 
-    Write-Host '  1. Create the Azure Static Web App:'
-    Write-Host '     Azure Portal -> Create a resource -> Static Web App'
-    Write-Host '     On the Basics page, select your subscription and resource group.'
-    Write-Host ("     Connect GitHub repository: {0}" -f $repository)
-    Write-Host '     Branch: main'
+    if (-not $workflowFiles.Count) {
+        Write-Host '  Part 1 - Create the workflow file'
+        Write-Host '  1. Azure Portal -> Create a resource -> Static Web App.'
+        Write-Host '  2. On Basics, select the required Azure resource settings:'
+        Write-Host '     Subscription: choose your subscription'
+        Write-Host '     Resource group: create or select one'
+        Write-Host '     Name: gs26-puzzyl-net (or another available Azure resource name)'
+        Write-Host '     Plan type: Free'
+        Write-Host '  3. In Deployment details, connect GitHub:'
+        Write-Host ("     Repository: {0}" -f $repository)
+        Write-Host '     Branch: main'
+        Write-Host '  4. If Azure requires Build Details before creation, choose Custom and accept the generated values.'
+        Write-Host '     We will make these settings authoritative in the YAML after it is generated.'
+        Write-Host '  5. The required creation choices are complete. Click Review + create, then Create.'
+        Write-Host '  6. Wait for Azure to commit its GitHub Actions workflow, then run:'
+        Write-Host '       git pull'
+        Write-Host ("     Confirm a generated YAML file appears in: {0}" -f $workflowFolder)
+        Write-Host '     The initial Actions run may fail; Part 2 configures the generated workflow.'
+        return
+    }
+
+    $workflowName = $workflowFiles[0].Name
+    Write-Host '  Part 2 - Configure the generated workflow'
+    Write-Host '  Online GitHub setup - Create the package secret:'
+    Write-Host ("    Open https://github.com/{0}/settings/secrets/actions" -f $repository)
+    Write-Host '    Click New repository secret.'
+    Write-Host '    Name: NPM_TOKEN'
+    Write-Host '    Secret: paste the GitHub PAT with read:packages access.'
+    Write-Host '    Click Add secret.'
     Write-Host ''
-    Write-Host '  2. In Build Details, enter every setting below:'
-    Write-Host '     Build Presets: Custom'
-    Write-Host '     App location: /'
-    Write-Host '     API location: leave blank'
-    Write-Host '     Output location: src'
-    Write-Host '     Build command: npm run build'
-    Write-Host ''
-    Write-Host '     The Azure creation settings are now complete. Click Review + create, then Create.'
-    Write-Host '     Wait for deployment to finish. Azure will commit a GitHub Actions workflow.'
-    Write-Host '     Run: git pull'
-    Write-Host ("     The generated YAML file will appear in: {0}" -f $workflowFolder)
-    Write-Host ''
-    Write-Host '  3. Update the generated workflow YAML in .github/workflows:'
-    Write-Host '     Find the checkout step, which looks like:'
+    Write-Host ("  Edit: .github/workflows/{0}" -f $workflowName)
+    Write-Host '  1. Upgrade the checkout action:'
+    Write-Host '     Find:'
     Write-Host '       - uses: actions/checkout@v3'
-    Write-Host '     Change only its version to:'
+    Write-Host '     Replace it with:'
     Write-Host '       - uses: actions/checkout@v4'
     Write-Host ''
-    Write-Host '  4. Add the GitHub Actions package secret:'
-    Write-Host ("     Open https://github.com/{0}/settings/secrets/actions" -f $repository)
-    Write-Host '     Click New repository secret.'
-    Write-Host '     Name: NPM_TOKEN'
-    Write-Host '     Secret: paste the GitHub PAT with read:packages access.'
-    Write-Host '     Click Add secret.'
+    Write-Host '  2. In the Build And Deploy step, set each value under with: as follows:'
+    Write-Host '       app_location: "/"'
+    Write-Host '       api_location: ""'
+    Write-Host '       output_location: "src"'
+    Write-Host '       app_build_command: "npm run build"'
+    Write-Host '     These four workflow build settings are now complete.'
     Write-Host ''
-    Write-Host '  5. Map that secret in the generated workflow YAML:'
-    Write-Host '     Find the step named Build And Deploy.'
+    Write-Host '  3. In the Build And Deploy step, map the secret:'
     Write-Host '     Add this env block at the same indentation level as with: and uses:'
     Write-Host '       env:'
     Write-Host '         PUZZYL_KIT_NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}'
     Write-Host ''
-    Write-Host '  6. Save, commit, and push the workflow YAML. Then confirm the run succeeds in GitHub -> Actions.'
+    Write-Host '  4. Save the YAML, commit it, and push it. Then confirm the run succeeds in GitHub -> Actions.'
 }
 function Repair-AzureDeployment {
     New-StepResult $false 'Azure resources and GitHub secrets require manual authentication.'

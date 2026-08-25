@@ -169,6 +169,8 @@ so the build step must copy the file there.
 
 ## Phase 5 — Azure Static Web App
 
+### Part 1 — Create the resource and workflow
+
 1. In the Azure Portal, create a new **Static Web App**
    - Subscription: *(your subscription)*
    - Resource group: *(create or reuse)*
@@ -179,67 +181,57 @@ so the build step must copy the file there.
    - Organisation / account: `davidggarber`
    - Repository: `<event-slug>`
    - Branch: `main`
-3. Set build details:
-   - Build template: `Custom`
-   - App location: `/`  *(repo root — where `package.json` is)*
-   - Api location: *leave blank*
-   - Output location: `src`  *(the folder served as the web root)*
-   - Build command: `npm run build`
-4. Click **Create** — Azure commits a GitHub Actions workflow file to the repo
-  *(pull it locally: `git pull`)*
-5. Fix the generated workflow YAML — see **Phase 5b** below
-6. Confirm the Actions workflow run succeeds (GitHub → Actions tab)
-7. Confirm the default Azure URL serves the site
-  *(e.g. `https://<random>.azurestaticapps.net/__Template.xhtml`)*
+3. If Azure requires Build Details, choose `Custom` and accept the generated values.
+  These values will be made authoritative in the generated workflow YAML.
+4. Click **Review + create**, then **Create**. Azure commits a GitHub Actions workflow
+  file to the repository. The initial workflow run may fail until Part 2 is complete.
+5. Wait for the workflow commit, then pull it locally:
 
----
+  ```powershell
+  git pull
+  ```
 
-## Phase 5b — Fix the generated workflow YAML
+6. Confirm `.github/workflows/azure-static-web-apps-<random>.yml` now exists locally.
 
-Azure generates `.github/workflows/azure-static-web-apps-<random>.yml` and commits it,
-but it needs a few tweaks before the build will succeed.
+### Part 2 — Configure the generated workflow
 
-### Upgrade `actions/checkout`
+First complete the online-only setup:
 
-The generated file uses `actions/checkout@v3` (deprecated Node.js 20). Change it to `v4`:
+1. Open the GitHub repository → **Settings** → **Secrets and variables** → **Actions**.
+2. Click **New repository secret**.
+3. Name: `NPM_TOKEN`.
+4. Secret: paste the GitHub PAT with `read:packages` access.
+5. Click **Add secret**. The PAT is stored by GitHub and is not added to the repository.
+
+Then edit `.github/workflows/azure-static-web-apps-<random>.yml` locally:
+
+1. Upgrade the checkout action:
+
+  ```yaml
+  - uses: actions/checkout@v4
+  ```
+
+2. In the **Build And Deploy** step, set these values under `with:`:
 
 ```yaml
-- uses: actions/checkout@v4
+          app_location: "/"
+          api_location: ""
+          output_location: "src"
+          app_build_command: "npm run build"
 ```
 
-### Allow the build to read GitHub Package Registry
+3. In that same **Build And Deploy** step, add `env:` at the same indentation level as
+  `uses:` and `with:`:
 
-`puzzyl-kit` is hosted on GitHub Package Registry. The auto-generated `GITHUB_TOKEN` only
-has access to the *current* repo, not to packages from other repos. A PAT is required.
-
-**One-time setup — create the PAT:**
-
-1. **GitHub** → your avatar → Settings → Developer settings → Personal access tokens →
-   Tokens (classic) → Generate new token
-2. Scope: `read:packages` only
-3. Copy the token value
-
-**Per-repo setup — add the secret:**
-
-1. Go to the repo on GitHub → Settings → Secrets and variables → Actions
-2. New repository secret: name = `NPM_TOKEN`, value = the PAT from above
-
-**In the workflow YAML**, add an `env:` block to the Build And Deploy step:
-
-```yaml
-      - name: Build And Deploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          ...
+  ```yaml
         env:
           PUZZYL_KIT_NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+  ```
 
-*(The local authentication setup above ensures `.npmrc` contains
-`//npm.pkg.github.com/:_authToken=${PUZZYL_KIT_NODE_AUTH_TOKEN}`, so npm will pick up the
-Actions secret automatically.)*
-
-Commit and push the updated workflow file to trigger a fresh build.
+4. Save, commit, and push the YAML file.
+5. Confirm the Actions workflow run succeeds (GitHub → Actions tab).
+6. Confirm the default Azure URL serves the site
+  *(e.g. `https://<random>.azurestaticapps.net/__Template.xhtml`)*
 
 ---
 
