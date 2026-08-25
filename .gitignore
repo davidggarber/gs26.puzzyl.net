@@ -2,6 +2,8 @@ node_modules
 dist
 src/event.js
 src/event.js.map
+src/index_utils.js
+src/index_utils.js.map
 .DS_Store
 *.log
 src/kit.umd.js

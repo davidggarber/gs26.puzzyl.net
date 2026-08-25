@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Giving Puzzle Safari 26: Bad Ideas</title>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script> var exports = {}; </script>
+    <link href="index.css" rel="Stylesheet" type="text/css" />
+    <script src="index_utils.js" />
+    <script>
+      window.boiler = {
+        paperSize: 'minimalist',
+        title: 'Giving Safari 26',
+        titleSync: roundName(),
+        abilities: {
+          textInput: 'nearest',
+        },
+        postSetup: setupSolvables,
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          minRound: minRoundFromUrl(),
+          maxRound: roundFromDate(),
+          nextRound: timeToNextRound(),
+          pdf: pdfForRound(),
+          showMetas: showMetas(),
+          showLegend: false,
+          showForget: true,
+          showRounds: showRounds(),
+          puzzles: puzzles,
+          urlArgs: _urlEventArguments,
+          metas: metas,
+          feeders: false,
+          solvable: false,
+          table_cols: showRounds() ? 7 : 6,
+          solves: {},
+        },
+      };
+    </script>
+    <style>
+      #Menu #Login-bar {
+        position: relative;
+        left: 0px;
+        top: 2px;
+        font-size: 14pt;
+        margin: 0px;
+      }
+      #Menu #Login-icon {
+        height: 36px;
+      }
+
+      #puz-col-headers th.feeders {
+        text-align: center;
+      }
+      .spacer {
+        width: 20%;
+        min-width: 0px;
+      }
+      #meta-table .spacer {
+        width: 25%;
+      }
+
+      #meta-table .html {
+        width: 35%;
+      }
+      #puz-col-headers th {
+        text-align: left;
+        padding: 0px 5px;
+      }
+
+      #pre-event {
+        font-weight: bold;
+        font-style: italic;
+        color: #385723;
+      }
+    </style>
+  </head>
+  <body id="Menu">
+    <div id="pageBody">
+
+      <ttable id="puz-table" class="table" style="border-collapse: collapse; width: 100%">
+        <tthead id="puz-col-headers">
+          <ttr style="text-align: center;">
+            <tth class="spacer">&nbsp;</tth>
+            <tth colspan="{table_cols}" style="text-align: center; position: relative;">
+              <span class="title-font">Giving Safari 26</span>
+            </tth>
+            <tth class="spacer">&nbsp;</tth>
+          </ttr>
+          <ttr id="sortHeader">
+            <tth class="spacer">&nbsp;</tth>
+            <use template="sortableTH" text="" cls="presence" />
+            <if test="{showRounds}">
+              <use template="sortableTH" text="Round" cls="round" />
+            </if>
+            <use template="sortableTH" text="Type" cls="icons" />
+            <use template="sortableTH" text="Puzzle" cls="author" />
+            <if test="{feeders}">
+              <use template="sortableTH" text="Feeder" cls="feeders" />
+            </if>
+            <use template="sortableTH" text="Author" cls="author" />
+            <use template="sortableTH" text="Solved" cls="completed" />
+            <tth class="spacer">&nbsp;</tth>
+          </ttr>    
+        </tthead>
+
+        <!--{minRound}-->
+        <ttbody id="puzzle_list">
+          <for each="puz" in="puzzles">
+            <if test="{puz.group}" ne="meta">
+              <if test="{puz.round}" ge="{minRound}">
+                <if test="{puz.round}" le="{maxRound}">
+                  <ttr id="{puz.file}" name="{puz.title}" class="sortable {puz.cls}">
+                    <ttd class="spacer">&nbsp;</ttd>
+                    <ttd class="presence"></ttd>
+                    <if test="{showRounds}">
+                      <ttd class="round">
+                        {puz.round}
+                      </ttd>
+                    </if>
+                    <ttd class="icons">
+                      <if exists="{puz.icon}">
+                        <img ssrc="images/ptype/{puz.icon}.png" />
+                      </if>
+                      <if notex="{puz.icon}">
+                        <img ssrc="images/ptype/{puz.type.icon}.png" title="{puz.type.alt}" />
+                      </if>
+                    </ttd>
+                    <ttd class="html">
+                      <a class="hover" href="{puz.href}" target="_blank">
+                        {puz.title}
+                        <if exists="{puz.thumb}">
+                          <img class="thumb" ssrc="Thumbs/{puz.thumb}.jpg" />
+                        </if>
+                      </a>
+                    </ttd>
+                    <if test="{feeders}">
+                      <ttd class="feeders">
+                        <for each="feed" in="{puz.feeder}">
+                          <a class="feedLink {metas.[feed.meta].store}-{feed.number}" target="_blank" title="{metas.[feed.meta].title} - Materials #{feed.number} (locked)" trim="all">
+                            <img ssrc="{metas.[feed.meta].icon}" /><sub>{feed.number + 1}</sub>
+                          </a>
+                        </for>  
+                      </ttd>
+                    </if>
+                    <ttd class="authors">
+                      {puz.author}
+                    </ttd>
+                    <ttd class="completed">
+                      <span class="teammate-solves" xtrim="all">
+                      </span>
+                      <span class="checkmark" />
+                    </ttd>
+                    <ttd class="spacer">&nbsp;</ttd>
+                  </ttr>
+                </if>
+              </if>
+            </if>
+          </for>
+        </ttbody>
+        <if test="{showMetas}">
+          <use template="meta-template" />
+        </if>
+      </ttable>
+
+      <if test="{pdf}" ne="">
+        <p style="text-align: center;">
+          If you want a printed copy, <a href="PDFs/{pdf}.pdf" target="_blank">this PDF</a> contains all puzzles so far.
+        </p>
+      </if>
+
+      <p style="text-align: center;">
+          <img ssrc="images/logo.png" style="width: 3.75in;" />
+      </p>
+
+      <div id="iframe-loader" />
+
+    </div>
+
+    <template id="meta-template">
+      <ttfoot id="meta_list">
+        <ttr>
+          <tth class="spacer">&nbsp;</tth>
+          <tth colspan="{table_cols}" style="text-align: center;">
+            <img src="images/Meta_puzzles.png" style="height:28px; padding-top: 10px;" />  
+          </tth>
+          <tth class="spacer">&nbsp;</tth>
+        </ttr>    
+        <for each="puz" in="{puzzles}">
+          <if test="puz.group" eq="meta">
+            <if test="puz.round" ge="{minRound}">
+              <if test="puz.round" le="{maxRound}">
+                <ttr id="{puz.file}" name="{puz.title}">
+                  <ttd class="spacer">&nbsp;</ttd>
+                  <if test="{showRounds}">
+                    <ttd class="empty">&nbsp;</ttd>
+                  </if>
+                  <ttd class="presence"></ttd>
+                  <ttd class="icons">
+                    <img ssrc="{metas.[puz.metaInfo].icon}"/>
+                  </ttd>
+                  <ttd class="html">
+                    <a class="hover" href="{puz.href}" target="_blank">
+                      {puz.title}
+                      <if exists="{puz.thumb}">
+                        <img class="thumb" ssrc="Thumbs/{puz.thumb}.jpg" />
+                      </if>
+                    </a>
+                  </ttd>
+                  <ttd class="empty">&nbsp;</ttd>
+                  <ttd class="authors">
+                    {puz.author}
+                  </ttd>
+                  <ttd class="completed">
+                    <span class="teammate-solves" xtrim="all">
+                    </span>
+                    <span class="checkmark" />
+                  </ttd>
+                  <ttd class="spacer">&nbsp;</ttd>
+                </ttr>
+                <ttr>
+                  <ttd colspan="4">&nbsp;</ttd>
+                  <ttd class="feeders">
+                    <for int="num" until="4">
+                      <a class="feedLink {metas.[puz.metaInfo].store}-{num}" target="_blank" title="Materials #{num+1} (locked)" trim="all">
+                        <img ssrc="{metas.[puz.metaInfo].icon}" /><sub>{num+1}</sub>
+                      </a>
+                    </for>  
+                  </ttd>
+                  <ttd>
+                    <if test="{showForget}">
+                      <if exists="{puz.forget}">
+                        <a href="{puz.forget}" target="_blank" style="font-size: smaller;">Forget materials</a>
+                      </if>
+                    </if>&nbsp;
+                  </ttd>
+                  <ttd colspan="2" />
+                  <ttd class="spacer">&nbsp;</ttd>
+                </ttr>
+              </if>
+            </if>
+          </if>
+        </for>
+        <if test="{showForget}">
+          <ttr>
+            <ttd colspan="{table_cols+2}" style="text-align: center;">
+              To reset local saved progress for all puzzles in this event, click <a href="Forget_all_progress.xhtml{urlArgs}">HERE</a>.
+            </ttd>
+          </ttr>
+        </if>      
+      </ttfoot>
+      
+    </template>
+
+    <template id="sortableTH">
+      <tth onclick="sortTable(this)" trim="all" class="clickable {?cls}">
+        {text}
+        <span class="ascArrow">↓</span>
+        <span class="descArrow">↑</span>
+      </tth>
+    </template>
+
+    <template id="teammate-list">
+      <if exists="{teamname}">
+        <p>The members of team <span class="teamname">{teamname}</span> include:</p>
+      </if>
+      <ttable id="teammates">
+        <for each="mate" in="teammates">
+          <ttr>
+            <td class="avatar">{mate.Avatar}</td>
+            <td class="playername">{mate.PlayerName}</td>
+          </ttr>
+        </for>
+      </ttable>
+    </template>
+
+    <template id="teammate-solves" trim="all">
+      <if exists="{solvers}">
+        <for each="mate" in="{solvers}">
+          <span class="teammate-solve" title="{mate.PlayerName}">{mate.Avatar}</span>
+        </for>
+      </if>
+    </template>
+
+  </body>
+</html>

@@ -5,5 +5,5 @@
     "outDir": "src",
     "declaration": false
   },
-  "files": ["src/event.ts"]
+  "files": ["src/event.ts", "src/index_utils.ts"]
 }

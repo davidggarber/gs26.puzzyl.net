@@ -1,0 +1,350 @@
+.table .title-font {
+  font-size: 24pt;
+  font-weight: normal;
+}
+
+.table th {
+  background-color: #385723;
+}
+#sortHeader th {
+  cursor: pointer;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+.table tr:nth-child(even) {
+  background-color: #ECEEEE;
+}
+
+.table tr.solved:nth-child(odd) {
+  background-color: #afa;
+}
+.table tr.solved:nth-child(even) {
+  background-color: #8d8;
+}
+
+.table tr.hidden {
+  display: none;
+}
+
+.table td {
+  position: relative;
+  line-height: 8pt;
+  padding: 0px;
+}
+
+.presence {
+  width: 0.4in;
+  text-align: center;
+}
+
+.round {
+  min-width: 0.5in;
+  text-align: center;;
+}
+
+.icons {
+  width: 0.5in; 
+  text-align: center;
+}
+.html {
+  text-align: left;
+  white-space: nowrap;
+}
+.puz-table .html {
+  min-width: 3in; 
+}
+.meta-table .html {
+  min-width: 2.5in; 
+}
+.challenge {
+  width: 1in;
+  text-align: center;
+}
+.authors {
+  width: 1.5in; 
+  text-align: left; 
+  -webkit-text-size-adjust: 9pt;
+  text-size-adjust: 9pt;
+}
+
+.ascArrow {
+  display: none;
+}
+.sortedAsc .ascArrow {
+  display: inline;
+  position: relative;
+  top: -2px;
+}
+.descArrow {
+  display: none;
+}
+.sortedDesc .descArrow {
+  display: inline;
+  position: relative;
+  top: -2px;
+}
+
+.completed {
+  padding-right: 40px;
+  white-space: nowrap;
+}
+.completed .teammate-solves {
+  position: relative;
+}
+.completed .teammate {
+  font-size: 16pt;
+  text-shadow: 0 0 2px white, 0 0 1px white, 0 0 6px lime;
+}
+
+tr.solved .checkmark {
+  background-image: url('../Icons/Check.png');
+  background-size: 25px 22.5px;
+  display: inline-block;
+  position: absolute;
+  width: 25px; 
+  height: 22.5px;
+  right: 2px;
+  top: 1px;
+  content:"";
+}
+
+.logged-in-avatar tr.solved .checkmark {
+  display: none;
+}
+
+.feeders {
+  position: relative;
+  text-align: center;
+  width: 1.5in;
+}
+.feeders a {
+  text-decoration: none;
+}
+.feeders img {
+  position: relative;
+  top: 2px;
+  height: 0.25in;
+}
+.feeders sub {
+  font-weight: bold;
+  font-size: 7pt;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+#logo-div {
+  position: absolute;
+  left: 7.2in;
+  top: 0.5in;
+  height: 7.12in;
+}
+#Menu #decoder-frame {
+  position: absolute;
+  left: 9in;
+  top: 10.5in;
+}
+.submital {
+  text-align: center;
+}
+.no-solver .if-solver {
+  display: none;
+}
+.if-no-solver {
+  display: none;
+}
+.no-solver .if-no-solver {
+  display: inline;
+}
+img.solve-check {
+  height: 0.25in;
+}
+tr {
+  position: relative;
+}
+.check {
+  left: .7in;
+  top: 0in;
+}
+#legend td {
+  vertical-align: top;
+}
+.icons img {
+  height: 0.25in;
+  border: solid 1px transparent;
+}
+img.thumb {
+  vertical-align: middle;
+  margin-left: 0.35in;
+  max-height: 0.25in;
+  max-width: 0.25in;
+  border: solid 1px #ccc;
+}
+td.html:hover {
+  font-size: 11pt;
+  font-weight: bold;
+  letter-spacing: -1.7px;
+}
+.html:hover img.thumb {
+  transform: scale(4) rotate(5deg);
+  transform-origin: bottom;
+  border: solid 0.5px #ddd;
+  animation-name: grow-big;
+  animation-duration: 300ms;
+}
+.big img.thumb {
+  transform: scale(4);
+  transform-origin: bottom;
+  border: solid 0.5px #ddd;
+}
+.table tr.big td,th {
+  background-color: #385723;
+  color: white;
+}
+@keyframes grow-big {
+  from { transform: scale(1) translate(0px,0px) rotate(0deg); }
+  to { transform: scale(4) translate(1px,0px) rotate(5deg); }
+}
+@keyframes shrink-little {
+  from { transform: scale(4) rotate(5deg); }
+  to { transform: scale(1) translate(0px,0px) rotate(0deg); }
+}
+
+.feedLink img {
+  opacity: 50%;
+  filter: grayscale(100%);
+}
+.feedLink sub {
+  opacity: 50%;
+}
+.feedLink.unlocked img {
+  opacity: 100%;  
+  filter: drop-shadow(0px 0px 2px #00ffff)
+}
+.feedLink.unlocked sub {
+  opacity: 100%;
+}
+.solved .feedLink.unlocked img {
+  opacity: 100%;  
+  filter: initial;
+}
+
+
+#team-roster p {
+  font-size: 14pt;
+}
+#team-roster .teamname {
+  font-weight: bold;
+}
+#team-roster .avatar {
+  font-size: 20pt;
+  width: 0.5in;
+  text-align: right;
+}
+#team-roster .playername {
+  font-size: 20pt;
+  padding-left: 5px;
+}
+
+#iframe-loader iframe {
+  display: inline;
+  width: 1px;
+  height: 1px;
+  border: none;
+}
+
+#Welcome {
+  margin-left: 0.25in;
+}
+
+#Menu #backlink {
+  display: none;
+}
+
+.yes-logged-in {
+  display: none;
+}
+.logged-in-player .yes-logged-in {
+  display: inline;
+}
+.logged-in-player .not-logged-in {
+  display: none;
+}
+
+.yes-logged-in-team {
+  display: none;
+}
+.logged-in-team .yes-logged-in-team {
+  display: inline;
+}
+.logged-in-team .not-logged-in-team {
+  display: none;
+}
+
+#login-perks {
+  padding: 10px;
+  margin: 0px;
+  margin-left: -10px;
+  background-color: yellow;
+  border-radius: 5px;
+}
+#Login-player {
+  background-color: gold;
+}
+.logged-in-player #Login-player {
+  background-color: transparent;
+}
+.logged-in-player #login-perks {
+  background-color: #ffffee;
+}
+
+#Welcome {
+  width: 6in; 
+
+  h1 {
+    font-family: 'National Park';
+  }
+
+  p {
+    font-family: 'National Park';
+    font-size: 14pt;
+    text-align: center;
+  }
+
+  .v-break {
+    margin-top: 0.5in;
+  }
+
+  #register {
+    background-color: #fcc;
+    padding:10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  #register .round-0 {
+    font-size: 22pt;
+  }
+  #register .round-1 {
+    font-size: 18pt;
+  }
+}
+
+#charity {
+  border:solid 2px blue;
+  width: 5in;
+  margin:auto;
+  margin-top:0.5in;
+  padding: 0px 24px 12px;
+  font-weight: bold;
+  background-color: #ccf;
+  border-radius: 10px;
+  text-align: center;
+  p {
+    font-family: 'National Park';
+    margin-top: 0px;
+    margin-bottom: 6px;
+  }
+}

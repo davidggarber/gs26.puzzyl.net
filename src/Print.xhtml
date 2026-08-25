@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Printable packet of all puzzles" />
+    <meta name="author" content="David Garber" />
+    <link href="../Css/Print.css" rel="Stylesheet" type="text/css" />
+    <link rel="shortcut icon" type="image/png" href="./Images/gs25_favicon.png" />
+    
+    <title>Giving Safari 2024 - All Puzzles</title>
+
+    <script src="index_utils.js" />
+    <script src="menu.js" />
+    <script>
+      // <![CDATA[
+
+      var search = window.location.search.toLowerCase();
+      var minRound = Math.max(1, minRoundFromUrl());
+      var maxRound = maxRoundFromUrl();
+      var withMetas = search.includes('metas=true');
+
+      var icon_mode = false;
+
+      function onLoad() {
+          icon_mode = window.location.search.indexOf('icons') >= 0;
+          var body = document.getElementById('print-view');
+          if (icon_mode) {
+            body.classList.add('thumbnails');
+          }
+          else {
+            body.classList.add('printer');
+          }
+
+          expandIFrames(orient.portrait, false, 'block');
+          expandIFrames(orient.portrait, true, 'none');
+          //expandIFrames(orient.landscape, 'none');
+          //expandIFrames(group.meta, 'none');
+          //expandIFrames(group.feeder, 'none');
+          switchLayout('puzzle_list');
+      }
+
+      function expandIFrames(ort, bonus, vis) {
+          var list = document.getElementById(bonus ? 'bonus_list' : 'puzzle_list');
+          list.style.display = vis;
+          var orientation = 'print-' + ort;
+          var other = ort == 'feeder' ? ort : '';
+          var count = 0;
+          for (var i = 0; i < puzzles.length; i++) {
+              var puz = puzzles[i];
+              if (puz.round < minRound || puz.round > maxRound) {
+                continue;
+              }
+              // if (puz.orientation != ort) {
+              //   continue;
+              // }
+              var isBonus = puz.group == group.feeder || puz.group == group.challenge;
+              if (bonus != isBonus) {
+                continue;
+              }
+              var isMeta = puz.group == group.meta;
+              if (!icon_mode && isMeta && !withMetas) {
+                continue;
+              }
+
+              var div = document.createElement('div');
+              var iframe = document.createElement('iframe');
+              div.classList.add('page');
+              div.classList.add(orientation);
+              if (other != '') {
+                div.classList.add(other);
+              }
+
+              var argAnd = puz.href.indexOf('?') > 0 ? '&' : '?';
+              var href = puz.href + argAnd + 'iframe&print';
+              if (icon_mode) {
+                href += '&icon';
+              }
+              iframe.src = href;
+
+              div.appendChild(iframe);
+              list.appendChild(div);
+              count++;
+          }
+
+          if (icon_mode) {
+            // One more at the end, to create a margin
+            var divEnd = document.createElement('div');
+            divEnd.classList.add('page');
+            divEnd.classList.add(orientation);
+            if (other != '') {
+              divEnd.classList.add(other);
+            }
+            list.appendChild(divEnd);
+          }
+
+          if (count == 0) {
+            var btn = document.getElementById(ort+'s');
+            if (btn) {
+              btn.style.display = 'none';
+            }
+          }
+      }
+
+      function switchLayout(list_id) {
+        // Buttons and lists must be in the same order
+        var buttons = document.getElementsByClassName('layout-btn');
+        var lists = document.getElementsByClassName('group-list');
+        for (var i = 0; i < lists.length; i++) {
+          var btn = buttons[i];
+          var list = lists[i];
+          if (list.id == list_id) {
+            list.style.display = 'block';
+            btn.classList.add('current');
+            var count = list.getElementsByTagName('iframe').length;
+            document.getElementById('page-count').innerText = count;
+          }
+          else {
+            list.style.display = 'none';
+            btn.classList.remove('current');
+          }
+        }
+      }
+
+      function reload(mode) {
+        if (mode == 'icons') {
+          window.location.href = 'Print.xhtml?icons';
+        }
+        else {
+          window.location.href = 'Print.xhtml';
+        }
+      }
+
+      function toggleThumbs(chk) {
+        var body = document.getElementById('print-view');
+        var chk = document.getElementById('thumb-check');
+        var cur = body.classList.contains('thumbnails');
+        if (cur) {
+          body.classList.remove('thumbnails');
+          chk.checked = false;
+        }
+        else {
+          body.classList.add('thumbnails');
+          chk.checked = true;
+        }
+      }
+
+
+      // ]]>
+    </script>
+    <style>
+      .reload-btn {
+        display:inline-block;
+        transform: translate(0,30px);
+      }
+      button img {
+        height: 0.5in;
+      }
+      .thumbnails .page {
+        display: inline-block;
+        transform: scale(10%);
+        margin-left: 1px;
+      }
+      .thumbnails .page.print-portrait {
+        width:0.85in;
+        height:1.1in;
+        margin: 1px;
+      }
+      .thumbnails .page.print-landscape {
+        height:0.85in;
+        width:1.1in;
+      }
+      .printer #icon-tips {
+        display: none;
+      }
+      .printer #load-print {
+        display: none;
+      }
+      .thumbnails #print-tips {
+        display: none;
+      }
+      .thumbnails #load-icons {
+        display: none;
+      }
+      .thumbnails #puzzle_list {
+        white-space: nowrap;
+      }
+    </style>
+  </head> 
+  <body id="print-view" class="portrait landscape feeders" onload="onLoad()">
+    <div id="layout">
+      <button id="puzzles" class="layout-btn" style="width:0.85in; height: 1.1in;" onclick="switchLayout('puzzle_list')">Puzzles</button>
+      <button id="bonus" class="layout-btn" style="width:0.85in; height: 1.1in;" onclick="switchLayout('bonus_list')">Bonus</button>
+      <button id="load-icons" class="reload-btn" onclick="reload('icons')">Switch to<br /><img src="Thumbs/stamp.png" /><br />Icons</button>
+      <button id="load-print" class="reload-btn" onclick="reload('print')">Switch to<br /><img src="Thumbs/print.png" /><br />Printable</button>
+      <!--
+        <button id="metas" class="layout-btn" style="width:1in; height: 1in;" onclick="switchLayout('meta')">Meta Puzzles</button>  
+        <button id="feeders" class="layout-btn" style="width:0.85in; height: 1.1in;" onclick="switchLayout('feeder')">Meta Feeders</button>  
+      -->
+      <a href="indexx.html" style="color:cornflowerblue; margin-left: 1in;">Puzzle index</a>
+      <p id="print-tips" style="color:wheat; background-color: dark-gray;">
+        When printing. Make sure margins are set to NONE, and background graphics is checked.
+        <br />There may be an extra blank page. Recommend printing explicitly pages 1-<span id="page-count">21</span>.
+      </p>
+      <p id="icon-tips" style="color:wheat; background-color: dark-gray;">
+        <b>Icon Screen Clipper</b>
+        <br />All icons will stay on one line
+        <br />
+      </p>
+    </div>
+    <div id="puzzle_list" class="group-list"></div>
+    <div id="bonus_list" class="group-list"></div>
+  </body>
+</html>
