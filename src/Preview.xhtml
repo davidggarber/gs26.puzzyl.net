@@ -20,8 +20,8 @@
         postSetup: setupSolvables,
         reactiveBuilder: 'pageBody',
         lookup: {
-          minRound: minRoundFromUrl(),
-          maxRound: roundFromDate(),
+          minRound: roundFromUrl()[0],
+          maxRound: roundFromUrl()[1],
           nextRound: timeToNextRound(),
           pdf: pdfForRound(),
           showMetas: showMetas(),

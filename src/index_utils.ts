@@ -1,6 +1,113 @@
 // @ts-nocheck -- Legacy classic-script globals are supplied by puzzyl-kit and page templates.
 
-var types = {
+type IMetaMaterial = {
+  src: string;
+  [key: string]: unknown;
+};
+
+type Kit_PlayerPresence = {
+  /** The name of the teammate. */
+  Player: string;
+  /** Their emoji avatar */
+  Avatar: string;
+  /** The puzzle on which the teammate was most recently present. */
+  Presence?: string;
+};
+
+type Kit_PlayerNameAvatar = {
+  Player: string,
+  Avatar: string;
+}
+// REVIEW: this doesn't line up with SolveSummary in eventSync.ts
+type Kit_SolveSummary = Record<string, Kit_PlayerNameAvatar[]>
+
+type Kit_UnlockedPiece = {
+  Piece: string;
+  Url: string;
+}
+
+/**
+ * Thunking layer for puzzyl-kit functions, which we can't explicitly import without turning this into a module.
+ */
+const kit = {
+  hasClass: (el: Node|string|null, cls: string|undefined): boolean 
+    => hasClass(el, cls),
+  toggleClass: (el: Node|string|null|undefined, cls: string|null, val?: boolean): void 
+    => toggleClass(el, cls, val),
+  getPuzzleStatus: (puzzle:string|null, defaultStatus?:string, puzzleList?:string): string|undefined
+    => getPuzzleStatus(puzzle, defaultStatus, puzzleList),
+  loadMetaMaterials: (puzzle:string, up:number, page:number): IMetaMaterial|undefined 
+    => loadMetaMaterials(puzzle, up, page),
+  refreshTeamHomePage: (callback?:() => void): void
+    => refreshTeamHomePage(callback),
+  refillFromTemplate: (parent:Element, tempId:string, args?:object): Node|undefined
+    => refillFromTemplate(parent, tempId, args),
+  splitEmoji: (str:string):string[]
+    => splitEmoji(str),
+  syncTeamName: (): string
+    => _teamName,
+  syncTeamMates: (): Kit_PlayerPresence[]
+    => _teammates || [],
+  syncTeamSolves: (): Kit_SolveSummary
+    => _teamSolves || {},
+  syncRemoteUnlocked: (): Kit_UnlockedPiece[]
+    => _remoteUnlocked || [],
+};
+
+/**
+ * Thunking layer for container document's boiler.lookup
+ * These are mirrors of the data from the _eventSync functions, 
+ * available in the boiler.lookup so that templates can access them directly.
+ */
+const boilerLookup = {
+  /** Team name, chosen by user at log-in */
+  get teamname(): string {
+    return boiler.lookup.teamname;
+  },
+  set teamname(value: string) {
+    boiler.lookup.teamname = value.trim();
+  },
+
+  /** List of teammate names, received from the server. Other players who claimed the same teamname */
+  get teammates(): Kit_PlayerPresence[] {
+    return boiler.lookup.teammates;
+  },
+  set teammates(value: Kit_PlayerPresence[]) {
+    boiler.lookup.teammates = value;
+  },
+
+  /** Map of puzzle names (not file) to the list of teammates who have solved them. */
+  get solves(): Kit_SolveSummary {
+    return boiler.lookup.solves;
+  },
+  set solves(value: Kit_SolveSummary) {
+    boiler.lookup.solves = value;
+  },
+
+  /** URL query arguments specific to the event. */
+  get urlEventArgs(): string {
+    return boiler.lookup.urlEventArgs;
+  },
+  set urlEventArgs(value: string) {
+    boiler.lookup.urlEventArgs = value;
+  },
+}
+
+
+/**
+ * A way to group puzzles into broad skill categories.
+ */
+type IPuzzleType = {
+  /** The name of the image that will indicate this in the UI. */
+  icon: string;
+  /** The alt text for the image, describing the puzzle type. */
+  alt: string;
+};
+
+/**
+ * A list of types of puzzles that users are likely to differentiate.
+ */
+const types: Record<string, IPuzzleType> = {
     word: { icon: 'word', alt: 'Word puzzle' },
     logic: { icon: 'logic', alt: 'Logic puzzle' },
     math: { icon: 'math', alt: 'Math puzzle' },
@@ -15,43 +122,133 @@ var types = {
     challenge: { icon: 'experiment', alt: 'Challenge' },
     poster: { icon: 'unknown', alt: 'Pre-event puzzle' },
 };
-var group = {
+/**
+ * Group entries in the overall puzzle index based on their role in the event - especially scoring
+ */
+const group: Record<string, string|undefined> = {
+    /** Standard, stand-alone puzzle. */
     puzzle: 'puzzle',
+    /** Instructions (or just a ticket) for participating in an interactive activity, led by event staff. */
     challenge: 'challenge',
+    /** A document with inputs for a meta - usually received as a reward for solving another puzzle. */
     feeder: 'feeder',
+    /** A puzzle that requires inputs from other puzzles to solve. */
     meta: 'meta',
+    /** A puzzle that is not yet released. */
     pending: '',
+    /** A puzzle that has been removed from the event. */
     cut: undefined
 };
-var orient = {
+/**
+ * Flag a puzzle's orientation, which should also be the thumbnail image's proportions.
+ */
+const orient: Record<string, string> = {
     portrait: 'portrait',
     landscape: 'landscape',
 };
-var meta = {
+
+type IMetaFeeder = {
+  /** The title of the meta puzzle. */
+  title: string;
+  /** Which index, among the feeders for that meta puzzles. */
+  number: number;
 };
-var challenge = {
+
+/**
+ * Details of a meta puzzle system
+ */
+type IMetaInfo = {
+  /**
+   * The name of the meta-puzzle (which will itself be an entry in the list of puzzles)
+   */
+  title: string;
+  /** The cache key used by feeders puzzles, when players solve them and get materials for the meta */
+  store: string;
+  /** How many feeders are there? */
+  count: number;
+  /** An icon to indicate a feeder, and to show feeder progress. */
+  icon: string;
 }
 
-var puzzles = [
+/**
+ * Define one puzzle, to appear in an index
+ */
+type IPuzzleInfo = {
+  /** The actual page file for the puzzle - often derivable from the title. */
+  file?: string;
+  /** The full URL to the puzzle page. */
+  href?: string;
+  /** Maps to a release schedule. 0 is always released. Others are scheduled. */
+  round: number;
+  /** The title of the puzzle. */
+  title: string;
+  /** The thumbnail image for the puzzle. */
+  thumb: string;
+  /** The author of the puzzle. */
+  author: string;
+  /** The type of the puzzle. */
+  type: IPuzzleType;
+  /** Is this a puzzle, meta, challenge, etc */
+  group: typeof group[keyof typeof group];
+  /** Is the puzzle - and more relevantly, the thumbnail - portrait or landscape oriented */
+  orientation: typeof orient[keyof typeof orient];
+  /** The CSS class to apply to the puzzle element. */
+  cls: string;
+  /** Any feeder puzzles associated with this puzzle. */
+  feeder: IMetaFeeder[];
+};
+
+const meta: Record<string, IMetaInfo> = {
+};
+// var challenge = {
+// }
+
+const puzzles: IPuzzleInfo[] = [
     { round: 0, title: 'Elective Operations', thumb: '', author: 'David Garber', type: types.math, group: group.puzzle, orientation: orient.portrait, cls:'', feeder: [] },
 ];
 
-var rounds = [
-    { filename: 'r1', release: '10/1/2026', pdf: '' },
-    { filename: 'r2', release: '10/3/2026', pdf: 'trails' },
-    { filename: 'r3', release: '10/10/2026', pdf: 'creeks' },
-    { filename: 'r4', release: '10/17/2026', pdf: 'ranges' },
-    { filename: 'r5', release: '10/24/2026', pdf: 'bridges' },
-];
-var minis = [
-    { filename: 'Hike', round: 1, pdf: 'hikes' },
-    { filename: 'Swim', round: 2, pdf: 'swims' },
-    { filename: 'Ride', round: 3, pdf: 'rides' },
-    { filename: 'Sail', round: 4, pdf: 'sails' },
-];
-var releaseHourUTC = 13; // 9am EDT, 6am PDT
+/**
+ * A round is a subset of an event's puzzles.
+ * They can be released by date, or by mini-game.
+ * Date-based releases extend prior rounds, growing the overall set of puzzles with each round.
+ * Mini-games are each standalone. Either you're in one or another, but not both.
+ */
+type IRoundInfo = {
+  /** A keyword to view this round on demand. */
+  name: string;
+  /** The release date of the round. */
+  release: string;
+  /** The PDF file of that rounds' printable puzzles. */
+  pdf: string;
+};
 
-var metas = {
+type IMiniGameInfo = {
+  /** The filename of the round's index. */
+  name: string;
+  /** The index of the */
+  round: number;
+  /** The PDF file of that mini-games' printable puzzles. */
+  pdf: string;
+};
+
+const rounds: IRoundInfo[] = [
+    { name: 'tbd1', release: '9/31/2026', pdf: '' },
+    { name: 'tbd2', release: '10/7/2026', pdf: 'trails' },
+    { name: 'tbd3', release: '10/14/2026', pdf: 'creeks' },
+    { name: 'tbd4', release: '10/21/2026', pdf: 'ranges' },
+    { name: 'tbd5', release: '10/28/2026', pdf: 'bridges' },
+];
+var minis: IMiniGameInfo[] = [
+    { name: 'mg1', round: 1, pdf: 'hikes' },
+    { name: 'mg2', round: 2, pdf: 'swims' },
+    { name: 'mg3', round: 3, pdf: 'rides' },
+    { name: 'mg4', round: 4, pdf: 'sails' },
+    { name: 'mg5', round: 5, pdf: 'sails' },
+];
+/** On a given release date, at what hour (UTC) the round is considered released. */
+const releaseHourUTC = 13; // 9am EDT, 6am PDT
+
+const metas: Record<string, IMetaInfo> = {
     // anthem: {
     //     title: 'Annual Anthem',
     //     store: 'AnnualAnthemMeta',
@@ -72,265 +269,80 @@ var metas = {
     // },
 }
 
-// Pass any url arguments on to the puzzles, plus the event identifier
-//  - ps23 event is for single-player puzzling.
-//  - gs26 event is an event, with teams and a leaderboard.
-// Note that in all cases, the result is at least '?'.
-var _urlEventArguments = (window.location.search.indexOf('gs26') > 0 || window.location.search.indexOf('ps22') > 0)
-    ? window.location.search  // no change
-    : window.location.search === '' ? '?gs26'
-    : (window.location.search + '&gs26');
+initializePuzzles();
 
-// Fill in the puzzle hrefs
-for (var puz of puzzles) {
-    if (!puz['file']) {
-        // The assumed name is a CamelCase version of the original
-        var words = puz.title.split(' ');
-        puz['file'] = '';
-        for (var w = 0; w < words.length; w++) {
-            if (words[w].length > 0) {
-                var word = words[w][0].toUpperCase() + words[w].substring(1);
-                puz['file'] += word;
-            }
-        }
-    }
-    puz['href'] = puz['file'] + '.xhtml' + _urlEventArguments;
-}
+/**
+ * Complete the initialization of the IPuzzleInfo records, because some fields are allowed to start blank.
+ */
+function initializePuzzles() {
+  // Pass any url arguments on to the puzzles, plus the event identifier
+  //  - ps23 event is for single-player puzzling.
+  //  - gs26 event is an event, with teams and a leaderboard.
+  // Note that in all cases, the result is at least '?'.
+  boilerLookup.urlEventArgs = (window.location.search.indexOf('gs26') > 0 || window.location.search.indexOf('ps22') > 0)
+      ? window.location.search  // no change
+      : window.location.search === '' ? '?gs26'
+      : (window.location.search + '&gs26');
 
-var first_puzzle_solve_id_ = 500;
-var first_meta_solve_id_ = first_puzzle_solve_id_ - 2;
-var first_challenge_solve_id_ = first_puzzle_solve_id_ - 5;
-function puzzleSolveId(puz) {
-    // Each group is in a separate id range
-    var id = puz.group == group.puzzle ? first_puzzle_solve_id_
-        : puz.group == group.meta ? first_meta_solve_id_ : first_challenge_solve_id_;
-    for (var i = 0; i < puzzles.length; i++) {
-        if (puzzles[i].group != puz.group) {
-            continue;
-        }
-        if (puz == puzzles[i]) {
-            return id;
-        }
-        id++;
-    }
-    return -1;
-}
-
-function expandPuzzles() {
-  toggleClass(document.getElementById('table'), 'no-solver', !theSafariDetails.solverSite);
-  var list = document.getElementById('puzzle_list');
-  var metas = document.getElementById('meta_list');
-  for (var i = 0; i < puzzles.length; i++) {
-      var puz = puzzles[i];
-      if (puz.group == group.puzzle) {
-          var tr = document.createElement('tr');
-          var thIcon = document.createElement('td');
-          var tdTitle = document.createElement('td');
-          var tdAuthor = document.createElement('td');
-          var tdFeeder = document.createElement('td');
-          var tdSubmit = document.createElement('td');
-          tr.id = puzzleFile(puz);
-          tr.classList.add('sortable');
-          thIcon.classList.add('icons');
-          tdTitle.classList.add('html');
-          tdAuthor.classList.add('author');
-          tdFeeder.classList.add('feeders');
-          tdSubmit.classList.add('submital')
-
-          var imgIcon = document.createElement('img');
-          var aTitle = document.createElement('a');
-          if (puz.icon) {
-              imgIcon.src = 'Icons/' + puz.icon + '.png';
-          }
-          else {
-              imgIcon.src = 'Icons/' + puz.type.icon + '.png';
-              imgIcon.title = puz.type.alt;
-          }
-          if (puz.group != group.pending) {
-              aTitle.href = puzzleHref(puz);
-          }
-          aTitle.target = '_blank';
-          aTitle.innerText = puz.title;
-          aTitle.classList.add('hover');
-          tdAuthor.innerText = puz.author;
-          var imgThumb = document.createElement('img');
-          imgThumb.classList.add('thumb');
-          imgThumb.src = 'Thumbs/' + puz.thumb + '.png';
-          aTitle.appendChild(imgThumb);
-
-          if (puz.feeder) {
-              tdFeeder.appendChild(createFeeder(puz.feeder, false));
-          }
-
-          tr.appendChild(thIcon);
-          tr.appendChild(tdTitle);
-          tr.appendChild(tdFeeder);
-          tr.appendChild(tdAuthor);
-          tr.appendChild(tdSubmit);
-          thIcon.appendChild(imgIcon);
-          tdTitle.appendChild(aTitle);
-
-          if (puz.group == group.meta) {
-              metas.appendChild(tr);
-          }
-          else {
-              list.appendChild(tr);
-          }
-      }
-      addSolverLink(puz);
-      markAsSolved(puzzleFile(puz));
-  }
-
-  var hovers = document.getElementsByClassName('hover');
-  for (var i = 0; i < hovers.length; i++) {
-      var aTitle = hovers[i];
-      var td = findParentOfTag(aTitle, 'td');
-      td.onmouseover=function(e){bigThumb(e)};
-      td.onmouseout=function(e){littleThumb(e)};
-  }
-}
-
-function addSolverLink(puz) {
-  var tr = document.getElementById(puzzleFile(puz));
-  if (tr) {
-      var td = tr.getElementsByClassName('submital')[0];
-      if (theSafariDetails.solverSite) {
-          var aSubmit = document.createElement('a');
-          aSubmit.href = theSafariDetails.solverSite + '/Solve?id=' + puzzleSolveId(puz);
-          aSubmit.target = '_blank';
-          aSubmit.appendChild(document.createTextNode('submit'));
-          td.appendChild(aSubmit);
-      }
-  }
-}
-
-function markAsSolved(puzFile) {
-  var tr = document.getElementById(puzFile);
-  if (tr && !hasClass(tr, 'solved')) {
-      var pStatus = getPuzzleStatus(puzFile);
-      if (pStatus == 'solved') {
-          var check = document.createElement('img');
-          check.src = '../Icons/Check.png';
-          toggleClass(check, 'solve-check', true);
-
-          var td = tr.getElementsByClassName('submital')[0];
-          td.appendChild(check);
-          toggleClass(tr, 'solved', true);
-      }
-  }
-}
-
-// feed is a struct: [0] is the feeder name, [1] is the index (or 0 if indexes are used)
-function createFeeder(feed, unlocked, altImg) {
-  var spanFeed = document.createElement(unlocked ? 'a' : 'span');
-  spanFeed.classList.add(feed[0]);
-  spanFeed.title = feeders[feed[0]].tooltip;
-  var imgFeed = document.createElement('img');
-  imgFeed.classList.add(feed[0] + '-' + feed[1]);
-
-  if (unlocked) {
-      imgFeed.src = feeders[feed[0]].unlocked;
-      spanFeed.classList.add('unlocked');
-      spanFeed.target = '_blank';
-      spanFeed.href = feeders[feed[0]].materials[feed[1]];
-  }
-  else {
-      imgFeed.src = feeders[feed[0]].locked;
-      spanFeed.classList.add('locked');
-  }
-  if (altImg) {
-      imgFeed.src = altImg;
-  }
-  spanFeed.appendChild(imgFeed);
-  var subFeed = document.createElement('sub');
-  if (feed.length > 1 && feed[1] > 0) {
-      subFeed.innerText = feed[1];
-  }
-  else {
-      subFeed.innerText = ' ';  // need something, or else rows with subs will be taller
-  }
-  spanFeed.appendChild(subFeed);
-  return spanFeed;
-}
-
-function updateProgress() {
-  var feederKeys = Object.keys(feeders);
-  for (var f = 0; f < feederKeys.length; f++) {
-      var key = feederKeys[f];
-      var feed = feeders[key];
-      if (feed.type == 'meta') {
-          var store = feed.store;
-          var td = document.getElementById(key + '-unlocked');
-          for (var i = 1; i <= feed.count; i++) {
-              if (i in feed.materials) {
-                  continue;
-              }
-              var materials = loadMetaMaterials(store, 0, i);
-              if (materials != null) {
-                  feed.materials[i] = materials['src'];
-                  td.appendChild(createFeeder([key, i], true));
-
-                  var imgs = document.getElementsByClassName(key + '-' + i);
-                  for (var m = 0; m < imgs.length; m++) {
-                      var img = imgs[m];
-                      img.src = feeders[key].unlocked;
-                      var span = img.parentNode;
-                      span.classList.remove('locked');  // span
-                      span.classList.add('unlocked');  // span
-                  }
+  // Most puzzles are defined without .href or .file, so compute those values here.
+  // Set them explicitly in the array when the name is not derivable from the title.
+  for (let puz of puzzles) {
+      if (!puz.file) {
+          // The assumed name is a CamelCase version of the original
+          let words = puz.title.split(' ');
+          puz['file'] = '';
+          for (let w = 0; w < words.length; w++) {
+              if (words[w].length > 0) {
+                  let word = words[w][0].toUpperCase() + words[w].substring(1);
+                  puz.file += word;
               }
           }
       }
-      else {  // feed.type == 'challenge'
-          td = document.getElementById(key + '-unlocked');
-          if (!td || Object.keys(feed.materials).length > 0) {
-              continue;
-          }
-          var materials = loadMetaMaterials(chal, 0, 1);
-          if (materials != null) {
-              feed.materials[0] = materials['src'];
-              td.appendChild(createFeeder([chal, 0], true, 'Icons/ticket.png'));
-          }
-      }
-  }
-
-  var solved = listPuzzlesOfStatus('solved');
-  for (var i = 0; i < solved.length; i++) {
-      var name = solved[i];
-      markAsSolved(name);
+      puz.href = puz.file + '.xhtml' + boilerLookup.urlEventArgs;
   }
 }
 
 // 1, 2, ... means that column index is sorted ascending
 // -1, -2, ... means that (abs) column index is sorted descenind
-var sortOrder = 2;  // Puzzle name
+let sortOrder = 2;  // Puzzle name
 
-function sortTable(th) {
-  var tr = th.parentNode;
-  var allThs = tr.getElementsByTagName('th');
-  var col = 0;
-  for (var c of allThs) {
+/**
+ * Sort a puzzle table based on one column, leaving equal values in the same order they are now
+ * @param th The TH header cell that we're sorting on
+ */
+function sortTable(th:HTMLTableCellElement) {
+  let tr:HTMLTableRowElement = th.parentNode as HTMLTableRowElement;
+  let allThs = tr.getElementsByTagName('th');
+
+  // Determine the index of the column we're sorting on
+  let col = 0;
+  for (let c of allThs) {
     col++;
     if (c == th) {
       break;
     }
   }
+  // Repeated sorts on the same column will reverse that column's sort order
+  sortOrder = (sortOrder == col) ? -col : col;
 
-  var sortNumeric = hasClass(th, 'sort-numeric');
-  var tbody = document.getElementById('puzzle_list');
-  var rows = document.getElementsByClassName('sortable');
-  var lookup = {};
-  var order = [];
-  for (var i = rows.length - 1; i >= 0; i--) {
-      var row = rows[i];
+  let sortNumeric = kit.hasClass(th, 'sort-numeric');
+  let tbody = document.getElementById('puzzle_list') as HTMLTableSectionElement;
+  let rows = document.getElementsByClassName('sortable');
+  // Every value will be tweaked so it's unique - by appending the previous order as a suffix
+  let order = [];
+  // Map the unique values back to the rows that gave them
+  let lookup:Record<string|number, HTMLTableRowElement> = {};
+
+  for (let i = rows.length - 1; i >= 0; i--) {
+      let row = rows[i] as HTMLTableRowElement;
       if (row.parentNode != tbody) {
           continue;
       }
-      var cols = row.getElementsByTagName('td');
-      var cell = cols[col - 1];
-      var prevOrder = String(i).padStart(2, '0');
-      var val = cell.innerHTML + ' ' + prevOrder;
-      if (hasClass(th, 'completed') && hasClass(cell.parentNode, 'solved')) {
+      let cols = row.getElementsByTagName('td');
+      let cell = cols[col - 1] as HTMLTableCellElement;
+      let prevOrder = String(i).padStart(2, '0');
+      let val:string|number = cell.innerHTML + ' ' + prevOrder;
+      if (kit.hasClass(th, 'completed') && kit.hasClass(cell.parentNode, 'solved')) {
         val = '✔️' + val;
       }
       if (sortNumeric) {
@@ -345,128 +357,117 @@ function sortTable(th) {
       tbody.removeChild(row);
   }
   if (sortNumeric) {
-    order.sort((a,b) => { return parseFloat(a) - parseFloat(b) });
+    (order as number[]).sort();
   }
   else {
     order.sort();
   }
-  sortOrder = (sortOrder == col) ? -col : col;
   if (sortOrder < 0) {
       order.reverse();
   }
-  for (var i = 0; i < order.length; i++) {
-      var row = lookup[order[i]];
+  for (let i = 0; i < order.length; i++) {
+      let row = lookup[order[i]];
       tbody.appendChild(row);
   }
   // update header with arrow indicating sort order
-  for (var t of allThs) {  // Clear previous sort state from all columns
-    toggleClass(t, 'sortedAsc', false);
-    toggleClass(t, 'sortedDesc', false);
+  for (let t of allThs) {  // Clear previous sort state from all columns
+    kit.toggleClass(t, 'sortedAsc', false);
+    kit.toggleClass(t, 'sortedDesc', false);
   }
-  toggleClass(th, 'sortedAsc', sortOrder > 0);
-  toggleClass(th, 'sortedDesc', sortOrder < 0);
+  kit.toggleClass(th, 'sortedAsc', sortOrder > 0);
+  kit.toggleClass(th, 'sortedDesc', sortOrder < 0);
 }
 
-function bigThumb(evt) {
-  var td = evt.target;
-  if (td.tagName != 'A') {
-      td = td.parentNode;
-  }
-  td.classList.add('big');
-  td.classList.remove('little');
-  var tr = findParentOfTag(td, 'tr');
-  tr.classList.add('big');
-}
-function littleThumb(evt) {
-  var td = evt.target;
-  if (td.tagName != 'A') {
-      td = td.parentNode;
-  }
-  td.classList.remove('big');
-  td.classList.add('little');
-  var tr = findParentOfTag(td, 'tr');
-  tr.classList.remove('big');
-}
-
+/**
+ * Called postSetup by the index page.
+ * Ensures boilerLookup
+ has some necessary default structures.
+ * Creates global event listeners.
+ */
 function setupSolvables() {
-  boiler.lookup.teammates = boiler.lookup.teammates || [];
-  boiler.lookup.solves = boiler.lookup.solves || {};
+  boilerLookup.teammates = boilerLookup.teammates || [];
+  boilerLookup.solves = boilerLookup.solves || {};
   document.addEventListener('visibilitychange', function (event) { syncProgress(); });
-  var body = document.getElementsByTagName('body')[0];
+  let body = document.getElementsByTagName('body')[0];
   body.addEventListener('focus', function (event) { syncProgress(); } );
   // Then run it now.
   syncProgress();
 }
 
-var _unlocked_feeders = {};
-var _refresh_interval = undefined;
-var _stopRefreshing = new Date().getTime();
-var _refreshEvery = 15 * 1000;  // 15 seconds
-var _teammates = typeof _teammates === 'undefined' ? [] : _teammates;
-var _teamName = typeof _teamName === 'undefined' ? '' : _teamName;
-var _teamSolves = typeof _teamSolves === 'undefined' ? [] : _teamSolves;
-var _remoteUnlocked = typeof _remoteUnlocked === 'undefined' ? [] : _remoteUnlocked;
+// Puzzle index pages show 2 kinds of dynamic event information:
+// 1. Solves and unlocks achieved locally.
+//    These invariably happen while the index page doesn't have focus,
+//    so they only need to be refreshed when we regain focus
+// 2. Solves and unlocks achieved by teammates, as well as those teammates' traveling presence.
+//    These can happen at any time. We will refresh every ~15 seconds,
+//    as well as when we regain focus.
+
+/**
+ * Map feeder IDs to whether or not they've been unlocked. This only controls how their icons render.
+ * Feeder IDs are "{meta-store}-{index}", so "MetaABC-0" .. "MetaABC-3" .. "MetaGHI-3"
+ */
+let _unlocked_feeders:Record<string, boolean> = {};
+let _refresh_interval = 0;  // invalid timer ID
+let _stopRefreshing = new Date().getTime();
+let _refreshEvery = 15 * 1000;  // 15 seconds
 
 
+/**
+ * Called when our page regains focus.
+ * Immediately update solve and meta-unlock states from local changes.
+ * Then queue a refresh of teammate progress, to continue until we lose focus, or for 3 hours. 
+ */
 function syncProgress() {
   if (document.hidden) {
     return;
   }
-  for (var i = 0; i < puzzles.length; i++) {
-    var puz = puzzles[i];
-    updateSolves(puz.file, puz.round);
+  for (let i = 0; i < puzzles.length; i++) {
+    let puz = puzzles[i];
+    updateSolves(puz.file!);
   }
   
   syncUnlockedMetas();
 
   // Once we start syncing, check every 15 seconds for 3 hours
-  _stopRefreshing = new Date().getTime() + 3 * 60 * 60 * 1000;  // 1 hour of refreshes
+  _stopRefreshing = new Date().getTime() + 3 * 60 * 60 * 1000;
   _refresh_interval = setInterval(timeToRefreshTeam, _refreshEvery);
   timeToRefreshTeam();  // With an initial call immediately
 }
 
+/**
+ * Scan through all known meta materials and update their unlocked status in the UI.
+ */
 function syncUnlockedMetas() {
-  var metaKeys = Object.keys(metas);
-  for (var m = 0; m < metaKeys.length; m++) {
-    var metaInfo = metas[metaKeys[m]];
-    for (var i = 0; i <= metaInfo.count; i++) {
+  let metaKeys = Object.keys(metas);
+  for (let m = 0; m < metaKeys.length; m++) {
+    let metaInfo = metas[metaKeys[m]];
+    for (let i = 0; i <= metaInfo.count; i++) {
       updateUnlocked(metaInfo.store, i);
     }
   }
 }
 
+/**
+ * Called every 15 seconds to refresh teammate event info
+ */
 function timeToRefreshTeam() {
   if (new Date().getTime() >= _stopRefreshing) {
     clearInterval(_refresh_interval);
   }
   if (document.visibilityState == 'visible') {
-    refreshTeamHomePage(refreshTeamProgress);
+    kit.refreshTeamHomePage(refreshTeamProgress);
   }
 }
 
-function updateSolves(puzFile, round) {
-  var pStatus = getPuzzleStatus(puzFile);
-  var tr = document.getElementById(puzFile);
+/**
+ * Called for every puzzle, so we can mirror cached solve state back to a puzzle's UI row.
+ * @param puzFile The puzzle filename, which is also the key for caching status
+ */
+function updateSolves(puzFile:string) {
+  let pStatus = kit.getPuzzleStatus(puzFile);
+  let tr = document.getElementById(puzFile);
   if (tr) {
-    toggleClass(tr, 'solved', pStatus == 'solved');
-  }
-  if (round == 0) {
-    // HACK HACK HACK HACK HACK :(
-    // Look in the Posters folder
-    if (hasClass(tr, 'hidden')) {
-      pStatus = getPuzzleStatus('url_' + puzFile, undefined, '../Posters/puzzle_list');
-      if (pStatus) {  // Show row, and overwrite the link URL
-        var hovers = tr.getElementsByClassName('hover');
-        if (hovers.length > 0) {
-          toggleClass(tr, 'hidden', false);
-          hovers[0].href = pStatus;
-        }
-      }
-    }
-    pStatus = getPuzzleStatus(puzFile, undefined, '../Posters/puzzle_list');
-    if (tr) {
-      toggleClass(tr, 'solved', pStatus == 'solved');
-    }
+    kit.toggleClass(tr, 'solved', pStatus == 'solved');
   }
 }
 
@@ -474,23 +475,24 @@ function updateSolves(puzFile, round) {
  * Check to see if a meta material we know by title, has new local data.
  * That would mean it has been unlocked - either locally or by team sync.
  * For each, change their UI to unlocked, and hook up their link to that URL.
- * @param {*} meta
- * @param {*} i
+ * @param meta The meta-material store name.
+ * @param i The material index.
  */
-function updateUnlocked(meta, i) {
-  var puzFile = `${meta}-${i}`;
+function updateUnlocked(meta:string, i:number) {
+  let puzFile = `${meta}-${i}`;
   if (!(puzFile in _unlocked_feeders)) {
-    var pStatus = getPuzzleStatus(puzFile);
+    let pStatus = kit.getPuzzleStatus(puzFile);
     if (pStatus) {
-      var mat = loadMetaMaterials(meta, 0, i);
+      let mat = kit.loadMetaMaterials(meta, 0, i);
       if (mat) {
         _unlocked_feeders[puzFile] = true;
-        var links = document.getElementsByClassName(puzFile);
-        for (var a = 0; a < links.length; a++) {
-          toggleClass(links[a], 'unlocked', true);
-          links[a].href = mat.src + _urlEventArguments;
-          if (links[a].title.endsWith(' (locked)')) {
-            links[a].title = links[a].title.substring(0, links[a].title.length - 9);
+        let links = document.getElementsByClassName(puzFile);
+        for (let a = 0; a < links.length; a++) {
+          const link = links[a] as HTMLLinkElement;
+          kit.toggleClass(link, 'unlocked', true);
+          link.href = mat.src + boilerLookup.urlEventArgs;
+          if (link.title.endsWith(' (locked)')) {
+            link.title = link.title.substring(0, link.title.length - 9);
           }
         }
       }
@@ -498,38 +500,41 @@ function updateUnlocked(meta, i) {
   }
 }
 
+/**
+ * Callback after kit has consulted server for team progress updates.
+ */
 function refreshTeamProgress() {
-  var overwrite = false;  // Prefer to merge where possible
-  if (JSON.stringify(_teammates) != JSON.stringify(boiler.lookup.teammates)) {
-    overwrite = boiler.lookup.teammates.length > _teammates.length;  // when we drop a team member
-    boiler.lookup.teammates = _teammates;
-    boiler.lookup.teamname = _teamName;
-    refillFromTemplate(document.getElementById('team-roster'), 'teammate-list');
+  let overwrite = false;  // Prefer to merge where possible
+  if (JSON.stringify(kit.syncTeamMates()) != JSON.stringify(boilerLookup.teammates)) {
+    overwrite = boilerLookup.teammates.length > kit.syncTeamMates().length;  // when we drop a team member
+    boilerLookup.teammates = kit.syncTeamMates();
+    boilerLookup.teamname = kit.syncTeamName();
+    kit.refillFromTemplate(document.getElementById('team-roster')!, 'teammate-list');
     updatePresence()
   }
 
   if (mergeSolves(overwrite)) {
-    for (var puz of puzzles) {
-      var tr = document.getElementById(puz.file);
+    for (let puz of puzzles) {
+      let tr = document.getElementById(puz.file!);
       if (tr) {
-        var span = tr.getElementsByClassName('teammate-solves')[0];
-        if (span) {
-          var solvers = boiler.lookup.solves[tr.getAttribute('name')] || [];
-          var args = {solvers: solvers};
-          refillFromTemplate(span, 'teammate-solves', args);
+        let span = tr.getElementsByClassName('teammate-solves')[0];
+        if (span && tr.getAttribute('name')) {
+          let solvers = boilerLookup.solves[tr.getAttribute('name')!] || [];
+          let args = {solvers: solvers};
+          kit.refillFromTemplate(span, 'teammate-solves', args);
         }
       }
     }
   }
 
-  if (_remoteUnlocked.length > 0) {
-    var foundNew = false;
-    var newlyUnlocked = [];
-    for (var ru of _remoteUnlocked) {
-      if (!ru.PuzzleName) {
+  if (kit.syncRemoteUnlocked().length > 0) {
+    let foundNew = false;
+    let newlyUnlocked = [];
+    for (let ru of kit.syncRemoteUnlocked()) {
+      if (!ru.Piece) {
         continue;  // bad data. Don't load, since we'll never be able to acknowledge the load
       }
-      if (!(ru.PuzzleName in _unlocked_feeders)) {
+      if (!(ru.Piece in _unlocked_feeders)) {
         newlyUnlocked.push(ru.Url);
         // Don't add to _unlocked_feeders. That happens once it's confirmed.
         foundNew = true;
@@ -541,61 +546,78 @@ function refreshTeamProgress() {
   }
 }
 
+/**
+ * Indicate on which puzzle each teammate was most recently present.
+ */
 function updatePresence() {
-  var presences = document.getElementsByClassName('presence-avatar');
-  for (var i = presences.length - 1; i >= 0; i--) {
-    var pres = presences[i];
-    pres.parentNode.removeChild(pres);
+  // Clear the previous presence indicators (REVIEW: even if they are unchanged)
+  let presences = document.getElementsByClassName('presence-avatar');
+  for (let i = presences.length - 1; i >= 0; i--) {
+    let pres = presences[i] as HTMLSpanElement;
+    pres.parentNode!.removeChild(pres);
   }
 
-  for (var pp of boiler.lookup.teammates) {
+  // Create new presence indicators for each teammate based on their current presence.
+  for (let pp of boilerLookup.teammates) {
     if (pp.Presence) {
-      var tr = document.getElementsByName(pp.Presence)[0];
+      let tr = document.getElementsByName(pp.Presence)[0];
       if (tr) {
-        var td = tr.getElementsByClassName('presence')[0];
-        var span = document.createElement('span');
-        toggleClass(span, 'presence-avatar', true);
+        let td = tr.getElementsByClassName('presence')[0];
+        let span = document.createElement('span');
+        kit.toggleClass(span, 'presence-avatar', true);
         span.appendChild(document.createTextNode(pp.Avatar));
-        span.setAttribute('title', pp.PlayerName);
+        span.setAttribute('title', pp.Player);
         td.appendChild(span);
       }
     }
   }
 }
 
-function mergeSolves(overwrite)
+/**
+ * Merge the server's solve info with the local state.
+ * The local state may know about local solves that the server is still round-tripping.
+ * @param overwrite If true, reset the local state to zero solves and ignore the server.
+ * @returns True if the local state was changed as a result of the merge.
+ */
+function mergeSolves(overwrite:boolean)
 {
-  if (overwrite || _teamSolves.length == 0) {
-    boiler.lookup.solves = {};
+  if (overwrite || Object.keys(kit.syncTeamSolves()).length == 0) {
+    boilerLookup.solves = {};
     return true;  // Special case: clear all
   }
 
   // _teamSolves is a list of tuples: PuzzleName and a list of players (PlayerName + Avatar)
-  // boiler.lookup.solves is a dictionary of puzzle names to the list of players
-  var changes = false;
-  for (var i = 0; i < _teamSolves.length; i++) {
-    var puz = _teamSolves[i].PuzzleName;
-    var update = _teamSolves[i].Solvers;
-    var keep = boiler.lookup.solves[puz] || [];
+  // boilerLookup.solves is a dictionary of puzzle names to the list of players
+  let changes = false;
+  const solvedPuzzles = Object.keys(kit.syncTeamSolves());
+  for (let i = 0; i < solvedPuzzles.length; i++) {
+    let puz = solvedPuzzles[i];
+    // The value is a concatenated string of avatars
+    let update = kit.syncTeamSolves()[puz];
+    let keep = boilerLookup.solves[puz] || [];
     // Make sure that new solvers are appended to existing ones
-    for (var u = 0; u < update.length; u++) {
-      var plyr = update[u];
+    for (let u = 0; u < update.length; u++) {
+      let plyr = update[u];
       if (!keep.find(p => p.Player==plyr.Player && p.Avatar == plyr.Avatar)) {
         keep.push(update[u]);
         changes = true;
       }
     }
-    boiler.lookup.solves[puz] = keep;
+    boilerLookup.solves[puz] = keep;
   }
   return changes;
 }
 
-function loadViaIframe(urls) {
-  var div = document.getElementById('iframe-loader');
-  for (var url of urls) {
+/**
+ * The index page has a hidden div (id='iframe-loader') for holding iframes that load materials in the background.
+ * Those page loads in turn can set local state.
+ * @param urls 
+ */
+function loadViaIframe(urls:string[]) {
+  let div = document.getElementById('iframe-loader') as HTMLDivElement;
+  for (let url of urls) {
     // Create a bunch of single-use iframes
-    var url = urls.pop();
-    const iframe = document.createElement('iframe');
+    const iframe = document.createElement('iframe') as HTMLIFrameElement;
     iframe.src = url;
     // Once we have confirmation of the iframe's load, scan for new data
     iframe.onload = function(){setTimeout(() => syncUnlockedMetas(), 500)};
@@ -604,64 +626,41 @@ function loadViaIframe(urls) {
 }
 
 /**
- * What round are we in currently?
- * Could be triggered by the current date & time, or by a URL argument.
- * @returns The index of the round.
+ * What round has been requested by the URL?
+ * @returns Two round indeces [first, last], both inclusive
  */
-function roundFromDate() {
-  var search = window.location.search.toLowerCase();
-  var now = new Date();
-  for (var r = rounds.length - 1; r >= 0; r--) {
-    var rd = localReleaseTime(r);
+function roundsFromUrl(): number[] {
+  let search = window.location.search.toLowerCase();
+  // See if URL contains a minigame code
+  for (let m = 0; m < minis.length; m++) {
+    let code = 'mini=' + minis[m].name.toLowerCase();
+    if (code && search.includes(code)) {
+      return [minis[m].round, minis[m].round];
+    }
+  }
+  // See if URL contains a round code
+  for (let r = rounds.length - 1; r >= 0; r--) {
+    let code = 'round=' + rounds[r].name.toLowerCase();
+    if (code && search.includes(code)) {
+      return [0, r];
+    }
+  }
+  return [-1, -1];  // none
+}
+
+/**
+ * What round are we in currently, based on the current date and time?
+ * @returns Two round indeces [first, last], both inclusive
+ */
+function roundsFromDate(): number[] {
+  let now = new Date();
+  for (let r = rounds.length - 1; r >= 0; r--) {
+    let rd = localReleaseTime(r);
     if (now >= rd) {
-      return r;
-    }
-    var code = 'round=' + rounds[r].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return r;
+      return [0, r];
     }
   }
-  for (var m = 0; m < minis.length; m++) {
-    var code = 'mini=' + minis[m].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return minis[m].round;
-    }
-  }
-  return 0;
-}
-
-function minRoundFromUrl() {
-  var search = window.location.search.toLowerCase();
-  for (var r = 1; r < rounds.length; r++) {
-    var code = 'round=' + rounds[r].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return 0;
-    }
-  }
-  for (var m = 0; m < minis.length; m++) {
-    var code = 'mini=' + minis[m].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return minis[m].round;
-    }
-  }
-  return 0;
-}
-
-function maxRoundFromUrl() {
-  var search = window.location.search.toLowerCase();
-  for (var r = 1; r < rounds.length; r++) {
-    var code = 'round=' + rounds[r].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return r;
-    }
-  }
-  for (var m = 0; m < minis.length; m++) {
-    var code = 'mini=' + minis[m].filename.toLowerCase();
-    if (code && search.includes(code)) {
-      return minis[m].round;
-    }
-  }
-  return rounds.length - 1;
+  return [0, 0];
 }
 
 /**
@@ -670,8 +669,15 @@ function maxRoundFromUrl() {
  * @returns round name, as titleSync.
  */
 function roundName() {
-  var round = roundFromDate();
-  return rounds[round].filename;
+  let range = roundsFromUrl();
+  if (range[1] >= 0) {
+    return rounds[range[1]].name;
+  }
+  range = roundsFromDate();
+  if (range[1] >= 0) {
+    return rounds[range[1]].name;
+  }
+  return '';
 }
 
 /**
@@ -679,11 +685,11 @@ function roundName() {
  * @param {int} round
  * @returns
  */
-function localReleaseTime(round) {
-  var date = new Date(rounds[round].release);
+function localReleaseTime(round:number) {
+  let date = new Date(rounds[round].release);
 
   // Offset to round release time, UTC
-  var time = new Date(date);
+  let time = new Date(date);
   time.setMinutes(time.getMinutes() + releaseHourUTC * 60);
 
   // Offset to local time
@@ -697,23 +703,22 @@ function localReleaseTime(round) {
  * Construct a friendly date+time, for dates in the future.
  * Or simply time for today.
  * Or empty for times in the past.
- * @param {Date} date
  * @returns A string like "Mar-3 at 14:05" or "14:05" or "" if in the past
  */
 function timeToNextRound() {
-  var round = roundFromDate();
-  if (round + 1 >= rounds.length) {
+  let range = roundsFromDate();
+  if (range[1] + 1 >= rounds.length) {
     return '';
   }
 
-  var date = localReleaseTime(round + 1);
+  let date = localReleaseTime(range[1] + 1);
   let hh = date.getHours();
   const mm = date.getMinutes();
   const ap = hh < 12 ? "am" : "pm";
   hh = ((hh + 11) % 12) + 1;
 
-  var wait = date - new Date();
-  var days = Math.floor(wait / (1000 * 60 * 60 * 24));
+  let wait = date.getTime() - Date.now();
+  let days = Math.floor(wait / (1000 * 60 * 60 * 24));
   if (days >= 1) {
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -727,17 +732,19 @@ function timeToNextRound() {
   return '';
 }
 
-// PDF for the current round or mini
+/**
+ * PDF for the current round or mini
+ */
 function pdfForRound() {
-  var search = window.location.search.toLowerCase();
-  for (var r = 1; r < rounds.length; r++) {
-    var code = 'round=' + rounds[r].filename.toLowerCase();
+  let search = window.location.search.toLowerCase();
+  for (let r = 1; r < rounds.length; r++) {
+    let code = 'round=' + rounds[r].name.toLowerCase();
     if (code && search.includes(code)) {
       return rounds[r].pdf;
     }
   }
-  for (var m = 0; m < minis.length; m++) {
-    var code = 'mini=' + minis[m].filename.toLowerCase();
+  for (let m = 0; m < minis.length; m++) {
+    let code = 'mini=' + minis[m].name.toLowerCase();
     if (code && search.includes(code)) {
       return minis[m].pdf;
     }
@@ -745,16 +752,20 @@ function pdfForRound() {
   return '';  // No PDF
 }
 
-// Don't show meta table until we have visible metas
+/**
+ * Don't show meta table until we have visible metas
+ */
 function showMetas() {
-  var min = minRoundFromUrl();
-  var max = roundFromDate();
-  var m = puzzles.find(puz => puz.round >= min && puz.round <= max && puz.type == types.meta);
+  let min = roundsFromUrl()[0];
+  let max = roundsFromUrl()[1];
+  let m = puzzles.find(puz => puz.round >= min && puz.round <= max && puz.type == types.meta);
   return !!m;
 }
 
-// Mini-events are a single round, so hide round labels
+/**
+ * Mini-events are a single round, so hide round labels
+ */
 function showRounds() {
-  var search = window.location.search.toLowerCase();
+  let search = window.location.search.toLowerCase();
   return !search.includes('mini=');
 }

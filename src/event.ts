@@ -7,7 +7,7 @@ interface Window {
   }
 }
 
-const safariPostersEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails = {
+const safariEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails = {
   title: 'Giving Safari 26',
   cssRoot: 'css/',
   imageRoot: 'images/',
@@ -16,6 +16,6 @@ const safariPostersEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails 
   links: [],
   icon: 'images/favicon.png',
   logo: 'images/logo.png',
-}
+};
 
-window.PuzzylKit.registerDefaultEvent(safariPostersEvent)
+window.PuzzylKit.registerDefaultEvent(safariEvent);
