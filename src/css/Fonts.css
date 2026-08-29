@@ -17,11 +17,11 @@
   font-family: var(--input-font);
 }
 
-._gs26 .input-font .letter-literal {
+#Local .input-font .letter-literal {
   font-family: var(--input-font);
 }
 
-._gs26 .letter-cell {
+#Local .letter-cell {
   font-family: var(--input-font);
   font-size: 14pt;
   width: 1.05em;

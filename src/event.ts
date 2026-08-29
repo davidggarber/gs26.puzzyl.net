@@ -11,11 +11,12 @@ const safariEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails = {
   title: 'Giving Safari 26',
   cssRoot: 'css/',
   imageRoot: 'images/',
-  googleFonts: 'Henny+Penny,Fontdiner+Swanky,Fuzzy+Bubbles',
+  googleFonts: 'Henny+Penny,Fontdiner+Swanky,Fuzzy+Bubbles,Handlee',
   fontCss: 'css/Fonts.css',
   links: [],
   icon: 'images/favicon.png',
   logo: 'images/logo.png',
+  validation: true,
 };
 
 window.PuzzylKit.registerDefaultEvent(safariEvent);
