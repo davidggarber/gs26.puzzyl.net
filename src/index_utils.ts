@@ -55,41 +55,45 @@ const kit = {
 };
 
 /**
- * Thunking layer for container document's boiler.lookup
+ * Thunking layer for container document's window.boiler.lookup
  * These are mirrors of the data from the _eventSync functions, 
- * available in the boiler.lookup so that templates can access them directly.
+ * available in the window.boiler.lookup so that templates can access them directly.
  */
 const boilerLookup = {
+  get showTeams(): boolean {
+    return window.boiler.lookup.showTeams;
+  },
+
   /** Team name, chosen by user at log-in */
   get teamname(): string {
-    return boiler.lookup.teamname;
+    return window.boiler.lookup.teamname;
   },
   set teamname(value: string) {
-    boiler.lookup.teamname = value.trim();
+    window.boiler.lookup.teamname = value.trim();
   },
 
   /** List of teammate names, received from the server. Other players who claimed the same teamname */
   get teammates(): Kit_PlayerPresence[] {
-    return boiler.lookup.teammates;
+    return window.boiler.lookup.teammates;
   },
   set teammates(value: Kit_PlayerPresence[]) {
-    boiler.lookup.teammates = value;
+    window.boiler.lookup.teammates = value;
   },
 
   /** Map of puzzle names (not file) to the list of teammates who have solved them. */
   get solves(): Kit_SolveSummary {
-    return boiler.lookup.solves;
+    return window.boiler.lookup.solves;
   },
   set solves(value: Kit_SolveSummary) {
-    boiler.lookup.solves = value;
+    window.boiler.lookup.solves = value;
   },
 
   /** URL query arguments specific to the event. */
   get urlEventArgs(): string {
-    return boiler.lookup.urlEventArgs;
+    return window.boiler.lookup.urlEventArgs;
   },
   set urlEventArgs(value: string) {
-    boiler.lookup.urlEventArgs = value;
+    window.boiler.lookup.urlEventArgs = value;
   },
 }
 
@@ -269,12 +273,11 @@ const metas: Record<string, IMetaInfo> = {
     // },
 }
 
-initializePuzzles();
-
 /**
+ * Must be called by index pages in the preBuild callback.
  * Complete the initialization of the IPuzzleInfo records, because some fields are allowed to start blank.
  */
-function initializePuzzles() {
+function initializeIndexUtils() {
   // Pass any url arguments on to the puzzles, plus the event identifier
   //  - ps23 event is for single-player puzzling.
   //  - gs26 event is an event, with teams and a leaderboard.
@@ -428,10 +431,12 @@ function syncProgress() {
   
   syncUnlockedMetas();
 
-  // Once we start syncing, check every 15 seconds for 3 hours
-  _stopRefreshing = new Date().getTime() + 3 * 60 * 60 * 1000;
-  _refresh_interval = setInterval(timeToRefreshTeam, _refreshEvery);
-  timeToRefreshTeam();  // With an initial call immediately
+  if (boilerLookup.showTeams) {
+    // Once we start syncing, check every 15 seconds for 3 hours
+    _stopRefreshing = new Date().getTime() + 3 * 60 * 60 * 1000;
+    _refresh_interval = setInterval(timeToRefreshTeam, _refreshEvery);
+    timeToRefreshTeam();  // With an initial call immediately
+  }
 }
 
 /**
@@ -451,11 +456,13 @@ function syncUnlockedMetas() {
  * Called every 15 seconds to refresh teammate event info
  */
 function timeToRefreshTeam() {
-  if (new Date().getTime() >= _stopRefreshing) {
-    clearInterval(_refresh_interval);
-  }
-  if (document.visibilityState == 'visible') {
-    kit.refreshTeamHomePage(refreshTeamProgress);
+  if (boilerLookup.showTeams) {
+    if (new Date().getTime() >= _stopRefreshing) {
+      clearInterval(_refresh_interval);
+    }
+    if (document.visibilityState == 'visible') {
+      kit.refreshTeamHomePage(refreshTeamProgress);
+    }
   }
 }
 

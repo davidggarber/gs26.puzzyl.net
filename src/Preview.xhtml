@@ -6,7 +6,6 @@
     <meta charset="UTF-8" />
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
-    <script> var exports = {}; </script>
     <link href="index.css" rel="Stylesheet" type="text/css" />
     <script src="index_utils.js" />
     <script>
@@ -17,19 +16,20 @@
         abilities: {
           textInput: 'nearest',
         },
+        preBuild: initializeIndexUtils,
         postSetup: setupSolvables,
         reactiveBuilder: 'pageBody',
         lookup: {
-          minRound: roundFromUrl()[0],
-          maxRound: roundFromUrl()[1],
+          minRound: 0, // roundsFromUrl()[0],
+          maxRound: 1, //roundsFromUrl()[1],
           nextRound: timeToNextRound(),
           pdf: pdfForRound(),
+          showTeams: false,
           showMetas: showMetas(),
           showLegend: false,
           showForget: true,
           showRounds: showRounds(),
           puzzles: puzzles,
-          urlArgs: _urlEventArguments,
           metas: metas,
           feeders: false,
           solvable: false,
