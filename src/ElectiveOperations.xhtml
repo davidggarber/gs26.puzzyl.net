@@ -34,6 +34,17 @@
     </script>
     <style>
       #Local {
+        .shape-example {
+          .shape-input {
+            width: 19px;
+            height: 19px;
+            top: 0;
+          }
+          .letter-cell {
+            display: none;
+          }
+        }
+
         #table {
           margin-top: 0.5in;
           margin-left: 0.5in;
@@ -138,7 +149,15 @@
         PEMDAS rules apply, but when in doubt, always resolve operations left-to-right.  
       </p>
       <p class="flavor">
-        Write operators into the blank spaces with the dotted outlines:       and      . Operators are often used 
+        Write operators into the blank spaces with the dotted outlines: 
+        <span class="shape-example">
+          <use template="circ"/>
+        </span>
+        and
+        <span class="shape-example">
+          <use template="trap"/>
+        </span>.
+        Operators are often used 
         more than once within a row. Different shapes indicate different operators, while a repeated shape 
         indicates the same operator has been used again. The operator ↔ shape connection changes each row. 
       </p>
