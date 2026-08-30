@@ -31,7 +31,7 @@
             ['l.png', 140, 89, 561],
             ['j.jpg', 238, 3, 378],
             ['k.png', 168, 370, 556],
-            ['p.png', 158, 0, 816],
+            ['p.png', 123, 0, 851],
             ['n.jpg', 193, 185, 722],
             ['m.jpg', 180, 0, 668],
             ['o.jpg', 176, 500, 729],
@@ -45,10 +45,22 @@
         #picsContainer {
           position: relative;
           top: -36px;
+
+          .cross-off {
+            position: absolute;
+
+            .check {
+              left: 25%;
+              top: 10px;
+            }
+
+            .check::before {
+              position: absolute;
+              left: 50%;
+            }
+          }
         }
-        img {
-          position: absolute;
-        }
+        
         #consonants {
           position: relative;
           top: 8.9in;
@@ -86,7 +98,9 @@
     <div id="pageBody">
       <div id="picsContainer">
         <for each="pic" in="{pics}">
-          <img ssrc="Yolo/{pic.0}" alt="image #{pic#}" sstyle="height:{pic.1/100}in; left:{pic.2/100}in; top:{pic.3/100}in;" />
+          <div class="cross-off" sstyle="left:{pic.2/100}in; top:{pic.3/100}in;">
+            <img ssrc="Yolo/{pic.0}" alt="image #{pic#}" sstyle="height:{pic.1/100}in;" />
+          </div>
         </for>
       </div>
 
