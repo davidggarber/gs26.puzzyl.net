@@ -33,7 +33,7 @@
           metas: metas,
           feeders: false,
           solvable: false,
-          table_cols: showRounds() ? 7 : 6,
+          table_cols: showRounds() ? 6 : 5,
           solves: {},
         },
       };
@@ -66,7 +66,7 @@
       }
       #puz-col-headers th {
         text-align: left;
-        padding: 0px 5px;
+        padding: 2px 5px;
       }
 
       #pre-event {
@@ -162,6 +162,17 @@
         <if test="{showMetas}">
           <use template="meta-template" />
         </if>
+
+        <if test="{showForget}">
+          <ttfoot>
+            <ttr>
+              <ttd id="forget-all-progress" colspan="{table_cols+2}" style="text-align: center;">
+                To reset local saved progress for all puzzles in this event, click <a href="Forget_all_progress.xhtml{urlEventArgs}">HERE</a>.
+              </ttd>
+            </ttr>
+          </ttfoot>
+        </if>      
+
       </ttable>
 
       <if test="{pdf}" ne="">
@@ -242,13 +253,6 @@
             </if>
           </if>
         </for>
-        <if test="{showForget}">
-          <ttr>
-            <ttd colspan="{table_cols+2}" style="text-align: center;">
-              To reset local saved progress for all puzzles in this event, click <a href="Forget_all_progress.xhtml{urlArgs}">HERE</a>.
-            </ttd>
-          </ttr>
-        </if>      
       </ttfoot>
       
     </template>

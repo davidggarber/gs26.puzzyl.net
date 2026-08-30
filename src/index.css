@@ -1,10 +1,18 @@
+:root {
+  --event-bg-color: #F58662;
+  --event-fg-color: hsl(191, 83%, 29%);
+  --event-shadow-color: #ffffff;
+}
+
 .table .title-font {
   font-size: 24pt;
   font-weight: normal;
 }
 
 .table th {
-  background-color: #385723;
+  background-color: var(--event-bg-color);
+  color: var(--event-fg-color);
+  text-shadow: 0px 0px 1px var(--event-shadow-color), 0px 0px 2px var(--event-shadow-color);
 }
 #sortHeader th {
   cursor: pointer;
@@ -299,6 +307,18 @@ td.html:hover {
 }
 .logged-in-player #login-perks {
   background-color: #ffffee;
+}
+
+#forget-all-progress {
+  text-align: center;
+  font-style: italic;
+  padding: 20px 0px;
+  background-color: var(--event-fg-color);
+  color: var(--event-shadow-color);
+
+  a {
+    color: var(--event-bg-color);
+  }
 }
 
 #Welcome {

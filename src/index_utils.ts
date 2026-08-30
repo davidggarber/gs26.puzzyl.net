@@ -211,8 +211,8 @@ const meta: Record<string, IMetaInfo> = {
 
 const puzzles: IPuzzleInfo[] = [
     { round: 0, title: 'Elective Operations', thumb: '', author: 'David Garber', type: types.math, group: group.puzzle, orientation: orient.portrait, cls:'', feeder: [] },
-    { round: 0, title: 'Judging By Its Cover', thumb: '', author: 'Ken Pacquer & Jen Traeger', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
-    { round: 0, title: 'Judging By Its Cover 2: Even Judgier', thumb: '', author: 'Ken Pacquer & Jen Traeger', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
+    { round: 0, title: 'Judging By Its Cover', thumb: '', author: 'Ken & Jen', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
+    { round: 0, title: 'Judging By Its Cover 2: Even Judgier', thumb: '', author: 'Ken & Jen', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
 ];
 
 /**
