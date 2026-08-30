@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/jc1.js" />
+    <script>
+      window.boiler = {
+        title: 'Judging By Its Cover',
+        author: 'Ken Pacquer, Jen Traeger, and David Garber',
+        copyright: '2023',
+        paperSize: 'scrapbook',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          tracks: [
+            ["Medieval", "medieval-unafraid.mp3", "12", "1=38 8=19 12=28"],
+            ["String trio", "string-trio-first.mp3", "8", "3=1 8=7 5=18"],
+            ["Bagpipes", "bagpipes-roof.mp3", "5", "2=2 3=9 5=22"],
+            ["Marching band", "march-n10r.mp3", "3 5 4 4", "3=3 10=26 15=20"],
+            ["Piano", "piano-jumpman.mp3", "5 5 4.", "7=4 4=8 9=42"],
+            ["Accordion", "accordion-gold.mp3", "6 4", "10=29 3=43 6=15"],
+            ["String trio", "trio-lead.mp3", "5 2 3", "8=30 5=10"],
+            ["Marching band", "march-halfway.mp3", "5' 2 1 6", "1=31 8=11 5=24"],
+            ["Asian folk metal", "folk-metal-show-em.mp3", "4 2", "5=32 4=12 6=25"],
+            ["Jug band", "jugband-no-one.mp3", "5 4", "9=33 7=6 4=14"],
+            ["Smooth jazz", "jazz-mick.mp3", "5 4 6", "1=34 6=5"],
+            ["Ocarina", "ocarina-off.mp3", "5 2 3", "6=35 1=13"],
+            ["Handbell choir", "handbell-fire.mp3", "7 2 3 4", "9=36 13=16 3=21"],
+            // ["Piano", "piano-uh-oh.mp3", "5", "2=37 4=23"],
+            ["Piano", "piano-candy.mp3", "4 11", "14=37 5=23"],
+            ["Harpsicord", "harpsicord-because.mp3", "8", "1=39 7=17"],
+            ["Bluegrass", "bluegrass-glitters.mp3", "8 2 6", "11=41 15=40 4=27"],
+          ],
+        },
+      };
+    </script>
+    <script src="JudgingByItsCover/judging.js"></script>
+    <style>
+      #Local {
+        table {
+          width: 100%;
+        }
+        
+        td {
+          padding: 2px;
+        }
+        .playing td {
+          background-color: yellow;
+        }
+        
+        audio {
+          height: 30px;
+          width: 200px;
+        }
+        audio::-webkit-media-controls-timeline-container,
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display,
+        audio::-webkit-media-controls-mute-button {
+          display: none;
+        }
+        #custom-enter {
+          position: absolute;
+          right: 0px;
+          bottom: 0px;
+          font-size: 7pt;
+          cursor: help;
+
+          button {
+            font-size: 7pt;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+        <p>This is a music identification puzzle.</p>
+        <p><b>Type</b> titles of these cover songs directly into the page. Press <b>Enter</b> to toggle music on the current line. <b>Refresh</b> to reload or start over.</p>
+        <p>While you may enjoy these songs, it may be bad idea to look for the originals - many are far too catchy. </p>
+
+        <ttable data-literal-style="none" data-extract-style="box" class="text-input-group">
+          <for each="track" in="{tracks}">
+            <ttr>
+              <ttd>{track.0}</ttd>
+              <ttd><audio ssrc="JudgingByItsCover/{track.1}" controls="true" onplay="onPlay(this)" /></ttd>
+              <ttd onkeydown="onInputKeyDown(event)"><pattern pattern="{track.2}" numbers="{track.3}" /></ttd>
+            </ttr>
+          </for>
+        </ttable>
+
+        <p style="text-align: center; margin: 0.5in; line-height: 36pt">
+          <pattern id="extracted" extract-numbered="2 2 2' 7 9 2 4 5 7 3" />
+        </p>
+
+        <use template='finalAnswer' left="2in" width="3in" />
+
+        <div id="custom-enter"><button>⏎ Enter</button> toggles music, <button>⟳ Refresh</button> to start over</div>
+    </div>
+  </body>
+</html>
+

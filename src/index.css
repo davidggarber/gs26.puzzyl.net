@@ -99,7 +99,7 @@
 }
 
 tr.solved .checkmark {
-  background-image: url('../Icons/Check.png');
+  background-image: url('/images/icons/Check.png');
   background-size: 25px 22.5px;
   display: inline-block;
   position: absolute;

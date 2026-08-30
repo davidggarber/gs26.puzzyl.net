@@ -112,19 +112,20 @@ type IPuzzleType = {
  * A list of types of puzzles that users are likely to differentiate.
  */
 const types: Record<string, IPuzzleType> = {
-    word: { icon: 'word', alt: 'Word puzzle' },
+    audio: { icon: 'audio', alt: 'Audio puzzle' },
+    challenge: { icon: 'experiment', alt: 'Challenge' },
+    code: { icon: 'code', alt: 'Encoded puzzle' },
+    construction: { icon: 'construction', alt: 'Construction puzzle' },
+    jigsaw: { icon: 'jigsaw', alt: 'Jigsaw puzzle' },
     logic: { icon: 'logic', alt: 'Logic puzzle' },
     math: { icon: 'math', alt: 'Math puzzle' },
-    rebus: { icon: 'rebus', alt: 'Rebus puzzle' },
-    trivia: { icon: 'trivia', alt: 'Trivia puzzle' },
-    search: { icon: 'search', alt: 'Word search puzzle' },
-    code: { icon: 'code', alt: 'Encoded puzzle' },
     maze: { icon: 'maze', alt: 'Maze puzzle' },
-    jigsaw: { icon: 'jigsaw', alt: 'Jigsaw puzzle' },
-    construction: { icon: 'construction', alt: 'Construction puzzle' },
     meta: { icon: 'meta', alt: 'Meta-puzzle' },
-    challenge: { icon: 'experiment', alt: 'Challenge' },
     poster: { icon: 'unknown', alt: 'Pre-event puzzle' },
+    rebus: { icon: 'rebus', alt: 'Rebus puzzle' },
+    search: { icon: 'search', alt: 'Word search puzzle' },
+    trivia: { icon: 'trivia', alt: 'Trivia puzzle' },
+    word: { icon: 'word', alt: 'Word puzzle' },
 };
 /**
  * Group entries in the overall puzzle index based on their role in the event - especially scoring
@@ -149,6 +150,7 @@ const group: Record<string, string|undefined> = {
 const orient: Record<string, string> = {
     portrait: 'portrait',
     landscape: 'landscape',
+    scrapbook: 'scrapbook',
 };
 
 type IMetaFeeder = {
@@ -209,6 +211,8 @@ const meta: Record<string, IMetaInfo> = {
 
 const puzzles: IPuzzleInfo[] = [
     { round: 0, title: 'Elective Operations', thumb: '', author: 'David Garber', type: types.math, group: group.puzzle, orientation: orient.portrait, cls:'', feeder: [] },
+    { round: 0, title: 'Judging By Its Cover', thumb: '', author: 'Ken Pacquer & Jen Traeger', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
+    { round: 0, title: 'Judging By Its Cover 2: Even Judgier', thumb: '', author: 'Ken Pacquer & Jen Traeger', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
 ];
 
 /**

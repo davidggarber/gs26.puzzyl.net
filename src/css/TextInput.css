@@ -2,7 +2,7 @@
   display: inline-block;
   position: relative;
   width: 1em;
-  height: 3ex;
+  height: 3.5ex;
   text-align: center;
 }
 
@@ -149,7 +149,7 @@
 
 .extract-box {
   border: solid 1px black;
-  height: 2.5ex;
+  height: 3.5ex;
 }
 
 #fontExtents {
@@ -205,7 +205,11 @@
   height: 100%;
   text-align: center;
   background-color: transparent;
-  padding: 0px;
+  padding-top: 3px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  box-sizing: border-box;
   border: none;
   color: red;
   font-family: inherit;

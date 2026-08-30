@@ -129,9 +129,9 @@ Use class="scrapbook landscape"   for 12" x 12" except when printing, when it's 
 .legal.landscape     #pageBody { height: 6.75in;  }
 .ledger.portrait     #pageBody { height: 15.25in; }    
 .ledger.landscape    #pageBody { height: 9.25in;  }    
-.scrapbook           #pageBody { height: 10.5in;  }    
-.scrapbook.portrait  #pageBody { height: 10.5in;  }    
-.scrapbook.landscape #pageBody { height: 10.5in;  }    
+.scrapbook           #pageBody { height: 10.25in;  }    
+.scrapbook.portrait  #pageBody { height: 10.25in;  }    
+.scrapbook.landscape #pageBody { height: 10.25in;  }    
 .debug #pageBody {
   box-shadow:0px 0px 15px #33cc66; 
 }

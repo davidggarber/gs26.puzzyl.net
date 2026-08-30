@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/jc2.js" />
+    <script>
+      window.boiler = {
+        title: 'Judging By Its Cover 2: Even Judgier',
+        author: 'Ken Pacquer, Jen Traeger, and David Garber',
+        copyright: '2023',
+        paperSize: 'scrapbook',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          tracks: [
+            ["Piano/Viola", "cello-seasons.mp3", "3 2 2", "3=4 4=36 7=21"],
+            ["Bardcore", "medieval-world.mp3", "6 4", "3=5 6=17 1=20"],
+            ["Orchestra", "orchestra-lady.mp3", "7 5", "2=6 12=3 10=19"],
+            ["Accordion", "accordion-due.mp3", "4 5", "5=7 9=24 1=30"],
+            ["String quartet", "stringquartet-takeoff.mp3", "3 2 5", "1=2 6=8 3=33"],
+            ["Bardcore", "bard-hey.mp3", "8", "1=9 6=15 8=29"],
+            ["Guzheng", "guzheng-desert.mp3", "5 10", "4=10 2=26 11=31"],
+            ["Elevator music", "elevator-up-down.mp3", "5 5 4 3 2", "1=11 15=23 18=32 5=18"],
+            ["Strings", "strings-nomore.mp3", "4 2 4?", "1=38 6=12 9=16"],
+            ["Metal guitar", "metalguitar-rico.mp3", "9", "9=39 5=13 1=22"],
+            ["Bardcore", "bardcore-thisyear.mp3", "4 9", "7=40 4=1 13=28 10=34"],
+            ["3 variations", "variations-laughter.mp3", "2'1 1 5 5", "14=41 10=27 5=37"],
+            ["Marching band", "march-desire.mp3", "1 4 2 4 3", "14=14 4=25 9=35"],
+          ],
+        },
+      };
+    </script>
+    <script src="JudgingByItsCover/judging.js"></script>
+    <style>
+      #Local {
+        table {
+          width: 100%;
+        }
+        
+        td {
+          padding: 2px;
+        }
+        .playing td {
+          background-color: yellow;
+        }
+        
+        audio {
+          height: 30px;
+          width: 250px;
+        }
+        audio::-webkit-media-controls-timeline-container,
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display,
+        audio::-webkit-media-controls-mute-button {
+          display: none;
+        }
+        #custom-enter {
+          position: absolute;
+          right: 0px;
+          bottom: 0px;
+          font-size: 7pt;
+          cursor: help;
+
+          button {
+            font-size: 7pt;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+        <p>This is a music identification puzzle.</p>
+        <p><b>Type</b> titles of these cover songs directly into the page. Press <b>Enter</b> to toggle music on the current line. <b>Refresh</b> to reload or start over.</p>
+        <p>While you may enjoy these songs, it may be bad idea to look for the originals - many are far too catchy. </p>
+
+        <ttable data-literal-style="none" data-extract-style="box" class="text-input-group">
+          <for each="track" in="{tracks}">
+            <ttr>
+              <ttd>{track.0}</ttd>
+              <ttd><audio ssrc="JudgingByItsCover/{track.1}" controls="true" onplay="onPlay(this)" /></ttd>
+              <ttd onkeydown="onInputKeyDown(event)"><pattern pattern="{track.2}" numbers="{track.3}" /></ttd>
+            </ttr>
+          </for>
+        </ttable>
+
+        <p style="text-align: center; margin: 1in; line-height: 36pt">
+          <pattern id="extracted" extract-numbered="3 8 3 9 5 5 4 4" />
+        </p>
+
+        <use template='finalAnswer' left="2in" width="3in" />
+
+        <div id="custom-enter"><button>⏎ Enter</button> toggles music, <button>⟳ Refresh</button> to start over</div>
+    </div>
+  </body>
+</html>
+
