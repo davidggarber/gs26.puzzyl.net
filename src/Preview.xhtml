@@ -7,6 +7,7 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <link href="index.css" rel="Stylesheet" type="text/css" />
+    <script src="index_data.js" />
     <script src="index_utils.js" />
     <script>
       window.boiler = {
@@ -64,7 +65,7 @@
       #meta-table .html {
         width: 35%;
       }
-      #puz-col-headers th {
+      #puz-col-headers th:not(.round) {
         text-align: left;
         padding: 2px 5px;
       }

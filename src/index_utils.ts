@@ -209,11 +209,38 @@ const meta: Record<string, IMetaInfo> = {
 // var challenge = {
 // }
 
-const puzzles: IPuzzleInfo[] = [
-    { round: 0, title: 'Elective Operations', thumb: '', author: 'David Garber', type: types.math, group: group.puzzle, orientation: orient.portrait, cls:'', feeder: [] },
-    { round: 0, title: 'Judging By Its Cover', thumb: '', author: 'Ken & Jen', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
-    { round: 0, title: 'Judging By Its Cover 2: Even Judgier', thumb: '', author: 'Ken & Jen', type: types.audio, group: group.puzzle, orientation: orient.scrapbook, cls:'', feeder: [] },
-];
+/**
+ * The raw type of entries in index_data.js
+ */
+type IPuzzleData = {
+  round: number;
+  title: string;
+  author: string;
+  type: string;
+  group: string;
+  orientation: string;
+  thumb?: string;
+  cls?: string;
+  feeder?: IMetaFeeder[];
+};
+
+// declare global {
+//   interface Window {
+//     puzzle_list: IPuzzleData[];
+//   }
+// }
+
+const raw_puzzle_list:IPuzzleData[] = buildIndexOfPuzzles();
+  
+const puzzles: IPuzzleInfo[] = raw_puzzle_list.map(puzzle => ({
+  ...puzzle,
+  thumb: puzzle.thumb ?? '',
+  cls: puzzle.cls ?? '',
+  feeder: puzzle.feeder ?? [],
+  type: types[puzzle.type],
+  group: group[puzzle.group],
+  orientation: orient[puzzle.orientation],
+}));
 
 /**
  * A round is a subset of an event's puzzles.
