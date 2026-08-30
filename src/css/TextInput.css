@@ -369,7 +369,7 @@ input[type=number]::-webkit-outer-spin-button {
   width: 1em;
 }
 .check::before {
-  background-image: url('../Icons/Check.png');
+  background-image: url('../Images/icons/Check.png');
   background-size: 30px 27px;
   display: inline-block;
   width: 30px; 

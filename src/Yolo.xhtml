@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/ylo.js" />
+    <script>
+      window.boiler = {
+        title: 'Yolo',
+        author: 'Rorke Haining',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          checkMarks: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          pics: [
+            // pics (sorted by Z-order), height, X, Y
+            ['c.png', 330, 5, 57],
+            ['a.png', 320, 475, 6],
+            ['b.jpg', 254, 272, 34],
+            ['d.png', 120, 551, 67],
+            ['e.jpg', 223, -14, 119],
+            ['f.jpg', 146, 616, 181],
+            ['g.png', 360, 399, 278],
+            ['h.png', 346, 609, 333],
+            ['i.jpg', 196, 140, 342],
+            ['l.png', 140, 89, 561],
+            ['j.jpg', 238, 3, 378],
+            ['k.png', 168, 370, 556],
+            ['p.png', 158, 0, 816],
+            ['n.jpg', 193, 185, 722],
+            ['m.jpg', 180, 0, 668],
+            ['o.jpg', 176, 500, 729],
+          ],
+          consonants: "BBBCDDDFGGGHHHJKLLLMNPPRSTTTTYYYZ",
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #picsContainer {
+          position: relative;
+          top: -36px;
+        }
+        img {
+          position: absolute;
+        }
+        #consonants {
+          position: relative;
+          top: 8.9in;
+          left: 0.25in;
+          padding: 6px;
+
+          #box {
+            border: solid 1px black;
+            width: 7.1in;
+            text-align: center;
+
+            .cross-off {
+              display: inline-block;
+              position: relative;
+              margin-left: 6px;
+            }
+
+           .check::before {
+              position: absolute;
+              background-image: url('images/icons/X.png');
+              background-size: 20px 18px;
+              width: 20px;
+              height: 18px;
+              left: 8px;
+              top: 10px;
+              opacity: 0.5;
+            }
+
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <div id="picsContainer">
+        <for each="pic" in="{pics}">
+          <img ssrc="Yolo/{pic.0}" alt="image #{pic#}" sstyle="height:{pic.1/100}in; left:{pic.2/100}in; top:{pic.3/100}in;" />
+        </for>
+      </div>
+
+      <p id="consonants">
+        <div id="box">
+          <for char="ch" in="{consonants}">
+            <div class="cross-off">{ch}</div>
+          </for>
+        </div>
+      </p>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+    </div>
+  </body>
+</html>
+
