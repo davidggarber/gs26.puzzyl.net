@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/hmb.js" />
+    <script>
+      window.boiler = {
+        title: 'Hold My Beer',
+        author: 'Andrew Giese',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          checkMarks: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          rows: [
+            // length, offset, extract
+            [10, 4, 4],
+            [12, 1, 7],
+            [8,  4, 4],
+            [13, 5, 3],
+            [7,  6, 2],
+            [9,  6, 2],
+            [11, 0, 8],
+            [6,  4, 4],
+          ],
+          clues: [
+            'scientific measuring cup',
+            'some say beauty is in their eye',
+            'popular book, perhaps?',
+            'important tool for smoothies',
+            'puzzle that taunts your cerebellum',
+            'one who betrays their allies (alternatively, one who writes the letter X twice)',
+            'one who misappropriates funds',
+            'world traveler (or perhaps a member of a comedy basketball team?)',
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #table {
+          margin-top: 0.25in;
+          border-collapse: collapse;
+
+          th {
+            border: none;
+            text-align: right;
+            font-weight: normal;
+            padding-right: 6px;
+          }
+          th.left {
+            border-right: solid 3px black;
+          }
+          th.right {
+            border-left: solid 3px black;
+          }
+          td {
+            border-color: black;
+            border-style: solid;
+            border-left-width: 1px;
+            border-right-width: 1px;
+            border-top-width: 3px;
+            border-bottom-width: 3px;
+            padding: 0px;
+            height: 36px;
+            width: 36px;
+
+            .letter-cell {
+              height: 36px;
+              width: 36px;
+              font-size: 18pt;
+            }
+          }
+          td.gray {
+            background-color: #ccc;
+          }
+        }
+
+        #clues {
+          margin-top: 0.25in;
+
+          p {
+            margin-bottom: 6px;
+          }
+          ul {
+            margin: 0px;
+          }
+          li {
+            line-height: 20pt;
+          }
+        }
+
+        #resolve {
+          border: solid 3px black;
+          padding: 0px;
+          width:min-content;
+          height: 36px;
+          margin-top: 0.5in;
+          margin-left: 1in;
+
+          .letter-cell {
+            font-size: 20pt;
+            height: 36px;
+            width: 36px;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Sometimes you just need to have your hands free before taking questionable actions. To the casual 
+        O<i>B</i>S<i>E</i>RV<i>ER</i>, there’s no connection between these words. However, a 
+        HOME<i>B</i>R<i>E</i>W<i>ER</i> might be quick to spot it. 
+        Once you notice, you’ll understand what type of person might ask you to hang onto their frosty 
+        <i>BE</i>V<i>ER</i>AGE.
+      </p>
+
+      <ttable id="table" data-input-style="none" data-extract-style="none">
+        <for each="row" in="{rows}">
+          <ttr>
+            <tth class="left" colspan="{1 + row.1}">
+              ({row.0})
+            </tth>
+            <for int="x" from="1" to="{row.0}">
+              <if test="{x}" eq="{row.2}">
+                <ttd class="gray">
+                  <letter extract="true"/>
+                </ttd>
+              </if>
+              <else>
+                <ttd>
+                  <letter />
+                </ttd>
+              </else>
+            </for>
+            <tth class="right" colspan="{19 - row.0 - row.1}">&nbsp;</tth>
+          </ttr>  
+        </for>
+      </ttable>
+
+      <div id="clues">
+        <p>Clues:</p>
+        <ul>
+          <for each="clue" in="{clues}">
+            <li><span class="cross-out">{clue}</span></li>
+          </for>
+        </ul>
+      </div>
+
+      <div id="resolve" data-input-style="box">
+        <pattern pattern="12"/>
+      </div>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+    </div>
+  </body>
+</html>
+
