@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/oab.js" />
+    <script>
+      window.boiler = {
+        title: 'Oops! All Baerries',
+        author: 'Andrew Giese',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          wordSearch: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          grid: [
+            "@RBLUE@EAL",
+            "B@LACSTNAS",
+            "OWMMR@PSAR",
+            "SHEAAOFBAE",
+            "TISDNOB@RD",
+            "WTRY@IBLON",
+            "IE@KCALBCA",
+            "CKFROMBOAS",
+            "KRRYSTRAW@",
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #grid {
+          margin-top: 0.5in;
+          margin-left: 0.3in;
+
+          line {
+            stroke: black;
+            stroke-width: 1;
+          }
+          rect {
+            fill: transparent;
+            stroke: none;
+          }
+          text {
+            dominant-baseline: middle;
+            text-anchor: middle;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Can you find the 10 items berried in this puzzle? Hopefully it’s not Barry hard. After you’ve found them all, you’ll need to focus on what was left out.
+      </p>
+      <svg id="grid" width="6.78in" height="6.11in" viewBox="0 0 651 586" class="word-select-area no-user-select" data-angle-constraints="45" xmlns="http://www.w3.org/2000/svg">
+        <for int="c" from="0" to="10">
+          <lline x1="{c*65}" y1="0" x2="{c*65}" y2="585" />
+        </for>
+        <for int="r" from="0" to="9">
+          <lline x1="0" y1="{r*65}" x2="650" y2="{r*65}" />
+        </for>
+
+        <for each="row" in="{grid}">
+          <for char="cell" in="{row}">
+            <rrect class="vertex" y="{row# * 65}" x="{cell# * 65}" width="65" height="65" />
+            <if test="{cell}" eq="@">
+              <iimage href="OopsAllBaerries/Barry.png" y="{row# * 65 + 2}" x="{cell# * 65 + 2}" width="61" height="61" />
+            </if>
+            <else>
+              <ttext y="{row# * 65 + 32}" x="{cell# * 65 + 32}" >{cell}</ttext>
+            </else>
+          </for>
+        </for>
+      </svg>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+

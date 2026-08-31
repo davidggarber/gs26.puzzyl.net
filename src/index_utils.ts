@@ -327,13 +327,23 @@ function initializeIndexUtils() {
           puz['file'] = '';
           for (let w = 0; w < words.length; w++) {
               if (words[w].length > 0) {
-                  let word = words[w][0].toUpperCase() + words[w].substring(1);
+                  let word = removePunctuation(words[w]);  // Strip punctuation
+                  word = word[0].toUpperCase() + word.substring(1);  // Camel case
                   puz.file += word;
               }
           }
       }
       puz.href = puz.file + '.xhtml' + boilerLookup.urlEventArgs;
   }
+}
+
+/**
+ * Remove any character that is not A-Z,a-z,0-9
+ * @param str The input string
+ * @returns The cleaned string with only alphanumeric characters
+ */
+function removePunctuation(str: string): string {
+    return str.replace(/[^A-Za-z0-9]/g, '');
 }
 
 // 1, 2, ... means that column index is sorted ascending
