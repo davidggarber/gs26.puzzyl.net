@@ -32,9 +32,10 @@ function buildIndexOfPuzzles() {
     const word = 'word';
 
     return [
-        { round: 0, title: 'Elective Operations', thumb: '', author: 'David Garber', type: math, group: puzzle, orientation: portrait, cls:'', feeder: [] },
-        { round: 0, title: 'Judging By Its Cover', thumb: '', author: 'Ken & Jen', type: audio, group: puzzle, orientation: scrapbook, cls:'', feeder: [] },
-        { round: 0, title: 'Judging By Its Cover 2: Even Judgier', thumb: '', author: 'Ken & Jen', type: audio, group: puzzle, orientation: scrapbook, cls:'', feeder: [] },
-        { round: 0, title: 'Yolo', thumb: '', author: 'Rorke Haining', type: trivia, group: puzzle, orientation: portrait, cls:'', feeder: [] },
+        { round: 0, title: 'Elective Operations',                   thumb: '', author: 'David Garber',  type: math,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+        { round: 0, title: 'Judging By Its Cover',                  thumb: '', author: 'Ken & Jen',     type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [] },
+        { round: 0, title: 'Judging By Its Cover 2: Even Judgier',  thumb: '', author: 'Ken & Jen',     type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [], file:'JudgingByItsCover2' },
+        { round: 0, title: 'Yolo',                                  thumb: '', author: 'Rorke Haining', type: trivia,   group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+        { round: 0, title: 'Red Flags',                             thumb: '', author: 'Rorke Haining', type: trivia,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     ];
 }

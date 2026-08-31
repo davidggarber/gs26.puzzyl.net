@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/rfg.js" />
+    <script>
+      window.boiler = {
+        title: 'Red Flags',
+        author: 'Rorke Haining',
+        copyright: '2023',
+        orientation: 'landscape',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          flags: [ "abcde", "fghi" ],
+          caps: [ [5,4,6,3,6], [3,5,8,4] ],
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        .flavor {
+          position: absolute;
+          top: -0.5in;
+          left: 2in;
+        }
+        .flag-row {
+          width: 10.2in;
+          text-align: center;
+        }
+        .flag {
+          display: inline-block;
+          position: relative;
+
+          img {
+            height: 3.3in;
+          }
+        }
+        .top {
+          position: absolute;
+          top: 10px;
+          left: 13px;
+
+          svg {
+            width: 14px;
+            height: 14px;
+
+            path, rect {
+              fill: #ccc;
+              stroke: #000;
+              stroke-width: 1px;
+            }
+          }
+        }
+        .entry {
+          position: absolute;
+          top: 2.5in;
+          left: 0.3in;
+
+          .word-cell {
+            width: 1.75in;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Wow, that’s a lot of red flags!  It seems like they’re trying to tell me something, but what could it be?
+      </p>
+
+      <div class="flag-row" data-word-style="dotted">
+        <for char="flag" in="{flags.0}">
+          <div class="flag">
+            <img ssrc="RedFlags/{flag}.png" alt="flag #{flag# + 1}" />
+            <span class="top">
+              <use template="cap-{caps.0.[flag#]}" />
+            </span>
+            <span class="entry no-print">
+              <word />
+            </span>
+          </div>
+        </for>
+      </div>
+      <div class="flag-row" data-word-style="dotted">
+        <for char="flag" in="{flags.1}">
+          <div class="flag">
+            <img ssrc="RedFlags/{flag}.png" alt="flag #{flag# + 6}" />
+            <span class="top">
+              <use template="cap-{caps.1.[flag#]}" />
+            </span>
+            <span class="entry no-print">
+              <word />
+            </span>
+          </div>
+        </for>
+      </div>
+
+      <use template='finalAnswer' left="3in" width="3in" />
+
+    </div>
+
+    <template id="cap-3">
+      <svg viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1,23 h22 l-11,-22 Z" />
+      </svg>
+    </template>
+    <template id="cap-4">
+      <svg viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" />
+      </svg>
+    </template>
+    <template id="cap-5">
+      <svg viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.1,23 h13.6 l4.1,-12.9 l-10.9,-9.1 l-10.9,9.1 Z" />
+      </svg>
+    </template>
+    <template id="cap-6">
+      <svg viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1,12 l5.5,9.5 h11 l5.5,-9.5 l-5.5,-9.5 h-11 Z" />
+      </svg>
+    </template>
+    <template id="cap-8">
+      <svg viewBox="0 0 24 24" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.36,1 h9 l6.36,6.36 v9 l-6.36,6.36 h-9 l-6.36,-6.36 v-9 Z" />
+      </svg>
+    </template>
+
+  </body>
+</html>
+
