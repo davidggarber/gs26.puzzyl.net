@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/zot.js" />
+    <script>
+      window.boiler = {
+        title: 'Zero, One Two Many!',
+        author: 'Glenn Hollingsworth',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          grid: [
+            '3/54  7 9',
+            ' 927 8/ 6',
+            '  6/5914 ',
+            '8630 / 7 ',
+            '  96374/ ',
+            ' 7/  2653',
+            '/4152 8  ',
+            '2  9 630/',
+            '6 8 /42 5',
+          ],
+          numerators: [
+            1,0,2,1,1,0,0,1,0
+          ],
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        svg {
+          .mod-1,.mod-2, .slash {
+            stroke: #999;
+            stroke-width: 1;
+          }
+          .mod-0 {
+            stroke: black;
+            stroke-width: 3;
+          }
+        }
+
+        #table {
+          position: absolute;
+          left: 2px;
+          top: 2px;
+          border-collapse: collapse;
+
+          td {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            padding: 0px;
+            vertical-align: middle;
+            text-align: center;
+            border: none;
+
+            .letter-cell {
+              font-size: 24pt;
+            }
+            .letter-literal {
+              font-size: 25pt;
+              bottom: initial;
+              position: initial;
+            }
+
+            .above {
+              position: absolute;
+              top: 0;
+              left: 0px;
+
+              .letter-literal {
+                font-size: 18pt;
+              }
+            }
+
+            .below {
+              position: absolute;
+              bottom: 0px;
+              right: 3px;
+
+              .letter-cell {
+                font-size: 18pt;
+              }
+            }
+          }
+        }
+
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Zero, you put One Two many numbers in the grid! 
+        I noticed while reading it row by row, top to bottom. 
+        Now that’s probably a bad idea… why will solvers want to solve it now? 
+        It’s on the tip of my tongue…
+      </p>
+
+      <div style="position:relative; margin-top:0.5in; margin-bottom:0.5in; margin-left: 0.9in; height:5.7in;">
+        <svg id="svg" width="550" height="550" xmlns="http://www.w3.org/2000/svg">
+          <for int="y" from="0" until="9">
+            <for int="x" from="0" until="9">
+              <if test="{grid.[y#].[x#]}" eq="/">
+                <line class="slash" xx1="{2+60*x}" yy1="{62+60*y}" xx2="{62+60*x}" yy2="{2+60*y}" />
+              </if>
+            </for>
+          </for>
+
+          <for int="i" from="0" to="10">
+            <line class="mod-{i % 3}" xx1="{2+60*i}" yy1="2" xx2="{2+60*i}" yy2="542" />
+            <line class="mod-{i % 3}" xx1="2" yy1="{2+60*i}" xx2="542" yy2="{2+60*i}" />
+          </for>
+        </svg>
+
+        <ttable id="table" data-letter-style="none" data-extract-style="none" trim="all" data-extract-join="+" class="letter-grid-2d">
+          <for each="row" in="{grid}">
+            <ttr>
+              <for char="ch" in="{row}">
+                <ttd>
+                  <if test="{ch}" eq="/">
+                    <span class="above"><number literal="{numerators.[row#]}"/></span>
+                    <span class="below"><number /></span>
+                  </if>
+                  <elseif test="{ch}" eq=" ">
+                    <number />
+                  </elseif>
+                  <else>
+                    <number literal="{ch}" />
+                  </else>
+                </ttd>
+              </for>
+            </ttr>
+          </for>
+        </ttable>
+
+      </div>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+
