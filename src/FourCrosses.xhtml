@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/fcs.js" />
+    <script>
+      window.boiler = {
+        title: 'Four Crosses',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          given: [
+            '6 + 4 8+9',
+            ' 9  1+7 +',
+            '3 +5+9++6',
+            '+8 +3  6 ',
+            '4+ 1 7 + ',
+            ' 36+ +1+7',
+            '+6+3  4 +',
+            '  1+7+ +2',
+            '2 +9 8+ 1'
+          ],
+          crosses: [
+            '    b    ',
+            ' bbbbbby ',
+            ' g  b  y ',
+            ' g  b  y ',
+            'gggg yyyy',
+            ' g  o  y ',
+            ' g  o  y ',
+            ' goooooo ',
+            '    o    ',
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        .flavor {
+          font-style: italic;
+        }
+
+        svg {
+          rect {
+            stroke: none;
+          }
+          .color-b {
+            fill: #BDD6EE;
+          }
+          .color-g {
+            fill: #C5E0B3;
+          }
+          .color-o {
+            fill: #F7CAAC;
+          }
+          .color-y {
+            fill: #FFE599;
+          }
+          .plus {
+            stroke: #7030A0;
+            stroke-width: 3;
+            stroke-linecap: round;
+          }
+
+          .line {
+            stroke: black;
+            stroke-width: 1;
+          }
+          .line.mod-0 {
+            stroke: red;
+            stroke-width: 3;
+          }
+
+          .cross {
+            fill: transparent;
+            stroke: black;
+            stroke-width: 3;
+          }
+        }
+
+        #table {
+          position: absolute;
+          left: 2px;
+          top: 2px;
+          border-collapse: collapse;
+
+          td {
+            width: 60px;
+            height: 60px;
+            padding: 0px;
+            vertical-align: middle;
+            text-align: center;
+            border: none;
+
+            .letter-cell {
+              font-size: 24pt;
+            }
+            .letter-literal {
+              font-size: 25pt;
+              bottom: initial;
+              position: initial;
+            }
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        This grid works like Sudoku but with stacked layers. 
+        Each large 3×3 square that is outlined red must contain each of the digits 1-9 once. 
+        There are four overlaid crosses, outlined in black and each shaded in a different colour. 
+        Each cross has 9 squares and also must contain the digits 1-9. 
+        As usual, there may be no repeated digits in any column or row. 
+        Ignore the + signs in the bottom right of some cells until you have solved the grid.
+      </p>
+
+      <div style="position:relative; margin-top:0.5in; margin-bottom:0.5in; margin-left: 0.9in; height:5.7in;">
+
+        <svg id="svg" width="550" height="550" xmlns="http://www.w3.org/2000/svg">
+          <for int="y" from="0" until="9">
+            <for int="x" from="0" until="9">
+              <if test="{crosses.[y#].[x#]}" ne=" ">
+                <rect xx="{2+60*x}" yy="{2+60*y}" width="60" height="60" class="color-{crosses.[y#].[x#]}" />
+              </if>
+              <if test="{given.[y#].[x#]}" eq="+">
+                <g ttransform="translate({2+60*x}, {2+60*y})">
+                  <path class="plus" d="M51,46 v10 M46,51 h10" />
+                </g>
+              </if>
+            </for>
+          </for>
+
+          <for int="i" from="0" to="10">
+            <line class="line mod-{i % 3}" xx1="{2+60*i}" yy1="2" xx2="{2+60*i}" yy2="542" />
+            <line class="line mod-{i % 3}" xx1="2" yy1="{2+60*i}" xx2="542" yy2="{2+60*i}" />
+          </for>
+
+          <path class="cross" d="M62,62 h180 v-60 h60 v60 h180 v180 h60 v60 h-60 v180 h-180 v60 h-60 v-60 h-180 v-180 h-60 v-60 h60 Z" />
+          <path class="cross" d="m62,122 h180 v120 h60 v-120 h120 m0,-60 v180 h-120 v60 h120 v120 m60,0 h-180 v-120 h-60 v120 h-120 m0,60 v-180 h120 v-60 h-120 v-120" />
+        </svg>
+
+        <ttable id="table" data-letter-style="none" data-extract-style="none" trim="all" data-extract-join="+" class="letter-grid-2d">
+          <for each="row" in="{given}">
+            <ttr>
+              <for char="ch" in="{row}">
+                <ttd>
+                  <if test="{ch}" eq="+">
+                    <number extract="true" data-extracted-id="{row#}" />
+                  </if>
+                  <elseif test="{ch}" eq=" ">
+                    <number />
+                  </elseif>
+                  <else>
+                    <number literal="{ch}" />
+                  </else>
+                </ttd>
+              </for>
+              <ttd class="gray-sum"><span id="extracted-{row#}" /></ttd>
+            </ttr>
+          </for>
+        </ttable>
+      </div>
+
+      <p class="flavor">
+        Once you have solved the grid, sum cells with purple + signs in the bottom right. 
+        Sum separately for each of the nine rows, and convert those numbers to letters. 
+        Read off in order, top to bottom. 
+        There is a tenth letter, which is the same as the fourth.
+      </p>
+
+      <p style="line-height: 14pt;">
+        <span>Final Answer:</span>
+        <use template="copiablePattern" pattern="10" numbers="1=1 2=2 3=3 4=4 5=5 6=6 7=7 8=8 9=9 10=4" tag="span" />
+      </p>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+

@@ -39,5 +39,6 @@ function buildIndexOfPuzzles() {
         { round: 0, title: 'Red Flags',                             thumb: '', author: 'Rorke Haining', type: trivia,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
         { round: 0, title: 'Oops! All Baerries',                    thumb: '', author: 'Andrew Giese',  type: trivia,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
         { round: 0, title: 'Hold My Beer',                          thumb: '', author: 'Andrew Giese',  type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+        { round: 0, title: 'Four Crosses',                          thumb: '', author: 'Martyn Lovell', type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     ];
 }
