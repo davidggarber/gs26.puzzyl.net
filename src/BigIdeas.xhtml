@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/bid.js" />
+    <script>
+      window.boiler = {
+        title: 'Big Ideas',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        orientation: 'landscape',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          dragDrop: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          tops: [
+            ['power', 'circuit', 'puzzle', 'rotation', '', 'machine'],
+            ['saddle', '', 'powder', 'grinder', 'reflector', ''],
+            ['', 'beam', 'soap', 'film', '', 'box'],
+            ['brush', 'system', 'plough', 'press', '', 'clock'],
+            ['starter', 'point', 'paper', 'wings', 'dam', 'contro'],
+            ['ship', 'tracks']
+          ],
+          bottoms: [
+            ['', 'camera', 'steel', 'fire', 'sailing', ''],
+            ['', 'mirror', 'number', 'crop', 'compass', 'analogue'],
+            ['railway', 'telephone', 'Turing', 'hand', 'crossword', ''],
+            ['', '', 'gun', 'electric', 'river', 'integrated'],
+            ['tooth', 'agricultural', 'airplane', 'printing', 'writing', 'horse'],
+            ['lens', 'birth'],
+          ],
+          lefts: [
+            ['', 'method', 'head', 'bulb', 'receiver', 'sequence'],
+            ['', 'biology', 'mixer', 'cell', 'screw', 'patch'],
+            ['', 'gas', 'engine', 'letters', 'language', 'eraser'],
+            ['milk', 'energy', 'ribbon', 'calculus', '', 'bill'],
+            ['medicine', 'door', 'toilet', 'rim', 'bale', ''],
+            ['combustion', ''],
+          ],
+          rights: [
+            ['pasteurised', 'fridge', '', 'alphabet', 'Velcro', 'nuclear'],
+            ['ingegral', '', 'pencil', 'scientific', 'spoken', 'evolutionary'],
+            ['hay', '', 'concrete', 'typewriter', '', ''],
+            ['genetic', '', 'anasthetic', 'antibiotic', 'radio', 'water'],
+            ['steam', 'nail', 'battery', 'light', 'internal', 'wheel'],
+            ['dollar', 'flush'],
+          ],
+          centers: [
+            "AACCCE",
+            "EFFHHI",
+            "INOOOP",
+            "PRRRSS",
+            "STTTTU",
+            "VW"
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #flavor {
+          position: absolute;
+          top: 0px;
+          left: 0x;
+          width: 2in;
+          font-style: italic;
+        }
+        #drag-drop {
+          position: absolute;
+          top: -0.5in;
+          left: 2.5in;
+          width: 7.5in;
+          height: 7.5in;
+          border-left: solid 1px black;
+        }
+
+        #svg {
+          margin-left: 20px;
+        }
+        .square {
+          fill: #ffffff80;
+          stroke: #333;
+          stroke-width: 1px;
+          stroke-dasharray: 2 2;
+          stroke-dashoffset: -2px;
+        }
+        text {
+          fill: black;
+          text-anchor: middle;
+          font-size: 9pt;
+        }
+        text.left {
+          transform: translate(14px,64px) rotate(-90deg) ;
+        }
+        text.right {
+          transform: translate(110px,64px) rotate(-90deg) ;
+        }
+        text.center {
+          font-size: 32pt;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <div id="flavor">
+        <p>Cut the 32 tiles at the dotted lines and use the word pairs at the tile edges to rearrange them.</p>
+        <p>Tiles do not rotate. Word pairs read left to right or top to bottom.</p>
+        <p>Letters are underlined only to clarify their correct orientation.</p>
+        <p>Finally, read off the 32 large centre letters to get a clue for the two word final answer.</p>
+      </div>
+
+      <div id="drag-drop">
+        <svg id="svg" width="720" height="720" xmlns="http://www.w3.org/2000/svg">
+          <for each="row" in="{centers}">
+            <for char="cell" in="{row}">
+              <g ttransform="translate({118*cell#},{118*row#})">
+                <rect class="square" x="0" y="0" width="118" height="118" />
+                <text class="center" x="59" y="76">{cell}</text>
+                <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
+                <text class="bottom" x="59" y="112">{bottoms.[row#].[cell#]}</text>
+                <text class="left">{lefts.[row#].[cell#]}</text>
+                <text class="right">{rights.[row#].[cell#]}</text>
+              </g>
+            </for>
+          </for>
+        </svg>
+      </div>
+
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+

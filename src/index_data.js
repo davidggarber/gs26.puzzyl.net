@@ -41,5 +41,7 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Hold My Beer',                          thumb: '', author: 'Andrew Giese',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Four Crosses',                          thumb: '', author: 'Martyn Lovell',       type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Zero, One Two Many!',                   thumb: '', author: 'Glenn Hollingsworth', type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+    { round: 0, title: 'Big Ideas',                             thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
+    { round: 0, title: 'Mad Scientist Store',                   thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
   ];
 }

@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/mss.js" />
+    <script>
+      window.boiler = {
+        title: 'Mad Scientist Store',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          checkMarks: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          columns: [
+            "AIAW",
+            "RGET",
+            "ALEY",
+            "CDAR",
+            "IONU",
+            "HMCO",
+            "MPOD",
+            "EPKL"
+          ],
+          rows: [
+            "CUBL",
+            "HELA",
+            "ACOL",
+            "CHIS",
+            "NHIR",
+            "SNPU",
+            "MMEL",
+            "SSTO"
+          ],
+          colors: [
+            " b  gb o",
+            " b   o  ",
+            "b       ",
+            "  go    ",
+            "       b",
+            "  bg    ",
+            "     gg ",
+            "  g o   "
+          ],
+          borders: [
+            "  bbbbbb",
+            "   bbbbb",
+            " l  bbbb",
+            " ll     ",
+            " lllllll",
+            " llll ll",
+            " lllllll",
+            " lll tt "
+          ],
+          extraction: [
+            { color: 'b', pattern: '6', numbers: "1=6 2=3 3=1 4=8 5=2 6=2" },
+            { color: 'g', pattern: '3', numbers: "1=7 2=4 3=3" },
+            { color: 'g', pattern: '3', numbers: "1=5 2=3 3=6" },
+            { color: 'o', pattern: '4', numbers: "1=4 2=8 3=6 4=5" },
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        .flavor {
+          font-style: italic;
+        }
+
+        .check::before {
+          position: absolute;
+          background-image: url('images/icons/X.png');
+          background-size: 20px 18px;
+          width: 20px;
+          height: 18px;
+          left: 20px;
+          top: 18px;
+          opacity: 0.5;
+        }
+
+        #table {
+          margin-top: 0.25in;
+          margin-bottom: 0.25in;
+          margin-left: 1in;
+          border-collapse: collapse;
+          border: solid 3px black;
+
+          th, td {
+            text-align: center;
+            vertical-align: middle;
+            border: solid 1px black;
+            font-size: 20px;
+          }
+
+          .col-num {
+            font-weight: normal;
+            height: 36px;
+          }
+          .col-header {
+            width: 36px;
+            font-weight: normal;
+
+            .cross-off {
+              display: block;
+              padding: 4px;
+            }
+            .check::before {
+              left: 20px;
+              top: 18px;
+            }
+          }
+          .row-header {
+            height: 36px;
+            font-weight: normal;
+
+            .cross-off {
+              display: inline-block;
+              padding: 4px;
+              width: 14px;
+            }
+            .check::before {
+              left: 14px;
+              top: 18px;
+            }
+          }
+
+          .border-b {
+            border-bottom-width: 3px;
+          }
+          .border-r {
+            border-right-width: 3px;
+          }
+          .border-t {
+            border-top-width: 3px;
+          }
+          .border-l {
+            border-left-width: 3px;
+          }
+        }
+        .color-b {
+          background-color: #BDD6EE;
+        }
+        .color-g {
+          background-color: #C5E0B3;
+        }
+        .color-o {
+          background-color: #F7CAAC;
+        }
+        .ext {
+          display: inline-block;
+          height: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        If you’re a mad scientist, you need a wide range of equipment. You need regular science tools like Pipettes and Syringes. But you also have unique needs, like Van De Graaf generators and brains in glass jars. At Mad Scientist Store, we have all your needs in one simple catalog. This month we have several secret specials, hidden in the grid below.
+      </p>
+      <p class="flavor">
+        Letters slide into the grid horizontally or vertically without changing order within a group leaving one letter in each cell. Thick lines represent all the word breaks, but letters will slide past them as needed. Ignore the shaded boxes until you have inserted the letters. There will be 14 words/abbreviations total. There are no one-letter words.
+      </p>
+
+      <ttable id="table" data-input-style="none">
+        <ttr>
+          <tth rowspan="2">&nbsp;</tth>
+          <for int="i" from="1" to="8">
+            <tth class="col-num">{i}</tth>  
+          </for>
+        </ttr>  
+        <ttr>
+          <for each="col" in="columns">
+            <tth class="col-header border-b">
+              <for char="ch" in="{col}">
+                <span class="cross-off">{ch}</span>
+              </for>  
+            </tth>  
+          </for>
+        </ttr>
+        <for each="row" in="{rows}">
+          <ttr>
+            <tth class="row-header border-r">
+              <for char="ch" in="{row}">
+                <span class="cross-off">{ch}</span>
+              </for>  
+            </tth>  
+            <for char="col" in="{colors.[row#]}">
+              <ttd class="color-{col} border-{borders.[row#].[col#]}">
+                <letter data-input-groups="r:row{row#} d:col{col#}" />
+              </ttd>              
+            </for>
+          </ttr>  
+        </for>
+      </ttable>
+
+      <p class="flavor">
+        After you have inserted all the letters, extract those that are shaded to form the final answer. Extract the word from the coloured squares using the column numbers shown under the answer blanks. When two letters of the same colour appear in a column, work in row order from <b>bottom to top</b>. 
+      </p>
+      <p class="flavor">
+        This will get a four word answer telling you a basic technique of Mad Science.
+      </p>
+
+      <table>
+        <tr>
+          <td>
+            Final Answer:<br />
+            Column:
+          </td>
+          <td>
+            <for each="ext" in="{extraction}">
+              <span class="ext color-{ext.color}">
+                <pattern pattern="{ext.pattern}" numbers="{ext.numbers}" />
+              </span>  
+              <letter literal=" " />
+            </for>
+          </td>
+        </tr>
+      </table>
+
+      <use template='finalAnswer' left="1.75in" width="3.5in" />
+
+      </div>
+  </body>
+</html>
+
