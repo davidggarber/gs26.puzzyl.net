@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="UTF-8" />
@@ -10,6 +10,7 @@
         title: 'Bank Of New England',
         author: 'Rorke Haining',
         copyright: '2023',
+        orientation: 'landscape',
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
@@ -17,43 +18,158 @@
         reactiveBuilder: 'pageBody',
         lookup: {
           text: [
-            ['Welcome to the Bank Of New England!', 'All your deposits are fully FDIC-insured.'],
-            ['Which is great, because we’re definitely', 'not a pyramid scheme – we’re a towering'],
-            ['web of investments, built up brick by', 'brick as quickly and quietly as possible.'],
-            ['We are leveraged to the hilt to the full', 'extent of the law maybe a bit more – who'],
-            ['knows!  Not us, not you, and certainly not', 'banking regulators!  If for some reason you'],
-            ['fear we might go bankrupt, you do have', 'the right to withdraw your money at any'],
-            ['time.  Simply fill out the 28-page form in', 'triplicate and call our customer service line'],
-            ['during normal business hours (11am – 2pm', 'every other Tuesday in May) and wait on hold'],
-            ['for one of our representatives to tell you', 'that you were supposed to have FAXed the'],
-            ['form to us the previous April, so go back', 'in time and do that instead.  Please note'],
-            ['that our phone lines always experience', 'longer than normal wait times on a normal'],
-            ['basis, and there’s nothing you can do about', 'it, so there.  What, you think you’ll do better'],
-            ['at another bank?  Ha!  Your chances are', 'fat and/or slim!  They just put your cash'],
-            ['in a big tub and swim around with it!  At', 'least we bathe before we dive in!  When'],
-            ['it comes to your investments, we do', 'everything by the book, and our book says,'],
-            ['once we’ve got your money, we’re never giving', 'it back!  So do yourself a favor and stop reading'],
-            ['this completely unhelpful fine print and just', 'skip to the bottom line and SIGN IT already!'],
+            [43, 15.0, 'Welcome to the Bank Of New England!', 'All your deposits are fully FDIC-insured.'],
+            [43, 14.5, 'Which is great, because we’re definitely', 'not a pyramid scheme – we’re a towering'],
+            [39, 13.75, 'web of investments, built up brick by', 'brick as quickly and quietly as possible.'],
+            [38, 12.75, 'We are leveraged to the hilt to the full', 'extent of the law maybe a bit more – who'],
+            [37, 12.0, 'knows!  Not us, not you, and certainly not', 'banking regulators!  If for some reason you'],
+            [32, 11.0, 'fear we might go bankrupt, you do have', 'the right to withdraw your money at any'],
+            [32, 10.5, 'time.  Simply fill out the 28-page form in', 'triplicate and call our customer service line'],
+            [30, 9.25, 'during normal business hours (11am – 2pm', 'every other Tuesday in May) and wait on hold'],
+            [26, 8.5, 'for one of our representatives to tell you', 'that you were supposed to have FAXed the'],
+            [26, 8.5, 'form to us the previous April, so go back', 'in time and do that instead.  Please note'],
+            [24, 8.0, 'that our phone lines always experience', 'longer than normal wait times on a normal'],
+            [20,  6.25, 'basis, and there’s nothing you can do about', 'it, so there.  What, you think you’ll do better'],
+            [17,  6.0, 'at another bank?  Ha!  Your chances are', 'fat and/or slim!  They just put your cash'],
+            [17,  6.0, 'in a big tub and swim around with it!  At', 'least we bathe before we dive in!  When'],
+            [17,  5.5, 'it comes to your investments, we do', 'everything by the book, and our book says,'],
+            [17,  5.0, 'once we’ve got your money, we’re never giving', 'it back!  So do yourself a favor and stop reading'],
+            [13,  4.0, 'this completely unhelpful fine print and just', 'skip to the bottom line and SIGN IT already!'],
+          ],
+
+          cubes: [
+            [1, 1, ['Newspaper', 'item'], ['Make', 'laugh']],
+            [1, 2, ['Whitehorse', 'territory'], ['Inmate'],
+              0, 0, ['Neither', 'here nor', 'there'], ['Take', 'an', 'oath']],
+            [0, 0, ['Undo', 'pencil', 'mark'], ['Find out', 'who is', 'fastest'],
+              1, 1, ['The Duck’s', 'instrument'], ['Arrow’s', 'partner'],
+              1, 0, ['Zac of', '“17 Again”'], ['Harry and', 'Hermione’s', 'bestie']],
+            [1, 1, ['Ready’s', 'partner'], ['Cow’s', 'partner'],
+              0, 1, ['Like a', 'beautiful', 'view'], ['Shaving', 'injury'],
+              1, 1, ['Shaped', 'like dice'], ['Common', 'pen brand'],
+              1, 1, ['Video', 'service'], ['Toothpaste', 'container']],
+            [1, 1, ['Facial', 'hair'], ['Surf the', 'web'],
+              1, 1, ['High', 'regard'], ['Work', 'group'],
+              1, 2, ['Cold', 'dessert'], ['Yell'],
+              1, 2, ['Eschew', 'alcohol'], ['Sum'],
+              1, 2, ['Parisian', 'towser'], ['Stuffed']],
+            [1, 1, ['October', 'birthstone'], ['Git', 'request'],
+              1, 0, ['Join the', 'military'], ['Santa', 'checks it', 'twice'],
+              2, 1, ['Admission'], ['Family', 'diagram'],
+              2, 0, ['Joined'], ['Honored', 'by a', 'monarch'],
+              2, 2, ['Hire'], ['Strategem'],
+              1, 2, ['Double-', 'crossed'], ['Exchange']],
+            [2, 2, ['Christian', 'holiday'], ['Mix'],
+              1, 1, ['Fighting', 'force'], ['A name I', 'call myself'],
+              1, 1, ['Bird of', 'prey'], ['Sea', 'bird'],
+              2, 2, ['Frigid'], ['Look'],
+              0, 1, ['First', 'mapped in', '2003'], ['Garden', 'dwarf'],
+              2, 0, ['Accomplish'], ['The', 'night', 'before'],
+              2, 1, ['Coworker'], ['Chess', 'victory']]
           ],
         },
       };
     </script>
     <style>
       #Local {
-        #flavor {
+        .flavor {
           position: absolute;
-          width: 
+          top: 0px;
+
+          p {
+            text-align: justify;
+            text-align-last: justify;
+            margin-bottom: 0px;
+          }
+        }
+
+        #left-flavor {
+          left: 0px; 
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          transform: scale(0.9,1);
+          transform-origin: top left;
+        }
+
+        #right-flavor {
+          right: 0px; 
+          text-align: right;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          transform: scale(0.9,1);
+          transform-origin: top right;
+        }
+
+        #svg {
+          position: absolute;
+          top: 0px;
+          left: 0.5in;
+
+          .top {
+            fill: #bbbbbb;
+            stroke: #000000;
+            stroke-width: 1px;
+          }
+          .left {
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 1px;
+          }
+          .right {
+            fill: #dddddd;
+            stroke: #000000;
+            stroke-width: 1px;
+          }
+          text {
+            text-anchor: middle;
+          }
+          .left-text {
+            transform: matrix(.75, 0.28, 0, 1, 0, 0);
+          }
+          .right-text {
+            transform: matrix(.75, -0.3, 0, 1, 0, 0);
+          }
         }
       }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <div id="flavor">
+      <div id="left-flavor" class="flavor">
         <for each="line" in="text">
-
+          <p sstyle="font-size: {line.1}pt; width:{line.0/10}in; line-height: {15-line#/2}pt;">{line.2}</p>
         </for>
       </div>
+      <div id="right-flavor" class="flavor">
+        <for each="line" in="text">
+          <p sstyle="right: 0px; font-size: {line.1}pt; width:{line.0/10}in; line-height: {15-line#/2}pt;">{line.3}</p>
+        </for>
+      </div>
+
+        <svg id="svg" width="866" height="720" xmlns="http://www.w3.org/2000/svg">
+          <for int="y" until="7">
+            <for int="x" until="{y+1}">
+              <g ttransform="translate({433 - 60*y + 120*x}, {88 * y})">
+                <path class="top" d="M-60,24 l60,-24 l60,24 l-60,24 Z" />
+                <path class="left" d="M-60,24 v64 l60,24 v-64 Z" />
+                <path class="right" d="M60,24 v64 l-60,24 v-64 Z" />
+                <text class="left-text">
+                  <for each="word" in="{cubes.[y].[x*4+2]}">
+                    <tspan x="-39" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4]}">{word}</tspan>
+                  </for>
+                </text>
+                <text class="right-text">
+                  <for each="word" in="{cubes.[y].[x*4+3]}">
+                    <tspan x="42" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4+1]}">{word}</tspan>
+                  </for>
+                </text>
+              </g>
+            </for>
+          </for>
+        </svg>
 
       <use template='finalAnswer' left="2in" width="3in" />
 
