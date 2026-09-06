@@ -133,6 +133,23 @@
             transform: matrix(.75, -0.3, 0, 1, 0, 0);
           }
         }
+
+        #inputs {
+          position: absolute;
+          top: 0px;
+          left: 0.5in;
+          width: 9in;
+        }
+
+        .main-input {
+          position: absolute;
+          width: 120px;
+          height: 88px;
+          text-align: center;
+
+          .letter-cell {
+            font-size: 20pt;
+          }
       }
     </style>
   </head>
@@ -149,27 +166,37 @@
         </for>
       </div>
 
-        <svg id="svg" width="866" height="720" xmlns="http://www.w3.org/2000/svg">
-          <for int="y" until="7">
-            <for int="x" until="{y+1}">
-              <g ttransform="translate({433 - 60*y + 120*x}, {88 * y})">
-                <path class="top" d="M-60,24 l60,-24 l60,24 l-60,24 Z" />
-                <path class="left" d="M-60,24 v64 l60,24 v-64 Z" />
-                <path class="right" d="M60,24 v64 l-60,24 v-64 Z" />
-                <text class="left-text">
-                  <for each="word" in="{cubes.[y].[x*4+2]}">
-                    <tspan x="-39" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4]}">{word}</tspan>
-                  </for>
-                </text>
-                <text class="right-text">
-                  <for each="word" in="{cubes.[y].[x*4+3]}">
-                    <tspan x="42" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4+1]}">{word}</tspan>
-                  </for>
-                </text>
-              </g>
-            </for>
+      <svg id="svg" width="866" height="720" xmlns="http://www.w3.org/2000/svg">
+        <for int="y" until="7">
+          <for int="x" until="{y+1}">
+            <g ttransform="translate({433 - 60*y + 120*x}, {88 * y})">
+              <path class="top" d="M-60,24 l60,-24 l60,24 l-60,24 Z" />
+              <path class="left" d="M-60,24 v64 l60,24 v-64 Z" />
+              <path class="right" d="M60,24 v64 l-60,24 v-64 Z" />
+              <text class="left-text">
+                <for each="word" in="{cubes.[y].[x*4+2]}">
+                  <tspan x="-39" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4]}">{word}</tspan>
+                </for>
+              </text>
+              <text class="right-text">
+                <for each="word" in="{cubes.[y].[x*4+3]}">
+                  <tspan x="42" yy="{66 + word# * 16 + 8 * cubes.[y].[x*4+1]}">{word}</tspan>
+                </for>
+              </text>
+            </g>
           </for>
-        </svg>
+        </for>
+      </svg>
+
+      <div id="inputs" data-input-style="hover">
+        <for int="y" until="7">
+          <for int="x" until="{y+1}">
+            <div class="main-input" sstyle="left: {373 - 60*y + 120*x}px; top: {8 + 88*y}px;">
+              <letter />
+            </div>
+          </for>
+        </for>
+      </div>
 
       <use template='finalAnswer' left="2in" width="3in" />
 

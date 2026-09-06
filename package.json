@@ -8,7 +8,7 @@
                     "dev":  "node dev-server.mjs",
                     "testport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $conns | Select-Object LocalAddress,LocalPort,OwningProcess\"",
                     "stopport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $pids=$conns | Select-Object -ExpandProperty OwningProcess -Unique; foreach($pid in $pids){Stop-Process -Id $pid -Force -ErrorAction Stop; Write-Host (\u0027Stopped PID \u0027 + $pid + \u0027 on port \u0027 + $port)}\"",
-                    "build":  "tsc -p tsconfig.build.json \u0026\u0026 node -e \"import(\u0027node:fs\u0027).then(fs =\u003e fs.default.cpSync(\u0027node_modules/@davidggarber/puzzyl-kit/dist/kit.umd.js\u0027, \u0027src/kit.umd.js\u0027))\"",
+                    "build":  "node build.mjs",
                     "typecheck":  "tsc --noEmit"
                 },
     "dependencies":  {
