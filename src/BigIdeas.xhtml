@@ -14,7 +14,7 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
-          dragDrop: true,
+          dragDrop: 'svg',
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -23,7 +23,7 @@
             ['saddle', '', 'powder', 'grinder', 'reflector', ''],
             ['', 'beam', 'soap', 'film', '', 'box'],
             ['brush', 'system', 'plough', 'press', '', 'clock'],
-            ['starter', 'point', 'paper', 'wings', 'dam', 'contro'],
+            ['starter', 'point', 'paper', 'wings', 'dam', 'control'],
             ['ship', 'tracks']
           ],
           bottoms: [
@@ -81,7 +81,22 @@
 
         #svg {
           margin-left: 20px;
+          width: 1074px;
+          height: 720px; 
         }
+        .print {
+          #svg {
+            width: 720px;
+            height: 720px; 
+          }
+        }
+        @media print {
+          #svg {
+            width: 720px;
+            height: 720px; 
+          }
+        }
+
         .square {
           fill: #ffffff80;
           stroke: #333;
@@ -93,6 +108,7 @@
           fill: black;
           text-anchor: middle;
           font-size: 9pt;
+          user-select: none;
         }
         text.left {
           transform: translate(14px,64px) rotate(-90deg) ;
@@ -102,6 +118,11 @@
         }
         text.center {
           font-size: 32pt;
+          text-decoration: underline;
+        }
+        .drop-zone {
+          fill: transparent;
+          stroke: none;
         }
       }
     </style>
@@ -116,24 +137,39 @@
       </div>
 
       <div id="drag-drop">
-        <svg id="svg" width="720" height="720" xmlns="http://www.w3.org/2000/svg">
-          <for each="row" in="{centers}">
-            <for char="cell" in="{row}">
-              <g ttransform="translate({118*cell#},{118*row#})">
-                <rect class="square" x="0" y="0" width="118" height="118" />
-                <text class="center" x="59" y="76">{cell}</text>
-                <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
-                <text class="bottom" x="59" y="112">{bottoms.[row#].[cell#]}</text>
-                <text class="left">{lefts.[row#].[cell#]}</text>
-                <text class="right">{rights.[row#].[cell#]}</text>
-              </g>
+        <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+
+          <g id="drop-layer">
+            <for int="y" until="7">
+              <for int="x" until="9">
+                <g id="drop-{x},{y}" ttransform="translate({118*x},{118*y})" class="drop-target">
+                  <rect x="0" y="0" width="118" height="118" class="drop-zone" />
+                </g>
+              </for>
             </for>
-          </for>
+          </g>
+
+          <g id="drag-layer">
+            <for each="row" in="{centers}">
+              <for char="cell" in="{row}">
+                <g class="transform-copy" transform-copy="drop-{cell#},{row#}">
+                <g class="moveable">
+                  <rect class="square" x="0" y="0" width="118" height="118" />
+                  <text class="center" x="59" y="76">{cell}</text>
+                  <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
+                  <text class="bottom" x="59" y="112">{bottoms.[row#].[cell#]}</text>
+                  <text class="left">{lefts.[row#].[cell#]}</text>
+                  <text class="right">{rights.[row#].[cell#]}</text>
+                </g>
+                </g>
+              </for>
+            </for>
+          </g>
         </svg>
       </div>
 
 
-      <use template='finalAnswer' left="2in" width="3in" />
+      <use template='finalAnswer' left="2in" width="4in" />
 
       </div>
   </body>

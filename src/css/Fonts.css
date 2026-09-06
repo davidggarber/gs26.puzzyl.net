@@ -77,7 +77,8 @@ td:has(.input-group) {
 }
 input::selection {
   background-color: transparent;
-  color: #900;
+  background-color: #000;
+  color: gold;
 }
 .letter-cell.extract-highlight:has(input:focus) {
   background-color: #dc9;
@@ -85,7 +86,8 @@ input::selection {
 }
 .letter-cell.extract-highlight input::selection {
   background-color: transparent;
-  color: #900;
+  background-color: #000;
+  color: gold;
 }
 .word-cell:has(input:focus) {
   background-color: gold;
@@ -93,5 +95,6 @@ input::selection {
 }
 .word-cell input::selection {
   background-color: transparent;
-  color: #900;
+  background-color: #000;
+  color: gold;
 }
