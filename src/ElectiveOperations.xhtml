@@ -99,37 +99,34 @@
             top: .5px;
             font-size: 18pt;
           }
-
-          &amp;.circ {
-            input {
-              border-radius: 50%;
-            }
-            .letter-cell {
-              clip-path: circle(45% at 50% 50%);
-            }
+        }
+        .shape-input.circ {
+          input {
+            border-radius: 50%;
           }
-
-          &amp;.trap {
-            input {
-              clip-path: polygon(25% 0, 75% 0, 95% 95%, 3% 95%);
-            }
-            .letter-cell {
-              clip-path: polygon(25% 0, 75% 0, 95% 95%, 3% 95%);
-            }
+          .letter-cell {
+            clip-path: circle(45% at 50% 50%);
           }
+        }
+        .shape-input.trap {
+          input {
+            clip-path: polygon(25% 0, 75% 0, 95% 95%, 3% 95%);
+          }
+          .letter-cell {
+            clip-path: polygon(25% 0, 75% 0, 95% 95%, 3% 95%);
+          }
+        }
+        .shape-input.round {
+          width: 52px;
+          height: 42px;
 
-          &amp;.round {
+          input {
+            border-radius: 9px;
+          }
+          .letter-cell {
             width: 52px;
             height: 42px;
-
-            input {
-              border-radius: 9px;
-            }
-            .letter-cell {
-              width: 52px;
-              height: 42px;
-              clip-path: inset(-1px round 9px);
-            }
+            clip-path: inset(-1px round 9px);
           }
         }
         .shape-input:focus-within svg :is(path,circle) {

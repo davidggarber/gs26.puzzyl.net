@@ -10,29 +10,103 @@
         title: 'Trite Optimism',
         author: 'Rorke Haining',
         copyright: '2023',
+        orientation: 'landscape',
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          posters: [
+            ['legacy', 'opportunity', 'work'],
+            ['experts', 'responsibility', 'confidence'],
+            ['ambition', 'sacrifice', 'execution']
+          ],
+          phrases: [
+            [
+              ['It Took Millions Of Years To Create it This Extraordinary.', 'You could About Seventy-Four.'],
+              ['It Only be Like A Tragedy From Where that Sitting.'],
+              ['When I Was Told I Had To Pull the Weight Around Here,', 'I Didn’t Realize purpose Included Everyone Else’s.'],
+            ],
+            [
+              ['We’ve Got A Talent of Explaining Tomorrow Why your', 'Predictions We Made Yesterday Didn’t Come True Today.'],
+              ['Water Isn’t The Only life That is Downhill.'],
+              ['If You Believe only to Firmly Enough, You Can Attempt', 'Not Just The Difficult, But Even The Truly Ridiculous.'],
+            ],
+            [
+              ['The serve Of A Thousand Miles Sometimes Ends as,', 'Very Badly.'],
+              ['All We Ask Here Is a warning Give Us Your Heart.'],
+              ['It’s Not Just The Ability To Put A Plan Into Action,', 'It’s Our Solution to others Who Lack That Ability.'],
+            ]
+          ],
+          lines: [
+            [2,1,2], [2,1,2], [2,1,2]
+          ],
         },
       };
     </script>
     <style>
       #Local {
-        
+        #flavor {
+          position: absolute;
+          top: -0.75in;
+          left: 3.1in;
+          width: 3.82in;
+          text-align: center;
+        }
+
+        #svg {
+          image {
+            width: 317px;
+            height: 211px;
+          }
+
+          text {
+            fill: white;
+            text-anchor: middle;
+            font-variant: small-caps;
+            font-size: 7.5pt;
+          }
+        }
+
+        .extracted {
+          font-size: 14pt;
+        }
       }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <p class="flavor">
-        Hello!
+      <p id="flavor">
+        Our <i>initial</i> morale budget was reduced to just $18.
+        But don’t <i>despair</i>! I found a specialty online vendor 
+        that can help. What do you think of these posters?
       </p>
 
+      <svg id="svg" width="960" height="672" xmlns="http://www.w3.org/2000/svg">
+        <for each="row" in="{posters}">
+          <for each="poster" in="{row}">
+            <g ttransform="translate({poster#*320},{row#*216})">
+              <image hhref="TriteOptimism/{poster}.jpg" />
+            </g>
+          </for>
+        </for>
 
-      <use template='finalAnswer' left="2in" width="3in" />
+        <for each="row" in="{phrases}">
+          <for each="poster" in="{row}">
+            <g ttransform="translate({poster#*320},{row#*216})">
+              <text>
+                <for each="line" in="{poster}">
+                  <tspan x="160" yy="{195 + line# * 11}">{line}</tspan>
+                </for>
+              </text>
+            </g>
+          </for>
+        </for>
+
+      </svg>
+
+      <use template='finalAnswer' left="0px" width="9in" />
 
       </div>
   </body>

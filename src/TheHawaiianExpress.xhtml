@@ -92,7 +92,6 @@
 
           rect {
             fill: transparent;
-            rx: 15px;
           }
           rect.r-s {
             fill: #888;
@@ -212,7 +211,7 @@
         <for each="row" in="{buoys}">
           <for char="cell" in="{row}">
             <gg transform="translate({cell#*48+1},{row#*48+1})">
-              <rect x="0" y="0" width="48" height="48" class="r-{styles.[row#].[cell#]} stampable" />
+              <rect x="0" y="0" rx="15" width="48" height="48" class="r-{styles.[row#].[cell#]} stampable" />
               <text x="24" y="24" class="t-{styles.[row#].[cell#]}">{cell}</text>
             </gg>
           </for>
