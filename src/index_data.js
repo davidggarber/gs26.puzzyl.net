@@ -43,6 +43,7 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Zero, One Two Many!',                   thumb: '', author: 'Glenn Hollingsworth', type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Big Ideas',                             thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'Mad Scientist Store',                   thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+    { round: 0, title: 'Argument Checker',                      thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Bank of New England',                   thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'Back Alley Deal',                       thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'The Hawaiian Express',                  thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },

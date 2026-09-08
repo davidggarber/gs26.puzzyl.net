@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/ack.js" />
+    <script>
+      window.boiler = {
+        title: 'Argument Checker',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        .flavor {
+          font-style: italic;
+        }
+        #three-column {
+          display: flex;
+          width: 7.5in;
+          height: 8.5in;
+
+          .letter-cell {
+            font-size: 10pt;
+            width: 0.8em;
+          }
+
+          p {
+            margin-bottom: 0.35in;
+          }
+        }
+        .column {
+          flex: 1 1 0;
+          padding: 6px;
+
+          p.flavor {
+            margin-top: 0;
+          }
+        }
+        .column + .column {
+          border-left: 1px solid black;
+        }
+        span.big {
+          font-size: 48pt;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        I keep finding fundamental logical holes in our reports. That seems like a bad idea.
+      </p>
+
+      <div id="three-column">
+        <div class="column">
+          <p trim="all">
+            <img src="ArgumentChecker/a1.jpg" style="height:0.81in;" />
+            <img src="ArgumentChecker/a2.jpg" style="height:0.89in;" />
+            <span class="big">-D</span>
+            <br />
+            <img src="ArgumentChecker/a3.jpg" style="height:0.82in;" />
+            <img src="ArgumentChecker/a4.png" style="height:0.82in;" />
+            <br />
+            <pattern pattern="6 7" numbers="9=1" />
+          </p>
+          <p trim="all">
+            <img src="ArgumentChecker/b1.jpg" style="height:0.75in;" />
+            <span class="big">+Y</span>
+            <br />
+            <img src="ArgumentChecker/b2.png" style="height:0.94in;" />
+            <img src="ArgumentChecker/b3.png" style="height:0.6in;" />
+            <br />
+            <pattern pattern="8 5" numbers="3=2" />
+          </p>
+          <p trim="all">
+            <img src="ArgumentChecker/c1.png" style="height:0.74in;" />
+            <img src="ArgumentChecker/c2.png" style="height:0.77in;" />
+            <img src="ArgumentChecker/c3.png" style="height:0.79in;" />
+            <br />
+            <pattern pattern="3 7" numbers="7=3" />
+          </p>
+          <p trim="all">
+            <img src="ArgumentChecker/d1.jpg" style="height:0.95in;" />
+            <img src="ArgumentChecker/d2.gif" style="height:0.97in;" />
+            <br />
+            <img src="ArgumentChecker/d3.jpg" style="height:0.75in;" />
+            <img src="ArgumentChecker/d4.png" style="height:0.71in;" />
+            <pattern pattern="8" numbers="4=4" />
+          </p>
+        </div>
+
+        <div class="column">
+        </div>
+
+        <div class="column">
+          <p class="flavor">
+            These examples might help, but you don’t need them. They are alphabetical, not answer order.
+          </p>
+        </div>
+      </div>
+
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+
