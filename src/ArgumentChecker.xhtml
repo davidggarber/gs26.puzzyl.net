@@ -13,9 +13,86 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          checkMarks: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          columns: [
+            [
+              [ {img: 'a1.jpg', height: 81},
+                {img: 'a2.jpg', height: 89},
+                {text: '-D'},
+                {br: true},
+                {img: 'a3.jpg', height: 82},
+                {img: 'a4.png', height: 82},
+                {br: true},
+                {pattern: '6 7', numbers: '9=1'}
+              ],
+              [ {img: 'b1.jpg', height: 75},
+                {text: '+Y'},
+                {br: true},
+                {img: 'b2.png', height: 94},
+                {img: 'b3.png', height: 60},
+                {br: true},
+                {pattern: '8 5', numbers: '3=2'}
+              ],
+              [ {img: 'c1.png', height: 74},
+                {img: 'c2.png', height: 77},
+                {img: 'c3.png', height: 79},
+                {br: true},
+                {pattern: '3 7', numbers: '7=3'}
+              ],
+              [ {img: 'd1.jpg', height: 95},
+                {img: 'd2.gif', height: 97},
+                {br: true},
+                {img: 'd3.jpg', height: 75},
+                {img: 'd4.png', height: 71},
+                {br: true},
+                {pattern: '8', numbers: '4=4'}
+              ],
+            ],
+            [
+              [ {img: 'e1.jpg', height: 87},
+                {img: 'e2.png', height: 81},
+                {img: 'e3.png', height: 82},
+                {br: true},
+                {text: '+R'},
+                {br: true},
+                {pattern: '3 8', numbers: '7=5'}
+              ],
+              [ {img: 'f1.jpg', height: 84},
+                {img: 'f2.jpg', height: 84},
+                {text: '+Y'},
+                {br: true},
+                {pattern: '7', numbers: '4=6'}
+              ],
+              [ {img: 'g1.jpg', height: 80},
+                {text: '-S'},
+                {img: 'g2.jpg', height: 76},
+                {br: true},
+                {img: 'g3.jpg', height: 108},
+                {text: '+M'},
+                {br: true},
+                {pattern: '2 7', numbers: '1=7'}
+              ],
+              [ {img: 'h1.jpg', height: 116},
+                {img: 'h2.png', height: 114},
+                {br: true},
+                {pattern: '5 3', numbers: '3=8'}
+              ],
+            ]
+          ],
+          examples: [
+            'My code isn’t buggy, you’re just too stupid to understand.',
+            'I met Dave Cutler in an elevator, and he told me these lines of code could never go wrong in any situation.',
+            'No one checked in any bugs on Mon or Thu, so this was a bug free week.',
+            'This code has no bugs, and as a result I concluded we have bug free code.',
+            'There can’t be any bugs in Python code, and as a result my code is all bug free.',
+            'The food in our cafeteria is terrible, and thus our code has few bugs.',
+            'Have you noticed how badly designed our website is? We need to consider that before product bugs.',
+            'Fixing this bug undermines our architecture and will be the beginning of the end of our design-pattern led approach.',
+            'You’re implying I don’t care but I’ve checked for compiler warnings or test failures. I’m doing everything I can to address bugs.',
+          ]
         },
       };
     </script>
@@ -31,11 +108,26 @@
 
           .letter-cell {
             font-size: 10pt;
-            width: 0.8em;
+            width: 1em;
+          }
+          .letter-underline {
+            margin-left: 1px;
+            margin-right: 1px;
           }
 
           p {
             margin-bottom: 0.35in;
+          }
+
+          #examples {
+            border-collapse: collapse;
+            margin-top: 0.25in;
+
+            td {
+              border: solid 1px black;
+              padding: 4px 8px;
+              font-size: 11pt;
+            }
           }
         }
         .column {
@@ -52,6 +144,12 @@
         span.big {
           font-size: 48pt;
         }
+
+        #extracted {
+          position: absolute;
+          bottom: -24px;
+          left: 2.75in;
+        }
       }
     </style>
   </head>
@@ -62,57 +160,58 @@
       </p>
 
       <div id="three-column">
-        <div class="column">
-          <p trim="all">
-            <img src="ArgumentChecker/a1.jpg" style="height:0.81in;" />
-            <img src="ArgumentChecker/a2.jpg" style="height:0.89in;" />
-            <span class="big">-D</span>
-            <br />
-            <img src="ArgumentChecker/a3.jpg" style="height:0.82in;" />
-            <img src="ArgumentChecker/a4.png" style="height:0.82in;" />
-            <br />
-            <pattern pattern="6 7" numbers="9=1" />
-          </p>
-          <p trim="all">
-            <img src="ArgumentChecker/b1.jpg" style="height:0.75in;" />
-            <span class="big">+Y</span>
-            <br />
-            <img src="ArgumentChecker/b2.png" style="height:0.94in;" />
-            <img src="ArgumentChecker/b3.png" style="height:0.6in;" />
-            <br />
-            <pattern pattern="8 5" numbers="3=2" />
-          </p>
-          <p trim="all">
-            <img src="ArgumentChecker/c1.png" style="height:0.74in;" />
-            <img src="ArgumentChecker/c2.png" style="height:0.77in;" />
-            <img src="ArgumentChecker/c3.png" style="height:0.79in;" />
-            <br />
-            <pattern pattern="3 7" numbers="7=3" />
-          </p>
-          <p trim="all">
-            <img src="ArgumentChecker/d1.jpg" style="height:0.95in;" />
-            <img src="ArgumentChecker/d2.gif" style="height:0.97in;" />
-            <br />
-            <img src="ArgumentChecker/d3.jpg" style="height:0.75in;" />
-            <img src="ArgumentChecker/d4.png" style="height:0.71in;" />
-            <pattern pattern="8" numbers="4=4" />
-          </p>
-        </div>
-
-        <div class="column">
-        </div>
+        <for each="column" in="{columns}">
+          <div class="column">
+            <for each="row" in="{column}">
+              <p trim="all">
+                <for each="widget" in="{row}">
+                  <use template="widget" data="{widget}" />
+                </for>
+                <br />
+              </p>
+            </for>
+          </div>
+        </for>
 
         <div class="column">
           <p class="flavor">
             These examples might help, but you don’t need them. They are alphabetical, not answer order.
+            <ttable id="examples">
+              <for each="ex" in="{examples}">
+                <ttr>
+                  <ttd class="cross-off">{ex}</ttd>
+                </ttr>
+              </for>
+            </ttable>
           </p>
         </div>
       </div>
 
-
+      <p>
+        <pattern id="extracted" extract-numbered="8" />
+      </p>
       <use template='finalAnswer' left="2in" width="3in" />
 
       </div>
+
+      <template id="widget">
+        <if exists="{data.img}">
+          <img ssrc="ArgumentChecker/{data.img}" sstyle="height:{data.height/100}in;" />
+        </if>
+        <elseif exists="{data.text}">
+          <span class="big">{data.text}</span>
+        </elseif>
+        <elseif exists="{data.br}">
+          <br />
+        </elseif>
+        <elseif exists="{data.pattern}">
+          <pattern pattern="{data.pattern}" numbers="{data.numbers}" />
+        </elseif>
+        <else>
+          <!-- TYPO -->
+        </else>
+      </template>
+
   </body>
 </html>
 
