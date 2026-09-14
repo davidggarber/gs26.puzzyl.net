@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/ack.js" />
+    <script>
+      window.boiler = {
+        title: 'Argument Checker',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+          checkMarks: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          columns: [
+            [
+              [ {img: 'a1.jpg', height: 81},
+                {img: 'a2.jpg', height: 89},
+                {text: '-D'},
+                {br: true},
+                {img: 'a3.jpg', height: 82},
+                {img: 'a4.png', height: 82},
+                {br: true},
+                {pattern: '6 7', numbers: '9=1'}
+              ],
+              [ {img: 'b1.jpg', height: 75},
+                {text: '+Y'},
+                {br: true},
+                {img: 'b2.png', height: 94},
+                {img: 'b3.png', height: 60},
+                {br: true},
+                {pattern: '8 5', numbers: '3=2'}
+              ],
+              [ {img: 'c1.png', height: 74},
+                {img: 'c2.png', height: 77},
+                {img: 'c3.png', height: 79},
+                {br: true},
+                {pattern: '3 7', numbers: '7=3'}
+              ],
+              [ {img: 'd1.jpg', height: 95},
+                {img: 'd2.gif', height: 97},
+                {br: true},
+                {img: 'd3.jpg', height: 75},
+                {img: 'd4.png', height: 71},
+                {br: true},
+                {pattern: '8', numbers: '4=4'}
+              ],
+            ],
+            [
+              [ {img: 'e1.jpg', height: 87},
+                {img: 'e2.png', height: 81},
+                {img: 'e3.png', height: 82},
+                {br: true},
+                {text: '+R'},
+                {br: true},
+                {pattern: '3 8', numbers: '7=5'}
+              ],
+              [ {img: 'f1.jpg', height: 84},
+                {img: 'f2.jpg', height: 84},
+                {text: '+Y'},
+                {br: true},
+                {pattern: '7', numbers: '4=6'}
+              ],
+              [ {img: 'g1.jpg', height: 80},
+                {text: '-S'},
+                {img: 'g2.jpg', height: 76},
+                {br: true},
+                {img: 'g3.jpg', height: 108},
+                {text: '+M'},
+                {br: true},
+                {pattern: '2 7', numbers: '1=7'}
+              ],
+              [ {img: 'h1.jpg', height: 116},
+                {img: 'h2.png', height: 114},
+                {br: true},
+                {pattern: '5 3', numbers: '3=8'}
+              ],
+            ]
+          ],
+          examples: [
+            'My code isn’t buggy, you’re just too stupid to understand.',
+            'I met Dave Cutler in an elevator, and he told me these lines of code could never go wrong in any situation.',
+            'No one checked in any bugs on Mon or Thu, so this was a bug free week.',
+            'This code has no bugs, and as a result I concluded we have bug free code.',
+            'There can’t be any bugs in Python code, and as a result my code is all bug free.',
+            'The food in our cafeteria is terrible, and thus our code has few bugs.',
+            'Have you noticed how badly designed our website is? We need to consider that before product bugs.',
+            'Fixing this bug undermines our architecture and will be the beginning of the end of our design-pattern led approach.',
+            'You’re implying I don’t care but I’ve checked for compiler warnings or test failures. I’m doing everything I can to address bugs.',
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        .flavor {
+          font-style: italic;
+        }
+        #three-column {
+          display: flex;
+          width: 7.5in;
+          height: 8.5in;
+
+          .letter-cell {
+            font-size: 10pt;
+            width: 1em;
+          }
+          .letter-underline {
+            margin-left: 1px;
+            margin-right: 1px;
+          }
+
+          p {
+            margin-bottom: 0.35in;
+          }
+
+          #examples {
+            border-collapse: collapse;
+            margin-top: 0.25in;
+
+            td {
+              border: solid 1px black;
+              padding: 4px 8px;
+              font-size: 11pt;
+            }
+          }
+        }
+        .column {
+          flex: 1 1 0;
+          padding: 6px;
+
+          p.flavor {
+            margin-top: 0;
+          }
+        }
+        .column + .column {
+          border-left: 1px solid black;
+        }
+        span.big {
+          font-size: 48pt;
+        }
+
+        #extracted {
+          position: absolute;
+          bottom: -24px;
+          left: 2.75in;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        I keep finding fundamental logical holes in our reports. That seems like a bad idea.
+      </p>
+
+      <div id="three-column">
+        <for each="column" in="{columns}">
+          <div class="column">
+            <for each="row" in="{column}">
+              <p trim="all">
+                <for each="widget" in="{row}">
+                  <use template="widget" data="{widget}" />
+                </for>
+                <br />
+              </p>
+            </for>
+          </div>
+        </for>
+
+        <div class="column">
+          <p class="flavor">
+            These examples might help, but you don’t need them. They are alphabetical, not answer order.
+            <ttable id="examples">
+              <for each="ex" in="{examples}">
+                <ttr>
+                  <ttd class="cross-off">{ex}</ttd>
+                </ttr>
+              </for>
+            </ttable>
+          </p>
+        </div>
+      </div>
+
+      <p>
+        <pattern id="extracted" extract-numbered="8" />
+      </p>
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+
+      <template id="widget">
+        <if exists="{data.img}">
+          <img ssrc="ArgumentChecker/{data.img}" sstyle="height:{data.height/100}in;" />
+        </if>
+        <elseif exists="{data.text}">
+          <span class="big">{data.text}</span>
+        </elseif>
+        <elseif exists="{data.br}">
+          <br />
+        </elseif>
+        <elseif exists="{data.pattern}">
+          <pattern pattern="{data.pattern}" numbers="{data.numbers}" />
+        </elseif>
+        <else>
+          <!-- TYPO -->
+        </else>
+      </template>
+
+  </body>
+</html>
+
