@@ -80,9 +80,11 @@
         }
 
         #svg {
-          margin-left: 20px;
-          width: 1074px;
-          height: 720px; 
+          position: absolute;
+          left: -2.75in;
+          top: -0.25in;
+          width: 10.5in;
+          height: 8in; 
         }
         .print {
           #svg {
@@ -124,6 +126,10 @@
           fill: transparent;
           stroke: none;
         }
+        .drag-handle {
+          fill: transparent;
+          stroke: none;
+        }
       }
     </style>
   </head>
@@ -140,10 +146,10 @@
         <svg id="svg" xmlns="http://www.w3.org/2000/svg">
 
           <g id="drop-layer">
-            <for int="y" until="7">
-              <for int="x" until="9">
-                <g id="drop-{x},{y}" ttransform="translate({118*x},{118*y})" class="drop-target">
-                  <rect x="0" y="0" width="118" height="118" class="drop-zone" />
+            <for int="y" until="32">
+              <for int="x" until="40">
+                <g id="drop-{x},{y}" ttransform="translate({59*x/2},{59*y/2})" class="drop-target">
+                  <rect x="0" y="0" width="29.5" height="29.5" class="drop-zone" />
                 </g>
               </for>
             </for>
@@ -152,8 +158,17 @@
           <g id="drag-layer">
             <for each="row" in="{centers}">
               <for char="cell" in="{row}">
-                <g class="transform-copy" transform-copy="drop-{cell#},{row#}">
+                <g class="transform-copy" transform-copy="drop-{cell#*4+10},{row#*4+1}">
                 <g class="moveable">
+                  <g class="drag-handles">
+                    <for int="y" until="4">
+                      <for int="x" until="4">
+                        <g transform="translate({59*x/2},{59*y/2})">
+                          <rect x="0" y="0" width="29.5" height="29.5" class="drag-handle" />
+                        </g>
+                      </for>
+                    </for>
+                  </g>
                   <rect class="square" x="0" y="0" width="118" height="118" />
                   <text class="center" x="59" y="76">{cell}</text>
                   <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
