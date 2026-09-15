@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/rpt.js" />
+    <script>
+      window.boiler = {
+        title: 'Round Pegs, Triangle Holes',
+        author: 'David Garber',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          colors: [
+            'cyyy',
+            'cccyg',
+            'cmmcyg',
+            'mmbxygg',
+            'mboggo',
+            'mbooo',
+            'bbbo'
+          ],
+          digits: [
+            [0,0,5,0],
+            [1,0,0,0,0],
+            [0,0,4,3,1,0],
+            [5,0,0,0,2,0,0],
+            [0,4,0,6,0,6],
+            [1,0,0,0,0],
+            [2,1,0,1]
+          ],
+          adjacents: [
+            [0,0,15,0],
+            [17,0,0,0,0],
+            [0,0,15,13,21,0],
+            [13,0,0,0,14,0,0],
+            [0,24,0,13,0,10],
+            [15,0,0,0,0],
+            [8,16,0,11]
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #svg {
+          width: 800px;
+          height: 800px;
+
+          circle {
+            stroke: black;
+            stroke-width: 1px;
+          }
+          .circle-c {
+            fill: #75FDED;
+          }
+          .circle-y {
+            fill: #FFFF99;
+          }
+          .circle-g {
+            fill: #99FF99;
+          }
+          .circle-m {
+            fill: #FF99FF;
+          }
+          .circle-b {
+            fill: #99CCFF;
+          }
+          .circle-o {
+            fill: #FFB5AB;
+          }
+          .circle-x {
+            fill: none;
+            stroke: none;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <div class="flavor">
+        <p>Below is a collection of 36 pegs, arranged into six regions spiraling out from the center.</p>
+        <p>These circles need to be filled with the digits 1-6, subject to a few rules:</p>
+        <ul>
+          <li>Each region is color coded, and also separated by dashed lines.<br />
+          Each region contains pegs for the digits 1-6, used exactly once each.</li>
+          <li>Some digits are already given, shown in a larger font.</li>
+          <li>No adjacent pegs contain the same digit.</li>
+          <li>Numbers in parentheses (smaller font) are the sums of the digits from all adjacent pegs.</li>
+        </ul>
+      </div>
+      <svg id="svg">
+        <for int="y" from="0" until="4">
+          <for int="x" from="0" until="{y}+4">
+            <g transform="translate({200+x*90-y*90/2},{y*78+50})">
+              <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" cx="0" cy="0" r="42" />
+            </g>
+          </for>
+        </for>
+        <for int="y" from="4" until="7">
+          <for int="x" from="0" until="10-{y}">
+            <g transform="translate({-70+x*90+y*90/2},{y*78+50})">
+              <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" cx="0" cy="0" r="42" />
+            </g>
+          </for>
+        </for>
+      </svg>
+
+
+      <div class="flavor">
+      </div>
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+

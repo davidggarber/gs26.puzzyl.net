@@ -48,5 +48,7 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Back Alley Deal',                       thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'The Hawaiian Express',                  thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'Trite Optimism',                        thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
+    { round: 0, title: 'Round Pegs, Triangle Holes',            thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+    { round: 0, title: 'Snakes In A Sudoku',                    thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
   ];
 }
