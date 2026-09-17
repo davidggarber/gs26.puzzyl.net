@@ -13,6 +13,7 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          decoder: 'Ascii',
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -29,7 +30,7 @@
             [0,0,5,0],
             [1,0,0,0,0],
             [0,0,4,3,1,0],
-            [5,0,0,0,2,0,0],
+            [5,0,0,-1,2,0,0],
             [0,4,0,6,0,6],
             [1,0,0,0,0],
             [2,1,0,1]
@@ -42,15 +43,39 @@
             [0,24,0,13,0,10],
             [15,0,0,0,0],
             [8,16,0,11]
+          ],
+          triangles: [
+            [0,0], [2,0], [-1,2], [3,2], [0,4], [2,4]
           ]
         },
       };
     </script>
     <style>
       #Local {
+        li {
+          margin-bottom: 6px;
+        }
+
+        #svgContainer {
+          position: relative;
+          margin-left: 36px;
+          height: 640px;
+        }
+        #entries {
+          position: absolute;
+          top: 296px;
+          left: 300px;
+
+          .letter-cell {
+            font-size: 28pt;
+          }
+        }
         #svg {
-          width: 800px;
-          height: 800px;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 640px;
+          height: 640px;
 
           circle {
             stroke: black;
@@ -78,6 +103,35 @@
             fill: none;
             stroke: none;
           }
+          .digit {
+            fill: black;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 28px;
+          }
+          .adjacent {
+            fill: black;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-size: 12px;
+          }
+          #outer-circle {
+            fill: none;
+            stroke: #888;
+            stroke-width: 4px;
+          }
+          .pie-radial {
+            fill: none;
+            stroke: #888;
+            stroke-width: 2px;
+            stroke-dasharray: 6 6;
+            stroke-dashoffset: 5;
+          }
+          .triangle {
+            fill: none;
+            stroke: #509;
+            stroke-width: 4px;
+          }
         }
       }
     </style>
@@ -95,26 +149,84 @@
           <li>Numbers in parentheses (smaller font) are the sums of the digits from all adjacent pegs.</li>
         </ul>
       </div>
-      <svg id="svg">
-        <for int="y" from="0" until="4">
-          <for int="x" from="0" until="{y}+4">
-            <g transform="translate({200+x*90-y*90/2},{y*78+50})">
-              <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" cx="0" cy="0" r="42" />
-            </g>
-          </for>
-        </for>
-        <for int="y" from="4" until="7">
-          <for int="x" from="0" until="10-{y}">
-            <g transform="translate({-70+x*90+y*90/2},{y*78+50})">
-              <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" cx="0" cy="0" r="42" />
-            </g>
-          </for>
-        </for>
-      </svg>
 
+      <div id="svgContainer">
+        <svg id="svg">
+          <g transform="translate(320,320)">
+            <circle id="outer-circle" r="314" />
+            <for int="i" until="6">
+              <g transform="rotate({60 * i} 0 0)">
+                <path class="pie-radial" d="M0,0 l0,78 q3,42 45,45 c19,0 26,-13 45,-13 c19,0 26,13 45,13 q42,-3 45,-45 q3,-42 45,-45 q42,3 77,58" />
+              </g>
+            </for>
+            <for int="y" from="0" until="4">
+              <for int="x" from="0" until="{y}+4">
+                <g transform="translate({-135+x*90-y*90/2},{y*78-234})">
+                  <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" r="42" />
+                  <if test="{digits.[y].[x]}" gt="{0}">
+                    <text class="digit" y="-2">{digits.[y].[x]}</text>
+                    <text class="adjacent" y="22">({adjacents.[y].[x]})</text>
+                  </if>
+                </g>
+              </for>
+            </for>
+            <for int="y" from="4" until="7">
+              <for int="x" from="0" until="10-{y}">
+                <g transform="translate({-405+x*90+y*90/2},{y*78-234})">
+                  <circle id="circle-{x}-{y}" class="circle-{colors.[y].[x]}" r="42" />
+                  <if test="{digits.[y].[x]}" gt="{0}">
+                    <text class="digit" y="-2">{digits.[y].[x]}</text>
+                    <text class="adjacent" y="22">({adjacents.[y].[x]})</text>
+                  </if>
+                </g>
+              </for>
+            </for>
+            <g transform="translate(-45, -182.3)">
+              <for each="tri" in="{triangles}">
+                <g transform="translate({90*tri.0},{78*tri.1})">
+                  <path class="triangle" d="M0,60 
+                    C90.26,63.66 100.26,46.34 51.96,-30 
+                    C10,-110 -10,-110 -51.96,-30 
+                    C-100.26,46.34 -90.26,63.66 0,60 Z" />
+                </g>
+              </for>
+            </g>
+          </g>
+        </svg>
 
-      <div class="flavor">
+        <div id="entries" data-input-style="none">
+          <for int="y" from="0" until="4">
+            <for int="x" from="0" until="{y}+4">
+              <div sstyle="position: absolute; transform:translate({-135+x*90-y*90/2}px,{y*78-234}px)">
+                <if test="{digits.[y].[x]}" eq="{0}">
+                  <number />
+                </if>
+                <else>
+                  <number literal=" " />
+                </else>
+              </div>
+            </for>
+          </for>
+            <for int="y" from="4" until="7">
+              <for int="x" from="0" until="10-{y}">
+                <div sstyle="position: absolute; transform:translate({-405+x*90+y*90/2}px,{y*78-234}px)">
+                  <if test="{digits.[y].[x]}" eq="{0}">
+                    <number />
+                  </if>
+                  <else>
+                    <number literal=" " />
+                  </else>
+                </div>
+              </for>
+            </for>
+        </div>
       </div>
+
+      <div class="flavor" style="margin-top: -10px">
+        <p>You need to squeeze clusters of three pegs into those six triangular   holes.
+        <br/>They’d probably pack tighter if summed together.</p>
+      </div>
+
       <use template='finalAnswer' left="2in" width="3in" />
 
       </div>
