@@ -13,24 +13,285 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          checkMarks: true,
+          decoder: 'Ascii',
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          colors: [  // color or ' ' to omit
+            'ooow',
+            'oogww',
+            'ggggwb',
+            'ggg wbb',
+            ' wwwwbb',
+            '  wwwyy',
+            '   wyyy'
+          ],
+          digits: [  // positive: literal, zero: input, negative: omit
+            [0,0,5,2],
+            [0,0,0,0,0],
+            [0,0,0,8,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,2,5,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,2,5,0,0]
+          ],
+          progress: [  // icon, count, crossed-off
+            ['⑧', 1, 1],
+            ['⑦', 2, 0],
+            ['⑥', 3, 0],
+            ['⑤', 4, 3],
+            ['④', 5, 0],
+            ['③', 6, 0],
+            ['②', 7, 3],
+            ['①', 8, 0],
+          ],
+          purples: [  // row, first cell, length
+            [0,1,2],
+            [1,0,3],
+            [2,3,3],
+            [3,0,3],
+            [3,4,1],
+            [4,2,5],
+            [5,5,2],
+            [6,5,1]
+          ]
         },
       };
     </script>
     <style>
       #Local {
-        
+        li {
+          margin-bottom: 6px;
+        }
+
+        #svgContainer {
+          position: relative;
+          margin-left: 36px;
+          height: 560px;
+        }
+        #entries {
+          position: absolute;
+          top: 296px;
+          left: 300px;
+
+          .letter-cell {
+            font-size: 28pt;
+          }
+        }
+        #svg {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 640px;
+          height: 560px;
+
+          .purple {
+            fill: #C399DF;
+            stroke: #9900FF;
+            stroke-width: 2px;
+          }
+          #hex {
+            fill: black;
+            stroke: none;
+          }
+
+          circle {
+            stroke-width: 1.5px;
+
+            .underline {
+              stroke-width: 3px;
+            }
+          }
+          .circle-y {
+            fill: #FFE699;
+            stroke: #FFC000;
+
+            .underline {
+              stroke-dasharray: 7 4;
+            }
+          }
+          .circle-g {
+            fill: #C5E0B4;
+            stroke: #70AD47;
+          }
+          .circle-b {
+            fill: #BDD7EE;
+            stroke: #5B9BD5;
+
+            .underline {
+              stroke-dasharray: 11 3.5;
+            }
+          }
+          .circle-o {
+            fill: #F8CBAD;
+            stroke: #ED7D31;
+
+            .underline {
+              stroke-dasharray: 18 4;
+            }
+          }
+          .circle-w {
+            fill: #F2F2F2;
+            stroke: #000000;
+
+            .underline {
+              stroke: none;
+            }
+          }
+        }
+        .digit {
+          .letter-cell {
+            font-size: 28px;
+          }
+          .letter-literal {
+            font-size: 28px;
+            bottom: 6px;
+          }
+        }
+        #a11y {
+          position: absolute;
+          top: 490px;
+          right: 560px;
+          width: 160px;
+          text-align: right;
+          font-size: 7pt;
+        }
+        #progress {
+          position: absolute;
+          right: 0px;
+          top: 3in;
+
+          p {
+            text-align: right;
+            font-size: 10pt;
+
+           .check::before {
+              position: absolute;
+              background-image: url('images/icons/X.png');
+              background-size: 20px 18px;
+              width: 18px;
+              height: 18px;
+              left: 10px;
+              top: 10px;
+              opacity: 0.5;
+            }
+          }
+        }
+        #math {
+          .purple {
+            background-color: #C399DF;
+            border: solid 3px #9900FF;
+            border-radius: 6px;
+            margin-right: 4px;
+            display: inline-block;
+
+            .word-cell.word-purple {
+              width: 100%;
+              font-size: 20pt;
+
+              .word-input {
+                color: #9900ff;
+              }
+            }
+          }
+        }
       }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <p class="flavor">
-        Hello!
-      </p>
+      <div class="flavor">
+        <p>Below is a Sudoku-like grid. The rules are:</p>
+        <ul>
+          <li>The distribution of digits is pyramidal. <br/>
+            There are eight 1s, seven 2s, six 3s, five 4s, four 5s, three 6s, two 7s, and a single 8.
+          </li>
+          <!--TODO: draw inline arrows-->
+          <li>Each row and hexagonal diagonal contains only unique digits – no duplicates.<br />
+            However, the middle black hexagon is a barrier. Duplicates can exist on either side of that barrier.
+          </li>
+          <li>A snake is any sequence of adjacent and consecutively numbered cells starting at 1. In this puzzle,<br />
+            an optimal snake grouping creates seven snakes: one of length 8, three of length 5, and three of<br />
+            length 2. The tail numbers of each of these snakes have been provided. For the four longest<br />
+            snakes, all member cells for a given snake share the same color and underline.</li>
+        </ul>
+      </div>
+      <div id="svgContainer">
+        <svg id="svg">
+          <g transform="translate(320,280)">
+            <for each="purp" in="{purples}">
+              <g class="purple" transform="translate({-135+{purp.1}*90-{purp.0}*90/2},{{purp.0}*78-234})">
+                <rect x="-45" y="-34" rx="10" width="{90*purp.2}" height="68" />
+              </g>
+            </for>
 
+            <for each="row" in="{colors}">
+              <for char="col" in="{row}">
+                <if test="{col}" ne=" ">
+                  <g class="circle-{colors.[row#].[col#]}" transform="translate({-135+{col#}*90-{row#}*90/2},{{row#}*78-234})">
+                    <circle id="circle-{col#}-{row#}" r="42" />
+                    <path class="underline" d="M-20,20 h40" />
+                  </g>                  
+                </if>
+              </for>
+            </for>
+            
+            <path id="hex" d="M42,24 L0,48 L-42,24 L-42,-24 L0,-48 L42,-24 Z" />
+
+          </g>
+        </svg>
+        
+        <div id="entries" data-input-style="none">
+          <for each="row" in="{colors}">
+            <for char="col" in="{row}">
+              <if test="{col}" ne=" ">
+                <div class="digit" sstyle="position: absolute; transform:translate({-135+col#*90-row#*90/2}px,{row#*78-270}px)">
+                  <if test="{digits.[row#].[col#]}" eq="{0}">
+                    <number />
+                  </if>
+                  <else>
+                    <number literal="{digits.[row#].[col#]}" />
+                  </else>
+                </div>
+              </if>
+            </for>
+          </for>
+        </div>
+
+        <div id="progress">
+          <for each="prog" in="{progress}">
+            <p>
+              <for int="p" until="{prog.1}">
+                <if test="{p}" ge="{prog.1 - prog.2}">
+                  <span class="cross-off crossed-off">{prog.0}</span>
+                </if>
+                <else>
+                  <span class="cross-off">{prog.0}</span>
+                </else>
+              </for>
+            </p>
+          </for>
+        </div>
+
+        <p id="a11y">
+          Note: Underline styles are not a code. They are an extra way to disambiguate snake colors.
+        </p>
+
+      </div>
+
+      <div class="flavor">
+        <ul>
+          <li>Finally, sum digits within each indicated region:</li>
+        </ul>
+        <div id="math" data-word-style="purple">
+          <for each="purp" in="{purples}">
+            <span id="math-{purp#}" class="purple" sstyle="width:{purp.2 * 30}px">
+              <word />
+            </span>
+          </for>
+        </div>
+      </div>
 
       <use template='finalAnswer' left="2in" width="3in" />
 

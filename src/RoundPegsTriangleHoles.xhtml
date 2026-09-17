@@ -133,6 +133,11 @@
             stroke-width: 4px;
           }
         }
+        #mini-svg .triangle {
+          fill: none;
+          stroke: #509;
+          stroke-width: 8px;
+        }
       }
     </style>
   </head>
@@ -223,7 +228,14 @@
       </div>
 
       <div class="flavor" style="margin-top: -10px">
-        <p>You need to squeeze clusters of three pegs into those six triangular   holes.
+        <p>You need to squeeze clusters of three pegs into those six triangular 
+          <svg id="mini-svg" style="display:inline-block" width="30" height="30" viewBox="-90 -116 180 180">
+            <path class="triangle" d="M0,60 
+              C90.26,63.66 100.26,46.34 51.96,-30 
+              C10,-110 -10,-110 -51.96,-30 
+              C-100.26,46.34 -90.26,63.66 0,60 Z" />
+          </svg>
+          holes.
         <br/>They’d probably pack tighter if summed together.</p>
       </div>
 
