@@ -5,6 +5,7 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <script src="V/ue1.js" />
+    <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
     <script>
       window.boiler = {
         title: 'Unfortunate Events Part I',
@@ -16,25 +17,68 @@
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          wordle: [
+            'yxyyx',
+            'xxyxx',
+            'xxxxx',
+            'yyxgx'
+          ],
         },
       };
     </script>
     <style>
-      #Local {
-        
-      }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <p class="flavor">
-        Hello!
-      </p>
+      <div class="quarter" id="top-left">
+        <h2>EVENT: DROPPING THE BALL</h2>
+        <p><i>One ball you’re juggling doesn’t match any<br />
+          other. Throw it out. Add letters for identical<br />
+          balls (e.g. A+B=C) and resume juggling.</i>
+        </p>
+      </div>
+      <div class="quarter" id="top-right">
+        <h2>EVENT: PICKING UP THE PIECES</h2>
+        <p><i>Oh no! You’ve broken a family heirloom and<br />
+          need to repair it. You remember it was square<br />
+          and pieces of the same color did not touch.</i>
+        </p>
+      </div>
+      <div class="quarter" id="bottom-left">
+        <h2>EVENT: BREAKING UP</h2>
+        <p><i>They say that breaking up is hard to<br />
+          do… but if you tee up the set up,<br />
+          you’ll get a breakthrough.</i>
+        </p>
+      </div>
+      <div class="quarter" id="bottom-right">
+        <h2>EVENT: GOING DOWNHILL FAST</h2>
 
+      </div>
+      <div id="wordle" data-input-style="grid">
+        <for each="row" in="wordle" trim="all">
+          <p id="wordle-{row#}">
+            <if test="{row# % 2}" eq="{0}">
+              <img class="left-edge-arrow" src="UnfortunateEvents/right-arrow.png" />
+            </if>
+            <for char="cell" in="row">
+              <letter class="wordle-{cell}" />
+            </for>
+            <if test="{row# % 2}" eq="{1}">
+              <img class="right-edge-arrow" src="UnfortunateEvents/left-arrow.png" />
+            </if>
+          </p>
+        </for>
+        <p class="bottom">
+          <img src="UnfortunateEvents/down-arrow.png" /><br />
+          ANSWER WORDLE
+        </p>
+      </div>
 
       <use template='finalAnswer' left="2in" width="3in" />
 
-      </div>
+    </div>
   </body>
 </html>
 

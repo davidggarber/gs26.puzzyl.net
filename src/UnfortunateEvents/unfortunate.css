@@ -1,0 +1,108 @@
+#Local {
+  .quarter {
+    position: absolute;
+    width: 3.75in;
+    height: 4.6in;
+
+    h2 {
+      font-size: 10pt;
+      font-weight: bold;
+      margin: 10px 6px;
+    }
+    p {
+      font-size: 10pt;
+      margin: 0px;
+      font-style: italic;
+      margin: 0px 6px;
+    }
+  }
+  #top-left {
+    top: 0;
+    left: 0;
+    border-right: solid 1px black;
+    border-bottom: solid 1px black;
+  }
+  #top-right {
+    top: 0;
+    right: 0;
+    border-bottom: solid 1px black;
+
+    h2, p {
+      text-align: right;
+    }
+  }
+  #bottom-left {
+    top: 4.6in;
+    left: 0;
+    border-right: solid 1px black;
+  }
+  #bottom-right {
+    top: 4.6in;
+    right: 0;
+
+    h2, p {
+      text-align: right;
+    }
+  }
+  #wordle {
+    position: absolute;
+    width: 136.32px;
+    height: 158.4px;
+    top: 3.9in;
+    left: 3in;
+    background-color: #F2F2F2;
+    border: solid 1px black;
+    text-align: center;
+
+    p {
+      position: relative;
+      width: 100%;
+      margin: 1px 0px;
+    }
+
+    .left-edge-arrow {
+      position: absolute;
+      height: 24px;
+      width: 14.6px;
+      top: 0px;
+      left: -7px;
+    }
+    .right-edge-arrow {
+      position: absolute;
+      height: 24px;
+      width: 14.6px;
+      top: 0px;
+      right: -7px;
+    }
+    p#wordle-0 {
+      margin-top: 10px;
+    }
+    p.bottom {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      margin: 4px;
+      font-size: 9pt;
+
+      img {
+        position: relative;
+        width: 24px;
+        height: 14.6px;
+      }
+    }
+    .letter-cell.letter-grid {
+      width: 22px;
+      height: 22px;
+    }
+    .wordle-x {
+      background-color: #D9D9D9;
+    }
+    .wordle-y {
+      background-color: #ffff00;
+    }
+    .wordle-g {
+      background-color: #A9D18E;
+    }
+  }
+}

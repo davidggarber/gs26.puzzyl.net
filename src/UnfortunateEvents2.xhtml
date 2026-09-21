@@ -5,6 +5,7 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <script src="V/ue2.js" />
+    <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
     <script>
       window.boiler = {
         title: 'Unfortunate Events Part II',
@@ -16,25 +17,61 @@
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          wordle: [
+            'yyyxy',
+            'yxyxy',
+            'xxygy',
+            'xgyyx'
+          ],
         },
       };
     </script>
     <style>
-      #Local {
-        
-      }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <p class="flavor">
-        Hello!
-      </p>
+      <div class="quarter" id="top-left">
+        <h2>EVENT: LOSING THE MOVIE AUDIO</h2>
+      </div>
+      <div class="quarter" id="top-right">
+        <h2>EVENT:  GETTING LOST IN A CAVE</h2>
 
+      </div>
+      <div class="quarter" id="bottom-left">
+        <h2>EVENT: LOSING THE GAME</h2>
+        <p>Sometimes it’s just a little <i>bit too<br />
+          much</i> to deal with the <i>tumultuous</i><br />
+          outcome of a <i>tabletop game</i>.
+        </p>
+      </div>
+      <div class="quarter" id="bottom-right">
+        <h2>EVENT: ALLERGY SEASON </h2>
+
+      </div>
+      <div id="wordle" data-input-style="grid">
+        <for each="row" in="wordle" trim="all">
+          <p id="wordle-{row#}">
+            <if test="{row# % 2}" eq="{0}">
+              <img class="left-edge-arrow" src="UnfortunateEvents/right-arrow.png" />
+            </if>
+            <for char="cell" in="row">
+              <letter class="wordle-{cell}" />
+            </for>
+            <if test="{row# % 2}" eq="{1}">
+              <img class="right-edge-arrow" src="UnfortunateEvents/left-arrow.png" />
+            </if>
+          </p>
+        </for>
+        <p class="bottom">
+          <img src="UnfortunateEvents/down-arrow.png" /><br />
+          ANSWER WORDLE
+        </p>
+      </div>
 
       <use template='finalAnswer' left="2in" width="3in" />
 
-      </div>
+    </div>
   </body>
 </html>
 
