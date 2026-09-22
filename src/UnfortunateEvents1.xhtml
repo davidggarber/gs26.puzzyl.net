@@ -48,6 +48,20 @@
             ['Second place', 6],
             ['What a bet winner asks the loser to do', 3],
           ],
+          across: [
+            'Simon Templar alter ego',
+            'Wiser companion',
+            'Chinese tech company',
+            'What one might say to two and zero? (2 wd)',
+            'Somebody who used to know',
+          ],
+          down: [
+            'A vague size description (2 wd)',
+            'San Antonio fort',
+            'American _____ (musical)',
+            'Donkey to a Brit',
+            'An alternate nickname of one called Gertie',
+          ],
         },
       };
     </script>
@@ -67,9 +81,76 @@
         font-weight: bold;
       }
 
+      #fast-grid {
+        margin-left: 1.25in;
+        margin-top: 0.2in;
+        border: solid 3px black;
+        border-collapse: collapse;
+
+        td {
+          border: solid 1px black;
+          width: 32px;
+          height: 26px;
+          padding-top: 4px;
+          position: relative;
+          text-align: center;
+          vertical-align: middle;
+
+          .corner-number {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 5pt;
+          }
+
+          .letter-cell {
+            font-size: 16pt;
+          }
+        }
+        #fast-1-3, #fast-2-3, #fast-4-3 {
+          border-left: solid 2px black;
+        }
+      }
+
+      #fast-hints {
+        margin-top: 12px;
+
+        th {
+          text-decoration: underline;
+          text-align: left;
+          padding-left: 0.25in;
+        }
+        td {
+          vertical-align: top;
+          width: 170px;
+
+          ol {
+            margin: 0px;
+
+            li {
+              margin-bottom: 4px;
+            }
+          }
+        }
+      }
+
+      .extract-circle {
+        border: solid 1px black;
+        background-color: #d9d9d9;
+        border-radius: 50%;
+        padding: 2px;
+
+        input {
+          border-radius: 50%;
+        }
+      }
+      .extract-circle:has(input:focus) {
+        background-color: gold;
+      }
+
       #breakups {
         margin-top: 0px;
-        margin-left: 0.5in;
+        margin-left: 0.4in;
         th {
           font-weight: normal;
           height: 1.4in;
@@ -89,21 +170,30 @@
             text-align: left;
           }
         }
-        td {
+        td.break-lower {
           padding: 2px 8px;
           text-align: center;
           vertical-align: top;
           line-height: 10px;
 
+          .letter-cell {
+            font-size: 16pt;
+          }
+
         }
-        .letter-cell.letter-grid {
-          width: 28px;
-          height: 28px;
-        }
-        .gray-circle {
-          border: solid 1px black;
-          background-color: #d9d9d9;
-          border-radius: 25%;
+
+        .break-entry {
+          border-collapse: collapse;
+
+          td {
+            border: solid 1px black;
+            width: 32px;
+            height: 26px;
+            padding-top: 4px 0px 0px 0px;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
+          }
         }
       }
     </style>
@@ -145,17 +235,25 @@
           </ttr>
           <ttr>
             <for each="b" in="{breaks}">
-              <ttd data-letter-style="grid" data-extract-style="grid">
-                <div class="input-group-wrapper">
-                  <for int="i" until="{b.1}">
-                    <br /><letter data-input-groups="d:break{b#}" />
+              <ttd class="break-lower" data-letter-style="none" data-extract-style="grid">
+                <ttable class="break-entry" data-input-style="none" data-extract-style="circle">
+                  <ttr>
+                    <ttd>
+                      <letter data-input-groups="d:break{b#}" extract="true" />
+                    </ttd>
+                  </ttr>
+                  <for int="i" from="1" until="{b.1}">
+                    <ttr>
+                      <ttd>
+                        <letter data-input-groups="d:break{b#}" />
+                      </ttd>
+                    </ttr>
                   </for>
-                </div>
+                </ttable>
               </ttd>
             </for>
           </ttr>
         </ttable>
-
 
         <p style="position: absolute; bottom: 0px;">
           <i>Hint: All answers share<br/>
@@ -166,6 +264,55 @@
 
       <div class="quarter" id="bottom-right">
         <h2>EVENT: GOING DOWNHILL FAST</h2>
+
+        <ttable id="fast-grid" data-input-style="none" data-extract-style="circle">
+          <for int="r" until="5">
+            <ttr>
+              <for int="c" until="5">
+                <ttd id="fast-{r}-{c}">
+                  <if test="{r}" eq="{0}">
+                    <span class="corner-number">{c+1}</span>
+                  </if>
+                  <else>
+                    <if test="{c}" eq="{0}">
+                      <span class="corner-number">{r+1}</span>
+                    </if>
+                  </else>
+                  <if test="{r-c}" eq="{0}">
+                    <letter extract="true" data-input-groups="r:fastrow{r#} d:fastcol{c#}" />
+                  </if>
+                  <else>
+                    <letter data-input-groups="r:fastrow{r#} d:fastcol{c#}" />
+                  </else>
+                </ttd>
+              </for>
+            </ttr>
+          </for>
+        </ttable>
+
+        <table id="fast-hints">
+          <tr>
+            <th>Across</th>
+            <th>Down</th>
+          </tr>
+          <tr>
+            <td>
+              <ol>
+                <for each="hint" in="{across}">
+                  <li>{hint}</li>
+                </for>
+              </ol>
+            </td>  
+            <td>
+              <ol>
+                <for each="hint" in="{down}">
+                  <li>{hint}</li>
+                </for>
+              </ol>
+            </td>
+          </tr>
+        </table>
+
 
       </div>
 
