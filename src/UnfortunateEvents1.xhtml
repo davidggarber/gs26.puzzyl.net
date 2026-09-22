@@ -14,6 +14,7 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          dragDrop: 'pieces',
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -62,6 +63,38 @@
             'Donkey to a Brit',
             'An alternate nickname of one called Gertie',
           ],
+          pieces: [
+            { color: '#FFFFCC',
+              width: 3,
+              height: 3,
+              text: [' OM', ' I ', 'BU '],
+              start: 'drop-1-1',
+            },
+            { color: '#FFCC99',
+              width: 3,
+              height: 3,
+              text: ['  S', '  S', 'ESS'],
+              start: 'drop-1-7',
+            },
+            { color: '#FFCC99',
+              width: 3,
+              height: 3,
+              text: ['L  ', 'A  ', ' RU'],
+              start: 'drop-3-4',
+            },
+            { color: '#99CCFF',
+              width: 4,
+              height: 2,
+              text: ['IKE ', ' T  '],
+              start: 'drop-7-2',
+            },
+            { color: '#99CCFF',
+              width: 2,
+              height: 3,
+              text: ['C ', 'E ', 'IN'],
+              start: 'drop-6-8',
+            },
+          ]
         },
       };
     </script>
@@ -196,6 +229,28 @@
           }
         }
       }
+
+      #pieces {
+        .drop-zone {
+          stroke: none;
+          fill: transparent;
+        } 
+
+        .drag-handle {
+          rect {
+            stroke: black;
+            stroke-width: 1px;
+          }
+
+          text {
+            font-size: 18pt;
+            font-weight: bold;
+            text-anchor: middle;
+            alignment-baseline: middle;
+            fill: black;
+          }
+        }
+      }
     </style>
   </head>
   <body id="Local">
@@ -219,6 +274,36 @@
           need to repair it. You remember it was square<br />
           and pieces of the same color did not touch.</i>
         </p>
+
+        <svg id="pieces" width="361" height="441" xmlns="http://www.w3.org/2000/svg">
+          <g id="drop-layer">
+            <for int="y" until="12">
+              <for int="x" until="10">
+                <g id="drop-{y}-{x}" ttransform="translate({18+36*x},{18+36*y})" class="drop-target">
+                  <rect x="-18" y="-18" width="36" height="36" class="drop-zone" />
+                </g>
+              </for>
+            </for>
+          </g>
+
+          <g id="drag-layer">
+            <for each="p" in="pieces">
+              <g class="transform-copy" transform-copy="{p.start}">
+                <g id="piece-{p#}" class="moveable">
+                  <for int="y" until="{p.height}">
+                    <for int="x" until="{p.width}">
+                      <if test="{p.text.[y].[x]}" ne=" ">
+                        <use template="drag-cell" xx="{x*36}" yy="{y*36}" text="{p.text.[y].[x]}" color="{p.color}" />
+                      </if>
+                    </for>
+                  </for>
+                </g>
+              </g>
+            </for>
+          </g>
+
+        </svg>
+
       </div>
 
       <div class="quarter" id="bottom-left">
@@ -236,20 +321,22 @@
           <ttr>
             <for each="b" in="{breaks}">
               <ttd class="break-lower" data-letter-style="none" data-extract-style="grid">
-                <ttable class="break-entry" data-input-style="none" data-extract-style="circle">
-                  <ttr>
-                    <ttd>
-                      <letter data-input-groups="d:break{b#}" extract="true" />
-                    </ttd>
-                  </ttr>
-                  <for int="i" from="1" until="{b.1}">
+                <div class="input-group-wrapper">
+                  <ttable class="break-entry" data-input-style="none" data-extract-style="circle">
                     <ttr>
                       <ttd>
-                        <letter data-input-groups="d:break{b#}" />
+                        <letter data-input-groups="d:break{b#}" extract="true" />
                       </ttd>
                     </ttr>
-                  </for>
-                </ttable>
+                    <for int="i" from="1" until="{b.1}">
+                      <ttr>
+                        <ttd>
+                          <letter data-input-groups="d:break{b#}" />
+                        </ttd>
+                      </ttr>
+                    </for>
+                  </ttable>
+                </div>
               </ttd>
             </for>
           </ttr>
@@ -371,6 +458,13 @@
     </template>
     <template id="juggle-h">
       <path class="heart" d="M0,-6 C6.640483,-24.75973 32.672763,-6.047941 0.03492,18.105253 C-32.673638,-5.952544 -6.695355,-24.739542 0,-6 Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#F4B183" fill-rule="evenodd"/>
+    </template>
+
+    <template id="drag-cell">
+      <g class="drag-handle" transform="translate({xx},{yy})">
+        <rect x="-18" y="-18" width="36" height="36" fill="{color}" />
+        <text x="0" y="0">{text}</text>
+      </g>
     </template>
   </body>
 </html>
