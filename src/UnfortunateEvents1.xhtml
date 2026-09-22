@@ -23,10 +23,89 @@
             'xxxxx',
             'yyxgx'
           ],
+          juggles: [
+            // x, y, rot, band,star, lt-mid-rt, lx,ly,label
+            [40,44,-120, '#A9D18E','#D785AE', 'sph', 40,20,'A'],
+            [150,40,160, '#D785AE','#A9D18E', 'hps', 38,22,'A'],
+            [245,50,-160, '#BDD7EE','#A9D18E', 'sph', -10,42,'J'],
+
+            [45,140,160, '#D785AE','#A9D18E', 'sph', 34,-34,'C'],
+            [148,135,-60, '#BDD7EE','#A9D18E', 'sph', 46,0,'F'],
+            [300,130,80, '#A9D18E','#D785AE', 'psh', -45,10,'H'],
+
+            [60,225,180, '#A9D18E','#D785AE', 'sph', 40,-25,'B'],
+            [175,217,-110, '#A9D18E','#D785AE', 'psh', 40,25,'G'],
+            [265,210,-60, '#D785AE','#A9D18E', 'sph', -36,-29,'B'],
+
+            [35, 310,-110, '#D785AE','#A9D18E', 'hps', 44,10,'C'],
+            [140,300,-50, '#BDD7EE','#D785AE', 'hps', 22,38,'E'],
+            [230,310,0, '#BDD7EE','#A9D18E', 'sph', -35,25,'I'],
+          ],
+          breaks: [
+            ['Where a suspect is identified', 4],
+            ['No longer a kid', 5],
+            ['Abs exercize', 3],
+            ['Second place', 6],
+            ['What a bet winner asks the loser to do', 3],
+          ],
         },
       };
     </script>
     <style>
+      #juggle-balls {
+        position: relative;
+      }
+      .j-ball {
+        position: absolute;
+
+        svg {
+          position: absolute;
+        }
+      }
+      .j-label {
+        position: absolute;
+        font-weight: bold;
+      }
+
+      #breakups {
+        margin-top: 0px;
+        margin-left: 0.5in;
+        th {
+          font-weight: normal;
+          height: 1.4in;
+          width: 0.27in;
+          padding: 2px 8px;
+          position: relative;
+          vertical-align: bottom;
+          text-align: center;
+
+          .rotate {
+            position: absolute;
+            width: 1.4in;
+            height: 0.27in;
+            transform: rotate(-90deg);
+            transform-origin: top left;
+            white-space: normal;
+            text-align: left;
+          }
+        }
+        td {
+          padding: 2px 8px;
+          text-align: center;
+          vertical-align: top;
+          line-height: 10px;
+
+        }
+        .letter-cell.letter-grid {
+          width: 28px;
+          height: 28px;
+        }
+        .gray-circle {
+          border: solid 1px black;
+          background-color: #d9d9d9;
+          border-radius: 25%;
+        }
+      }
     </style>
   </head>
   <body id="Local">
@@ -37,7 +116,13 @@
           other. Throw it out. Add letters for identical<br />
           balls (e.g. A+B=C) and resume juggling.</i>
         </p>
+        <div id="juggle-balls">
+          <for each="j" in="juggles">
+            <use template="juggle-ball" x="{j.0}" y="{j.1}" rot="{j.2}" band="{j.3}" star="{j.4}" lt="{j.5.0}" mid="{j.5.1}" rt="{j.5.2}" lx="{j.6}" ly="{j.7}" label="{j.8}" />
+          </for>
+        </div>
       </div>
+
       <div class="quarter" id="top-right">
         <h2>EVENT: PICKING UP THE PIECES</h2>
         <p><i>Oh no! You’ve broken a family heirloom and<br />
@@ -45,17 +130,45 @@
           and pieces of the same color did not touch.</i>
         </p>
       </div>
+
       <div class="quarter" id="bottom-left">
         <h2>EVENT: BREAKING UP</h2>
         <p><i>They say that breaking up is hard to<br />
-          do… but if you tee up the set up,<br />
-          you’ll get a breakthrough.</i>
+          do… but if you tee</i> up <i>the set</i> up,<br />
+          <i>you’ll get a breakthrough.</i>
+        </p>
+        <ttable id="breakups">
+          <ttr>
+            <for each="b" in="{breaks}">
+              <tth><div class="rotate">{b.0}</div></tth>
+            </for>
+          </ttr>
+          <ttr>
+            <for each="b" in="{breaks}">
+              <ttd data-letter-style="grid" data-extract-style="grid">
+                <div class="input-group-wrapper">
+                  <for int="i" until="{b.1}">
+                    <br /><letter data-input-groups="d:break{b#}" />
+                  </for>
+                </div>
+              </ttd>
+            </for>
+          </ttr>
+        </ttable>
+
+
+        <p style="position: absolute; bottom: 0px;">
+          <i>Hint: All answers share<br/>
+          something in common, which<br />
+          may help you entertain them.</i>
         </p>
       </div>
+
       <div class="quarter" id="bottom-right">
         <h2>EVENT: GOING DOWNHILL FAST</h2>
 
       </div>
+
       <div id="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
           <p id="wordle-{row#}">
@@ -79,6 +192,39 @@
       <use template='finalAnswer' left="2in" width="3in" />
 
     </div>
+
+    <template id="juggle-ball">
+      <div class="j-ball" sstyle="left:{x}px; top:{y}px;">
+        <svg width="75" height="75" viewBox="0 0 263 263" xmlns="http://www.w3.org/2000/svg" style="left:-37.5px; top:-37.5px;" transform="rotate({rot})">
+          <g transform="translate(131, 131)">
+            <circle class="j-ball" r="128" fill="#FFFFCC" stroke="#000000" stroke-width="4.58333" />
+            <path class="j-band" d="M123.6385,-33.12884 A188 188 0 0 1 -123.6385,-33.12884 A128 128 0 0 0 -125.2028929,26.61269642 A188 188 0 0 0 125.2028929,26.61269642 A128 128 0 0 0 123.6385,-33.12884Z" stroke="#000000" stroke-width="4.58333" fill="{band}" />
+            <path d="M113.929,-58.948 C109.157,-54.531 101.055,-55.614 96.494,-55.544 C91.932,-57.475 86.633,-64.009 86.556,-70.532 C86.48,-77.054 89.569,-84.206 93.473,-86.915 C103.389,-76.298 108.631,-70.508 113.929,-58.948 Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#D9D9D9" fill-rule="evenodd"/>
+            <path d="M-94.904,-85.35 C-88.974,-82.674 -84.917,-75.571 -84.869,-70.619 -84.82,-65.667 -88.683,-58.247 -94.611,-55.639 -100.538,-53.032 -108.297,-53.094 -113.117,-57.477 -106.565,-68.896 -103.359,-75.975 -94.904,-85.35 Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#A7E8FF" fill-rule="evenodd"/>
+            <path class="j-star" d="M-52.34,-117.219 C-25.474,-131.525 15.348,-131.673 46.417,-118.239 L32.894,-109.988 40.017,-97.28 23.454,-95.841 22.101,-81.799 6.936,-87.559 -2.53,-75.947 -12.234,-87.361 -27.277,-81.289 -28.919,-95.3 -45.508,-96.396 -38.649,-109.249 -52.34,-117.219 Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="{star}" fill-rule="evenodd"/>
+            <g transform="translate(0, -35)">
+              <use template='juggle-{mid}' />
+            </g>
+            <g transform="translate(0,-160) rotate(-25.5) translate(0,129)">
+              <use template='juggle-{rt}' />
+            </g>
+            <g transform="translate(0,-160) rotate(25.5) translate(0,129)">
+              <use template='juggle-{lt}' />
+            </g>
+          </g>
+        </svg>
+        <span class="j-label" sstyle="left:{lx-6}px; top:{ly-6}px;">{label}</span>
+      </div>
+    </template>
+    <template id="juggle-p">
+      <path class="j-plus" d="M-15.665,-6.32 -5.403,-6.28 -5.363,-16.543 7.033,-16.494 6.993,-6.232 17.255,-6.192 17.201,7.721 6.939,7.681 6.898,17.943 -5.497,17.895 -5.457,7.633 -15.72,7.593Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#BDD7EE" fill-rule="evenodd"/>
+    </template>
+    <template id="juggle-s">
+      <path class="j-star" d="M0.516636,-18.239578 5.665395,-7.055108 18.347749,-5.485684 8.759113,2.962178 10.814557,15.103262 -0.260353,9.138623 -11.672291,15.072613 -8.92727,2.938634 -18.036295,-5.535098 -5.265809,-7.069508Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#FFC000" fill-rule="evenodd"/>
+    </template>
+    <template id="juggle-h">
+      <path class="heart" d="M0,-6 C6.640483,-24.75973 32.672763,-6.047941 0.03492,18.105253 C-32.673638,-5.952544 -6.695355,-24.739542 0,-6 Z" stroke="#000000" stroke-width="4.58333" stroke-miterlimit="8" fill="#F4B183" fill-rule="evenodd"/>
+    </template>
   </body>
 </html>
 

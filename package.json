@@ -6,6 +6,7 @@
     "scripts":  {
                     "dev:alpha":  "set \"PUZZYL_DEV_MODE=alpha\" \u0026\u0026 set \"PUZZYL_KIT_DIST=D:\\git\\puzzyl-kit\\dist\" \u0026\u0026 set \"PUZZYL_KIT_SRC=D:\\git\\puzzyl-kit\\src\" \u0026\u0026 node dev-server.mjs",
                     "dev":  "node dev-server.mjs",
+                    "find:dev":  "echo Looking for non-zero process listening on port 3000 && netstat -ano | findstr :3000",
                     "testport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $conns | Select-Object LocalAddress,LocalPort,OwningProcess\"",
                     "stopport":  "powershell -NoProfile -Command \"$port=if($env:npm_config_port){[int]$env:npm_config_port}else{3000}; $conns=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if(-not $conns){Write-Host (\u0027No listening process on port \u0027 + $port); exit 0}; $pids=$conns | Select-Object -ExpandProperty OwningProcess -Unique; foreach($pid in $pids){Stop-Process -Id $pid -Force -ErrorAction Stop; Write-Host (\u0027Stopped PID \u0027 + $pid + \u0027 on port \u0027 + $port)}\"",
                     "build":  "node build.mjs",

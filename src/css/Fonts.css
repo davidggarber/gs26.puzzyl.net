@@ -68,9 +68,13 @@
   }
 }
 
-td:has(.input-group) {
+.input-group-wrapper:has(.input-group) {
   background-color: #ff9;
 }
+td:has(.input-group):not(:has(.input-group-wrapper)) {
+  background-color: #ff9;
+}
+
 .letter-cell:has(input:focus) {
   background-color: gold;
   color: black;
