@@ -15,6 +15,7 @@
           textInput: 'nearest',
           scratchPad: true,
           wordSearch: true,
+          checkMarks: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -31,7 +32,60 @@
             [48,48],[48,48],[48,48],[49,49],[45,45],
             [62,62],[57,57],[47,47],[48,48],[41,41],
             [46,46],[43,46],[57,57],[45,45],[48,52],
-          ]
+          ],
+          caves: [
+            ['     g y  y','          E'],
+            ['     g y   ','           '],
+            ['     g     ','           '],
+            ['     gg    ','           '],
+            ['   g  g    ','           '],
+            ['   g g    y','           '],
+            ['     g  g y','           '],
+            [' y  y   g  ','           '],
+            [' y  y     y','          E'],
+          ],
+          games: [
+            'BLUE CRABS',
+            'CATNAP',
+            'ONUS',
+            'SKIER',
+            'CHESTS'
+          ],
+          flower: {
+            offsets: [
+              [-30,-17.3],
+              [-30,17.3],
+              [0,-34.6],
+              [0,34.6],
+              [30,-17.3],
+              [30,17.3],
+            ],
+            flowers: [
+              'AIDLAH',
+              'TEVLIO',
+              'AIZNIN',
+              'WOYRAR',
+              'SUSCRO',
+              'MUAILL',
+            ],
+            labels: [
+              'VI', 'V', 'I', 'IV', 'II', 'III'
+            ],
+            pents: [
+              [1,1.3764],
+              [-1,1.3764],
+              [-1.618,-0.5257],
+              [0,-1.7013],
+              [1.618,-0.5257]
+            ],
+            pdata: [
+              ['IV', 'I'],
+              ['I', 'III'],              
+              ['VI', 'II'],
+              ['II', 'VI'],
+              ['V', 'VI']
+            ]
+          }
         },
       };
     </script>
@@ -51,6 +105,117 @@
           stroke: none;
         }
       }
+
+      #top-right {
+        #caves {
+          margin-left: 40px;
+          border-collapse: collapse;
+          border: 4px solid black;
+
+          td {
+            border: 1px solid black;
+            width: 22px;
+            height: 22px;
+            padding: 0px;
+          }
+          td.cave-g {
+            background-color: #D9D9D9;
+            border-top: none;
+            border-bottom: none;
+          }
+          td.cave-y {
+            background-color: #FFFFCC;
+            border-top: none;
+            border-bottom: none;
+          }
+        }
+        ul {
+          margin: 3px;
+          position: absolute;
+          bottom: 0px;
+        }
+        #cave1 {
+          right: 1.25in;
+        }
+        #cave2 {
+          right: 0px;
+        }
+        .check::before {
+          background-size: 20px 18px;
+          width: 20px; 
+          height: 18px;
+        }
+      }
+
+      #games {
+        width: 100%;
+        margin-top: 20px;
+
+        td {
+          text-align: center;
+          .word-cell {
+            width: 0.75in;
+          }
+        }
+        .left {
+          width: 30%;
+        }
+        .middle {
+          width: 40%;
+          font-size: 16pt;
+          font-weight: bold;
+          height: 30pt;
+        }
+        .right {
+          width: 30%;
+        }
+      }
+
+      #flowers {
+        .hex, .pent {
+          stroke: black;
+          stroke-width: 2px;
+        }
+        .petal {
+          fill: #FFF2CC;
+        }
+        text {
+          font-size: 12pt;
+          text-anchor: middle;
+          dominant-baseline: middle;
+        }
+        .flow-VI {
+          fill: #F1947B;
+        }
+        .flow-V {
+          fill: #FFFF93;
+        }
+        .flow-I {
+          fill: #A9D18E;
+        }
+        .flow-IV {
+          fill: #9DC3E6;
+        }
+        .flow-II {
+          fill: #C9A4E4;
+        }
+        .flow-III {
+          fill: #FFC000;
+        }
+        .gray {
+          fill: #7F7F7F;
+        }
+        .ring {
+          fill: #E7E6E6;
+          stroke: black;
+          stroke-width: 1px;
+        }
+        .mark {
+          stroke: black;
+          stroke-width: 1px;
+          fill: none;
+        }
+      }
     </style>
   </head>
   <body id="Local">
@@ -65,31 +230,106 @@
             </g>
           </for>
         </svg>
-        <p>If the audio goes out in the movies,<br />
+        <p class="pt9">If the audio goes out in the movies,<br />
           subtitles don’t help if they are images!<br />
           Find these adjacent two-word movies<br />
           (always in correct order). The unused 2<br />
           images are a clue to the word you seek.
         </p>
       </div>
+
       <div class="quarter" id="top-right">
         <h2>EVENT:  GETTING LOST IN A CAVE</h2>
-
+        <ttable id="caves" data-letter-style="none">
+          <for each="row" in="caves">
+            <ttr>
+              <for char="cell" in="row.0">
+                <ttd class="cave-{cell}">
+                  <if test="{row.1.[cell#]}" eq=" ">
+                    <letter />
+                  </if>
+                  <else>
+                    <letter literal="{row.1.[cell#]}" />
+                  </else>
+                </ttd>
+              </for>
+            </ttr>  
+          </for>          
+        </ttable>
+        <p class="pt9" style="text-align: left; margin-left: 20px; margin-top: 4px;">
+          Fit the entries below into the “cave” grid above, one<br />
+          entry per row, starting in any column where the entry<br />
+          fits. Tall boxes indicate the only adjacent letters that<br />
+          match between rows. Read the gray boxes from the<br />
+          top down for the little-known way out. Two letters<br />
+          are given to get you started.
+        </p>
+        <ul id="cave1">
+          <li class="cross-off">BATGUANO</li>  
+          <li class="cross-off">CURTAIN</li>  
+          <li class="cross-off">DARKNESS</li>  
+          <li class="cross-off">PASSAGES</li>  
+        </ul>
+        <ul id="cave2">
+          <li class="cross-off">SODASTRAW</li>  
+          <li class="cross-off">SPELUNKER</li>  
+          <li class="cross-off">STALACTITE</li>  
+          <li class="cross-off">STALAGMITE</li>  
+          <li class="cross-off">WATERDRIPS</li>  
+        </ul>
       </div>
+
       <div class="quarter" id="bottom-left">
         <h2>EVENT: LOSING THE GAME</h2>
         <p>Sometimes it’s just a little <i>bit too<br />
           much</i> to deal with the <i>tumultuous</i><br />
           outcome of a <i>tabletop game</i>.
         </p>
+      
+        <ttable id="games" data-letter-style="dotted" data-word-style="hover">
+          <for each="game" in="{games}">
+            <ttr>
+              <ttd class="left no-print"><word /></ttd>  
+              <ttd class="middle">{game}</ttd>
+              <ttd class="right no-print"><letter /></ttd>
+            </ttr>  
+          </for>
+        </ttable>
       </div>
+
       <div class="quarter" id="bottom-right">
         <h2>EVENT: ALLERGY SEASON </h2>
-        <p>How can you describe the worst type of allergy effects?
-          Decode my hybrid in the center (it’s so easy: pick the
+        <svg id="flowers" width="360" height="342" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(180, 170)">
+            <path class="ring" d="M-100,-57.67 L-100,57.67 L0,115.33 L100,57.67 L100,-57.67 L0,-115.33 Z" />
+            <for int="f" until="6">
+              <g transform="translate({flower.offsets.[f].0 * 10 / 3}, {flower.offsets.[f].1 * 10 / 3})">
+                <for each="h" in="flower.offsets">
+                  <g transform="translate({h.0}, {h.1})">
+                    <use template="hex" text="{flower.flowers.[f#].[h#]}" cls="petal" />
+                  </g>
+                </for>
+                <use template="hex" text="{flower.labels.[f#]}" cls="flow-{flower.labels.[f#]}" />
+                <use template="mark-{flower.labels.[f#]}" />
+              </g>
+            </for>
+
+            <circle r="20" stroke="red" fill="none" />
+            <use template="pent" text="" cls="gray" />
+            <for each="p" in="{flower.pents}">
+              <g transform="translate({p.0 * -202/10}, {p.1 * -202/10})">
+                <use template="pent" rot="{36 + p# * 72}" cls="flow-{flower.pdata.[p#].0}" text="{flower.pdata.[p#].1}" />
+                <use template="mark-{flower.pdata.[p#].0}" />
+              </g>
+            </for>
+          </g>
+        </svg>
+        <p class="pt9">How can you describe the worst type of allergy effects?<br />
+          Decode my hybrid in the center (it’s so easy: pick the<br />
           outer ring’s flower then pick its petal)!
         </p>
       </div>
+
       <div id="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
           <p id="wordle-{row#}">
@@ -113,6 +353,33 @@
       <use template='finalAnswer' left="2in" width="3in" />
 
     </div>
+
+    <template id="hex">
+      <path class="hex {cls}" d="M-10,-17.3 h20 l10,17.3 l-10,17.3 h-20 l-10,-17.3 Z" />
+      <text y="3">{text}</text>
+    </template>
+    <template id="pent">
+      <path class="pent {cls}" d="M12.5,17.20476 h-25 l-7.7254,-23.7764 l20.2254,-14.6946 l20.2254,14.6946 Z" transform="rotate({rot})" />
+      <text y="1">{text}</text>
+    </template>
+    <template id="mark-I">
+      <circle class="mark" r="15" />
+    </template>
+    <template id="mark-II">
+      <path class="mark" d="M-15,-6 v12 l9,9 h12 l9,-9 v-12 l-9,-9 h-12 Z" />
+    </template>
+    <template id="mark-III">
+      <path class="mark" d="M9.5,14.0758 L0,11.2078 L-9.5,14.0758 L-9.708,4.15 L-15.371,-3.99415 L-6,-7.2584 L0,-15.16235 L6,-7.2584 L15.371,-3.9875 L9.708,4.1542 Z" />
+    </template>
+    <template id="mark-IV">
+      <path class="mark" d="M17,0 L11.4,3.7 L13.8,10 L7.1,9.7 L5.3,16.2 L0,12 L-5.3,16.2 L-7.1,9.7 L-13.8,10 L-11.4,3.7 L-17,0 L-11.4,-3.7 L-13.8,-10 L-7.1,-9.7 L-5.3,-16.2 L0,-12 L5.3,-16.2 L7.1,-9.7 L13.8,-10 L11.4,-3.7 Z"/>
+    </template>
+    <template id="mark-V">
+      <path class="mark" d="M9,12.3876 L-9,12.3876 L-14.562,-4.7313 L0,-15.3117 L14.562,-4.725 Z" />
+    </template>
+    <template id="mark-VI">
+      <path class="mark" d="M-13,-8 v16 c3,0 5,2 5,5 h16 c0,-3 2,-5 5,-5 v-16 c-3,0 -5,-2 -5,-5 h-16 c0,3 -2,5 -5,5 Z" />
+    </template>
   </body>
 </html>
 
