@@ -14,6 +14,7 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          wordSearch: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -23,16 +24,53 @@
             'xxygy',
             'xgyyx'
           ],
+          movies: [
+            [57,57],[57,57],[49,49],[48,48],[48,61],
+            [57,57],[68,58],[57,57],[48,48],[52,52],
+            [57,57],[51,51],[57,57],[47,47],[41,41],
+            [48,48],[48,48],[48,48],[49,49],[45,45],
+            [62,62],[57,57],[47,47],[48,48],[41,41],
+            [46,46],[43,46],[57,57],[45,45],[48,52],
+          ]
         },
       };
     </script>
     <style>
+      #top-left {
+        svg, p {
+          margin-left: 10px;
+        }
+        .word-select {
+          stroke-width: 52px;
+        }
+        .word-select-fill {
+          stroke-width: 48px;
+        }
+
+        .vertex.building {
+          stroke: none;
+        }
+      }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
       <div class="quarter" id="top-left">
         <h2>EVENT: LOSING THE MOVIE AUDIO</h2>
+        <svg id="movie-images" width="300" height="324" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select">
+          <for int="img" until="30">
+            <g transform="translate({29 + 58 * (img%5)}, {27 + 54 * (img\5)})">
+              <rect class="vertex" x="-27" y="-27" width="54" height="54" />
+              <image hhref="UnfortunateEvents/2/Movie{img}.png" xx="{movies.[img].0 / -2}" yy="{movies.[img].1 / -2}" wwidth="{movies.[img].0}" hheight="{movies.[img].1}" />
+            </g>
+          </for>
+        </svg>
+        <p>If the audio goes out in the movies,<br />
+          subtitles don’t help if they are images!<br />
+          Find these adjacent two-word movies<br />
+          (always in correct order). The unused 2<br />
+          images are a clue to the word you seek.
+        </p>
       </div>
       <div class="quarter" id="top-right">
         <h2>EVENT:  GETTING LOST IN A CAVE</h2>
@@ -47,7 +85,10 @@
       </div>
       <div class="quarter" id="bottom-right">
         <h2>EVENT: ALLERGY SEASON </h2>
-
+        <p>How can you describe the worst type of allergy effects?
+          Decode my hybrid in the center (it’s so easy: pick the
+          outer ring’s flower then pick its petal)!
+        </p>
       </div>
       <div id="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
