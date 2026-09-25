@@ -14,6 +14,9 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          // wordSearch: true,
+          checkMarks: true,
+          straightEdge: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
@@ -23,26 +26,367 @@
             'gxyxx',
             'xxxxy'
           ],
+          weather: [
+            ' IL4UO TOTH',
+            'SKEA YKCORE',
+            'A TNADE E2C',
+            '3ODOR ETNHI',
+            'DN1MATRTNEE',
+            'LOCYPAIN8MF',
+          ],
+          weatherIcons: [
+            '1     2    ',
+            '    3      ',
+            ' 4     5   ',
+            '     6     ',
+            '           ',
+            '           ',
+          ],
+          friends: [
+            [-56, -24, 0],
+            [-56, -10, 0],
+            [-56, -10, 0],
+            [-56, -10, 0],
+            [-56, -16, 0],
+            [-38, -22, 135],
+
+            [65, 0, 0],
+            [55, 0, 0],
+            [55, 0, 0],
+            [55, 0, 0],
+            [55, 0, 0],
+            [55, 5, 0],
+          ],
+          friendText: [
+            ['U', 73, 53], // x range: [0,140]
+            ['L', 45, 89], // y range: [50 first dot, +60 for each]
+            ['E', 98, 89],
+            ['B', 22, 111],
+            ['A', 115, 119],
+            ['I', 75, 140],
+            ['N', 30, 138],
+            ['R', 108, 150],
+            ['O', 50, 175],
+            ['E', 110, 198],
+            ['D', 45, 210],
+            ['S', 86, 240],
+            ['M', 30, 260],
+            ['S', 68, 260],
+            ['P', 118, 270],
+            ['I', 29, 290],
+            ['N', 45, 310],
+            ['Y', 95, 310],
+            ['G', 60, 350],
+          ],
+          work: [
+            ' b    ',
+            '1 23r ',
+            '      ',
+            'r rr 1',
+            ' 4 bb3',
+            '  r   ',
+            'r 5 4 ',
+            '   r  ',
+            'r 52r ',
+            ' b b  ',
+            '      ',
+          ],
+          clockwise: [
+            'A washing sponge (nonstandard spelling)',
+            'Slightly drunk',
+            'Put a question to',
+            'Egyptian river',
+            'Ecstatic joy',
+            'Parts of speech expressing action, existence, or occurrence',
+          ],
+          antiClockwise: [
+            'Latte made with half-and-half',
+            'Wheel-made groove',
+            'Peel fruit skin off with a specific knife',
+            'Chain element',
+            'Speaks',
+            'Pocket bread',
+            'April ___ Day',
+          ],
         },
       };
     </script>
     <style>
+      #Local {
+        #top-left {
+          #weather {
+            .vertex {
+              fill: transparent;
+              stroke: black;
+              stroke-width: 1px;
+            }
+            text {
+              dominant-baseline: middle;
+              text-anchor: middle;
+              font-size: 10.5pt;
+            }
+            .word-select {
+              stroke-width: 26px;
+            }
+            .word-select-fill {
+              stroke-width: 22px;
+            }
+          }
+          ul {
+            margin-top: 0px;
+          }
+        }
+        .check::before {
+          background-size: 20px 18px;
+          width: 20px; 
+          height: 18px;
+        }
+
+        #top-right {
+          h2 {
+            margin-bottom: 0px;
+          }
+          #friends {
+            margin: 0px;
+
+            .vertex {
+              fill: black;
+              stroke: #2F528F;
+              stroke-width: 2px;
+            }
+            text {
+              dominant-baseline: middle;
+              text-anchor: middle;
+              font-size: 16pt;
+              font-weight: bold;
+            }
+            .straight-edge {
+              stroke-width: 14px;
+              stroke: #ff000088;
+            }
+            .straight-edge.building {
+              stroke-width: 14px;
+              stroke: #ff999999;
+            }
+          }
+        }
+
+        #bottom-left {
+          #work {
+            .word-select {
+              stroke-width: 18px;
+            }
+            .word-select-fill {
+              stroke-width: 16px;
+            }
+            .vertex {
+              fill: #E7E6E6;
+              stroke: black;
+              stroke-width: 1px;
+            }
+            text {
+              dominant-baseline: middle;
+              text-anchor: middle;
+              font-size: 10.5pt;
+              font-weight: bold;
+              fill: white;
+            }
+            .wall {
+              stroke: black;
+              stroke-width: 6px;
+            }
+            circle {
+              stroke: black;
+              stroke-width: 1px;
+            }
+            .circle-1 {
+              fill: #00B0F0;
+            }
+            .circle-2 {
+              fill: #ED7D31;
+            }
+            .circle-3 {
+              fill: #AD3973;
+            }
+            .circle-4 {
+              fill: #548235;
+            }
+            .circle-5 {
+              fill: #BF9000;
+            }
+          }
+          #side {
+            position: absolute;
+            right: 0.1in;
+            width: 1.5in;
+            top: 1.2in;
+
+            p {
+              margin-bottom: 0.1in;
+            }
+          }
+        }
+
+        #bottom-right {
+          #circles {
+            circle {
+              fill: none;
+              stroke: black;
+              stroke-width: 1px;
+            }
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+
+            th {
+              text-decoration: underline;
+              text-align: left;
+              padding-left: 10px;
+            }
+            td {
+              vertical-align: top;
+
+              ol {
+                margin-top: 6px;
+                padding-left: 32px;
+
+                li {
+                  margin-top: 2px;
+                }
+              }
+            }
+          }
+        }
+      }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
       <div class="quarter" id="top-left">
         <h2>EVENT: FEELING UNDER THE WEATHER</h2>
+        <svg id="weather" width="350" height="190" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select" data-angle-constraints="90" data-max-points="30">
+          <for each="row" in="{weather}">
+            <for char="ch" in="{row}">
+              <g ttransform="translate({5 + 30 * ch#}, {5 + 30 * row#})">
+                <if test="{ch}" ne=" ">
+                  <text x="15" y="16" class="text">{ch}</text>
+                </if>
+                <else>
+                  <image class="icon" hhref="UnfortunateEvents/3/Weather{weatherIcons.[row#].[ch#]}.png" x="1" y="1" width="28" height="28" />
+                </else>
+                <rect class="vertex" width="30" height="30" />
+              </g>
+            </for>
+          </for>
+        </svg>
+        <ul>
+          <li class="cross-off">Warcraft maker</li>
+          <li class="cross-off">Barbra’s Funny Girl track</li>
+          <li class="cross-off">Presidential anthem</li>
+          <li class="cross-off">Scorpions’ signature song</li>
+          <li class="cross-off">Foreigner’s complaint about a girl</li>
+        </ul>
+        <p><i>Hint: One symbol is not used, but the others<br/>
+          are quite important. Use the extra data you<br/>
+          find on your path on the weather for that<br/>
+          path.</i></p>
       </div>
+      
       <div class="quarter" id="top-right">
         <h2>EVENT: FRIENDS CHANGE</h2>
+        <svg id="friends" width="360" height="400" xmlns="http://www.w3.org/2000/svg" class="straight-edge-area no-user-select" data-hover-range="20">
+          <for int="i" until="6">
+              <g class="straight-edge-container"/>
+              <g ttransform="translate(103,{50 + i*60})">
+              <circle class="vertex" r="9" />
+              <g ttransform="translate({friends.[i].[0]},{friends.[i].[1]})">
+                <image x="-30" y="-30" width="60" height="60" hhref="UnfortunateEvents/3/Friend{i+1}.png" ttransform="rotate({friends.[i].[2]})" />
+              </g>
+            </g>
+            <g ttransform="translate(261,{50 + i*60})">
+              <circle class="vertex" r="9" />
+              <g ttransform="translate({friends.[i+6].[0]},{friends.[i+6].[1]})">
+                <image x="-30" y="-30" width="60" height="60" hhref="UnfortunateEvents/3/Friend{i+7}.png" ttransform="rotate({friends.[i+6].[2]})" />
+              </g>
+            </g>
+          </for>
+          <for each="ch" in="{friendText}">
+            <g ttransform="translate({112 + ch.1},{3 + ch.2})">
+              <text>{ch.0}</text>
+            </g>
+          </for>
+        </svg>
       </div>
+
       <div class="quarter" id="bottom-left">
         <h2>EVENT: ENDLESS WORK</h2>
+
+        <svg id="work" width="200" height="360" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select" data-angle-constraints="90" data-max-points="30">
+          <for each="row" in="{work}">
+            <for char="ch" in="{row}">
+              <g ttransform="translate({5 + 30 * ch#}, {5 + 30 * row#})">
+                <rect class="vertex" width="30" height="30" />
+              </g>
+            </for>
+          </for>
+          <for each="row" in="{work}">
+            <for char="ch" in="{row}">
+              <g ttransform="translate({5 + 30 * ch#}, {5 + 30 * row#})">
+                <if test="{ch}" eq="b">
+                  <path class="wall" d="M0,31 h30" />
+                </if>
+                <elseif test="{ch}" eq="r">
+                  <path class="wall" d="M30,0 v30" />
+                </elseif>
+                <elseif test="{ch}" ne=" ">
+                  <circle class="circle-{ch}" cx="15" cy="15" r="12" />
+                  <text x="15" y="16">{ch}</text>
+                </elseif>
+              </g>
+            </for>
+          </for>
+        </svg>
+
+        <div id="side">
+          <p>Connect paths between matching numbers, 
+            <i>filling every cell</i> but without crossing thick borders.
+          </p>
+          <p>When you’re done, count the cells on each path (not including the endpoints).          
+          </p>
+        </div>
       </div>
+
       <div class="quarter" id="bottom-right">
         <h2>EVENT: RUNNING IN CIRCLES</h2>
-
+        <svg id="circles" width="360" height="220" xmlns="http://www.w3.org/2000/svg" class="straight-edge-area no-user-select" data-hover-range="20">
+          <g transform="translate(180, 110)">
+            <circle r="100" />
+            <circle r="80" />
+          </g>
+        </svg>
+        <table id="hints">
+          <tr>
+            <th style="width:1.85in;">CLOCKWISE</th>
+            <th style="width:1.65in;">ANTI-CLOCKWISE</th>
+          </tr>
+          <tr>
+            <td>
+              <ol>
+                <for each="h" in="{clockwise}">
+                  <li>{h}</li>
+                </for>
+              </ol>
+            </td>
+            <td>
+              <ol>
+                <for each="h" in="{antiClockwise}">
+                  <li>{h}</li>
+                </for>
+              </ol>
+            </td>
+          </tr>
+        </table>
       </div>
       <div id="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
