@@ -108,6 +108,54 @@
             'Pocket bread',
             'April ___ Day',
           ],
+          circleMarks: {
+            1: {outside: 2},
+            3: {inside: 6},
+            6: {outside: 3, star: 2},
+            7: {inside: 5},
+            9: {outside: 4},
+            10: {star: 3},
+            11: {inside: 4},
+            13: {outside: 5},
+            15: {inside: 3},
+            18: {inside: 2, star: 4},
+            20: {outside: 6},
+            21: {star: 5},
+            23: {inside: 1},
+            25: {outside: 1},
+            28: {inside: 7, star: 1},
+          },
+          circle29: [
+            [87.8958500139078,19.3473396189922],
+            [81.6817877703861,37.7900191404238],
+            [71.6483759135079,54.4656793674389],
+            [58.2647656303645,68.5945849614873],
+            [42.1567596629811,79.5160840001421],
+            [24.0775504676299,86.7194993267301],
+            [4.87250177268758,89.8680072466011],
+            [-14.5603796897488,88.8143870287374],
+            [-33.3124339805923,83.6079047835112],
+            [-50.5068358826144,74.4920098341202],
+            [-65.3395942730818,61.8929512968081],
+            [-77.117145855083,46.3998471459319],
+            [-85.2887854064522,28.7371377122382],
+            [-89.4724161438924,9.73071165815477],
+            [-89.4724161438924,-9.73071165815471],
+            [-85.2887854064522,-28.7371377122382],
+            [-77.117145855083,-46.399847145932],
+            [-65.3395942730818,-61.8929512968081],
+            [-50.5068358826144,-74.4920098341201],
+            [-33.3124339805923,-83.6079047835112],
+            [-14.5603796897488,-88.8143870287374],
+            [4.8725017726875,-89.8680072466012],
+            [24.0775504676298,-86.7194993267301],
+            [42.1567596629811,-79.5160840001421],
+            [58.2647656303645,-68.5945849614873],
+            [71.648375913508,-54.4656793674388],
+            [81.6817877703861,-37.7900191404238],
+            [87.8958500139078,-19.3473396189922],
+            [90,-2.20526721883552E-14],
+          ]
         },
       };
     </script>
@@ -228,11 +276,41 @@
         }
 
         #bottom-right {
+          #circles-container {
+            position: relative;
+            width: 360px;
+            height: 240px;
+          }
           #circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+
             circle {
               fill: none;
               stroke: black;
               stroke-width: 1px;
+            }
+            path {
+              fill: none;
+              stroke: black;
+              stroke-width: 1px;
+            }
+            .outer, .inner {
+              font-size: 9pt;
+            }
+          }
+          #circles-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            .circle-div {
+              position: absolute;
+            }
+
+            .letter-cell {
+              font-size: 10pt;
             }
           }
           table {
@@ -359,12 +437,41 @@
 
       <div class="quarter" id="bottom-right">
         <h2>EVENT: RUNNING IN CIRCLES</h2>
-        <svg id="circles" width="360" height="220" xmlns="http://www.w3.org/2000/svg" class="straight-edge-area no-user-select" data-hover-range="20">
-          <g transform="translate(180, 110)">
-            <circle r="100" />
-            <circle r="80" />
-          </g>
-        </svg>
+        <div id="circles-container">
+          <svg id="circles" width="360" height="240" xmlns="http://www.w3.org/2000/svg" class="straight-edge-area no-user-select" data-hover-range="20">
+            <g transform="translate(180, 120)">
+              <circle r="100" />
+              <circle r="80" />
+              <for int="i" until="29">
+                <g ttransform="rotate({180 +i * 360 / 29})">
+                  <path d="M0,-80 v-20" />
+                </g>
+                <if test="{i}" in="{circleMarks}">
+                  <g ttransform="rotate({i * 360 / 29})">
+                    <if exists="{circleMarks.[i].outside}">
+                      <path d="M-10,-100 v-5 q0,-10 10,-10 q10,0 10,10 v5" />
+                      <text class="outer" x="-8" y="-102">{circleMarks.[i].outside}▶</text>
+                    </if>
+                    <if exists="{circleMarks.[i].inside}">
+                      <path d="M-9,-80 v8 q0,7 7,7 h4 q7,0 7,-7 v-8" />
+                      <text class="inner" x="-10" y="-68">◀{circleMarks.[i].inside}</text>
+                    </if>
+                    <if exists="{circleMarks.[i].star}">
+                      <circle cx="0" cy="-90" r="10" />
+                    </if>
+                  </g>
+                </if>
+              </for>
+            </g>
+          </svg>
+          <div id="circles-input" data-letter-style="hover">
+            <for each="c" in="{circle29}">
+              <div class="circle-div" sstyle="left: {167+c.0}px; top: {108+c.1}px;">
+                <letter />
+              </div>
+            </for>
+          </div>
+        </div>
         <table id="hints">
           <tr>
             <th style="width:1.85in;">CLOCKWISE</th>
@@ -388,6 +495,7 @@
           </tr>
         </table>
       </div>
+
       <div id="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
           <p id="wordle-{row#}">

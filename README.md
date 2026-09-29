@@ -101,6 +101,19 @@ node_modules/@davidggarber/puzzyl-kit/
   dist/kit.umd.js                       kit loaded directly by .xhtml pages
 ```
 
+### puzzyl-kit bug fixes
+
+Ensure `package.json` references desired puzzyl-kit version.
+```
+    "dependencies":  {
+                         "@davidggarber/puzzyl-kit":  "0.1.[latest]"
+                     },
+```
+Then rerun `npm install` etc.
+
+*TODO: but then test layout-preserving tests.*
+
+
 ## Current success status
 
 Note: we are using `Computers.xhtml` as our first test page.
