@@ -75,11 +75,11 @@ td:has(.input-group):not(:has(.input-group-wrapper)) {
   background-color: #ff9;
 }
 
-.letter-cell:has(input:focus) {
+.letter-cell:has(input:focus):not(:has(.letter-non-input)) {
   background-color: gold;
   color: black;
 }
-input::selection {
+input::selection:not(.letter-non-input) {
   background-color: transparent;
   background-color: #000;
   color: gold;
@@ -98,7 +98,6 @@ input::selection {
   color: black;
 }
 .word-cell input::selection {
-  background-color: transparent;
   background-color: #000;
   color: gold;
 }

@@ -244,11 +244,11 @@
           </g>
         </svg>
         
-        <div id="entries" data-input-style="none">
+        <div id="entries" data-input-style="none" class="navigate-literals">
           <for each="row" in="{colors}">
             <for char="col" in="{row}">
               <if test="{col}" ne=" ">
-                <div class="digit" sstyle="position: absolute; transform:translate({-135+col#*90-row#*90/2}px,{row#*78-270}px)">
+                <div class="digit" sstyle="position: absolute; transform:translate({-135+col#*90 - row#*90/2 + (row#%2)}px,{row#*78-270}px)">
                   <if test="{digits.[row#].[col#]}" eq="{0}">
                     <number />
                   </if>

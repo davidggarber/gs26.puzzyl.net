@@ -37,6 +37,23 @@ function isWithinRoot(candidatePath, rootPath) {
   return normalizedCandidate === normalizedRoot || normalizedCandidate.startsWith(`${normalizedRoot}${path.sep}`)
 }
 
+// Mirror the live server's case sensitivity: every path segment must match the
+// on-disk name exactly, even though NTFS lookups are case-insensitive.
+// Returns null when any segment differs in case (or does not exist).
+async function readCaseExact(candidatePath, rootPath) {
+  const relativePath = path.relative(rootPath, candidatePath)
+  const segments = relativePath.split(path.sep).filter(Boolean)
+  let currentPath = rootPath
+  for (const segment of segments) {
+    const entries = await fs.readdir(currentPath)
+    if (!entries.includes(segment)) {
+      return null
+    }
+    currentPath = path.join(currentPath, segment)
+  }
+  return fs.readFile(currentPath)
+}
+
 async function readAlphaKitSourceMap(mapPath) {
   const originalMap = JSON.parse(await fs.readFile(mapPath, 'utf8'))
   const rewrittenMap = {
@@ -62,7 +79,10 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(403); res.end('Forbidden'); return
       }
 
-      const content = await fs.readFile(candidatePath)
+      const content = await readCaseExact(candidatePath, ALPHA_KIT_SRC)
+      if (!content) {
+        res.writeHead(404); res.end('Not found'); return
+      }
       const ext = path.extname(candidatePath).toLowerCase()
       res.writeHead(200, { 'Content-Type': MIME[ext] ?? 'application/octet-stream' })
       res.end(content)
@@ -82,9 +102,9 @@ const server = http.createServer(async (req, res) => {
           res.end(content)
           return
         }
-        candidatePaths.push(alphaKitPath)
+        candidatePaths.push({ path: alphaKitPath, root: ALPHA_KIT_DIST })
       }
-      candidatePaths.push(path.resolve(REPO_ROOT, `.${KIT_ALIAS}${sourceMapSuffix}`))
+      candidatePaths.push({ path: path.resolve(REPO_ROOT, `.${KIT_ALIAS}${sourceMapSuffix}`), root: REPO_ROOT })
     } else {
       // Serve from src/ first; fall back to repo root (for node_modules etc.)
       const sitePath = path.resolve(SITE_ROOT, '.' + urlPath)
@@ -94,14 +114,14 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(403); res.end('Forbidden'); return
       }
 
-      candidatePaths.push(sitePath, repoPath)
+      candidatePaths.push({ path: sitePath, root: SITE_ROOT }, { path: repoPath, root: REPO_ROOT })
     }
 
     let content
-    for (const candidatePath of candidatePaths) {
+    for (const candidate of candidatePaths) {
       try {
-        content = await fs.readFile(candidatePath)
-        break
+        content = await readCaseExact(candidate.path, candidate.root)
+        if (content) break
       } catch {
         // Try next candidate path.
       }

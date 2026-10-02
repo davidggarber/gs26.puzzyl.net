@@ -224,7 +224,7 @@
         <h2>EVENT: LOSING THE MOVIE AUDIO</h2>
         <svg id="movie-images" width="300" height="324" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select">
           <for int="img" until="30">
-            <g transform="translate({29 + 58 * (img%5)}, {27 + 54 * (img\5)})">
+            <g ttransform="translate({29 + 58 * (img%5)}, {27 + 54 * (img\5)})">
               <rect class="vertex" x="-27" y="-27" width="54" height="54" />
               <image hhref="UnfortunateEvents/2/Movie{img}.png" xx="{movies.[img].0 / -2}" yy="{movies.[img].1 / -2}" wwidth="{movies.[img].0}" hheight="{movies.[img].1}" />
             </g>
@@ -240,7 +240,7 @@
 
       <div class="quarter" id="top-right">
         <h2>EVENT:  GETTING LOST IN A CAVE</h2>
-        <ttable id="caves" data-letter-style="none">
+        <ttable id="caves" data-letter-style="none" class="navigate-literals">
           <for each="row" in="caves">
             <ttr>
               <for char="cell" in="row.0">
@@ -303,9 +303,9 @@
           <g transform="translate(180, 170)">
             <path class="ring" d="M-100,-57.67 L-100,57.67 L0,115.33 L100,57.67 L100,-57.67 L0,-115.33 Z" />
             <for int="f" until="6">
-              <g transform="translate({flower.offsets.[f].0 * 10 / 3}, {flower.offsets.[f].1 * 10 / 3})">
+              <g ttransform="translate({flower.offsets.[f].0 * 10 / 3}, {flower.offsets.[f].1 * 10 / 3})">
                 <for each="h" in="flower.offsets">
-                  <g transform="translate({h.0}, {h.1})">
+                  <g ttransform="translate({h.0}, {h.1})">
                     <use template="hex" text="{flower.flowers.[f#].[h#]}" cls="petal" />
                   </g>
                 </for>
@@ -317,7 +317,7 @@
             <circle r="20" stroke="red" fill="none" />
             <use template="pent" text="" cls="gray" />
             <for each="p" in="{flower.pents}">
-              <g transform="translate({p.0 * -202/10}, {p.1 * -202/10})">
+              <g ttransform="translate({p.0 * -202/10}, {p.1 * -202/10})">
                 <use template="pent" rot="{36 + p# * 72}" cls="flow-{flower.pdata.[p#].0}" text="{flower.pdata.[p#].1}" />
                 <use template="mark-{flower.pdata.[p#].0}" />
               </g>

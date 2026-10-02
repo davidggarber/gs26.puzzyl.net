@@ -15,7 +15,7 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
-          // wordSearch: true,
+          wordSearch: true,
           checkMarks: true,
           straightEdge: true,
         },
@@ -453,7 +453,7 @@
           <div id="circles-input" data-letter-style="hover">
             <for each="c" in="{circle29}">
               <div class="circle-div" sstyle="left: {c.0}px; top: {c.1}px;">
-                <letter />
+                <letter data-input-groups="cw::{c#} ccw::{29-c#}" />
               </div>
             </for>
           </div>

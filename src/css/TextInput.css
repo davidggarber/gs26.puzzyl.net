@@ -1,3 +1,8 @@
+:root {
+  --variable-font: 'Verdana';
+  --monospace-font: 'Consolas';
+}
+
 .letter-cell {
   display: inline-block;
   position: relative;
@@ -238,9 +243,20 @@ input[type=number]::-webkit-outer-spin-button {
   bottom: 0px;
   line-height: 100%;
   text-align: center;
-  font-family: 'Verdana';
+  font-family: var(--variable-font);
   font-size: 10pt;
   color: black;
+}
+
+.letter-input.letter-non-input {
+  color: black;
+  font-weight: normal;
+  font-family: var(--variable-font);
+}
+
+input.letter-input.letter-non-input::selection {
+  color: black;
+  background-color: transparent;
 }
 
 .letter-underline .letter-literal {

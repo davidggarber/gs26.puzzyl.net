@@ -199,10 +199,10 @@
           </g>
         </svg>
 
-        <div id="entries" data-input-style="none">
+        <div id="entries" data-input-style="none" class="navigate-literals">
           <for int="y" from="0" until="4">
             <for int="x" from="0" until="{y}+4">
-              <div sstyle="position: absolute; transform:translate({-135+x*90-y*90/2}px,{y*78-234}px)">
+              <div sstyle="position: absolute; transform:translate({-135+x*90 - y*90/2 + (y%2)}px,{y*78-234}px)">
                 <if test="{digits.[y].[x]}" eq="{0}">
                   <number />
                 </if>
@@ -214,7 +214,7 @@
           </for>
             <for int="y" from="4" until="7">
               <for int="x" from="0" until="10-{y}">
-                <div sstyle="position: absolute; transform:translate({-405+x*90+y*90/2}px,{y*78-234}px)">
+                <div sstyle="position: absolute; transform:translate({-405+x*90 + y*90/2 + (y%2)}px,{y*78-234}px)">
                   <if test="{digits.[y].[x]}" eq="{0}">
                     <number />
                   </if>
