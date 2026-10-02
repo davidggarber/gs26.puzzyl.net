@@ -38,7 +38,7 @@
   }
 
   .rating-feedback-button.sent:after {
-    background-image: url('../Icons/Check.png');
+    background-image: url('../icons/Check.png');
     background-size: 15px 14px;
     content: ' ';
     display: block;
