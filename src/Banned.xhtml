@@ -18,56 +18,83 @@
         reactiveBuilder: 'pageBody',
         lookup: {
           empty: [],
-          layer1: [
-            [1,0,'M0,0 v60'],
-            [3,0,'M0,0 v60'],
-            [4,0,'M0,0 v60'],
-            [0,1,'M0,0 v60'],
-            [2,1,'M0,30 v30 h30'],
-            [3,1,'M0,0 h30'],
-            [5,1,'M0,0 v60 h30'],
-            [1,2,'M15,0 v60 m-15,0 h30'],
-            [2,2,'M0,0 h30'],
-            [4,2,'M30,0 h-30 v60 m0,-30 h30'],
-          ],
-          layer2: [
-            [0,0,'M0,30 h30'],
-            [1,0,'M0,0 h30 M0,30 h30 M0,60 h30'],
-            [2,0,'M30,0 l-30,30 l30,30'],
-            [3,0,'M30,0 v60 h-30'],
-            [5,0,'M30,0 v60'],
-            [0,1,'M0,0 h30 M0,30 h30'],
-            [1,1,'M30,0 v60'],
-            [4,1,'M0,0 v60'],
-            [2,2,'M30,0 v60'],
-            [4,2,'M0,0 h30 m-15,0 v60'],
-          ],
-          layer3: [
-            [0,0, 'M0,30 h30 v30 h-30'],
-            [1,0, 'M0,0 h30 v60'],
-            [2,0, 'M0,0 h30'],
-            [5,0, 'M15,0 v60'],
-            [2,1, 'M0,0 h30 v30 h-30'],
-            [3,1, 'M30,30 h-30 v30 h30'],
-            [4,1, 'M0,30 v-30 h30 v30'],
-            [0,2, 'M0,0 l30,30 v-30'],
-            [4,2, 'M0,0 h30 v30 h-30'],
-            [5,2, 'M0,30 h30 v30 h-30'],
-          ],
-          layer4: [
-            [0,0, 'M0,60 h30'],
-            [2,0, 'M15,0 v60'],
-            [5,0, 'M0,0 h30 v30 h-30'],
-            [0,1, 'M0,30 h30 l-30,30 v-30'],
-            [1,1, 'M0,0 v60'],
-            [3,1, 'M0,30 h30 v30'],
-            [4,1, 'M0,0 h30'],
-            [1,2, 'M0,0 h30 M0,60 h30'],
-            [2,2, 'M0,30 h30 M0,60 h30'],
-            [5,2, 'M0,30 v30 l30,-30'],
-          ],
+          layers: {
+            1: [
+                [1,0,'M0,0 v60'],
+                [3,0,'M0,0 v60'],
+                [4,0,'M0,0 v60'],
+                [0,1,'M0,0 v60'],
+                [2,1,'M0,30 v30 h30'],
+                [3,1,'M0,0 h30'],
+                [5,1,'M0,0 v60 h30'],
+                [1,2,'M15,0 v60 m-15,0 h30'],
+                [2,2,'M0,0 h30'],
+                [4,2,'M30,0 h-30 v60 m0,-30 h30'],
+              ],
+            2: [
+                [0,0,'  M0,30 h30'],
+                [1,0,'M0,0 h30 M0,30 h30 M0,60 h30'],
+                [2,0,'M30,0 l-30,30 l30,30'],
+                [3,0,'M30,0 v60 h-30'],
+                [5,0,'M30,0 v60'],
+                [0,1,'M0,0 h30 M0,30 h30'],
+                [1,1,'M30,0 v60'],
+                [4,1,'M0,0 v60'],
+                [2,2,'M30,0 v60'],
+                [4,2,'M0,0 h30 m-15,0 v60'],
+              ],
+            3: [
+                [0,0, 'M0,30 h30 v30 h-30'],
+                [1,0, 'M0,0 h30 v60'],
+                [2,0, 'M0,0 h30'],
+                [5,0, 'M15,0 v60'],
+                [2,1, 'M0,0 h30 v30 h-30'],
+                [3,1, 'M30,30 h-30 v30 h30'],
+                [4,1, 'M0,30 v-30 h30 v30'],
+                [0,2, 'M0,0 l30,30 v-30'],
+                [4,2, 'M0,0 h30 v30 h-30'],
+                [5,2, 'M0,30 h30 v30 h-30'],
+              ],
+            4: [
+                [0,0, 'M0,60 h30'],
+                [2,0, 'M15,0 v60'],
+                [5,0, 'M0,0 h30 v30 h-30'],
+                [0,1, 'M0,30 h30 l-30,30 v-30'],
+                [1,1, 'M0,0 v60'],
+                [3,1, 'M0,30 h30 v30'],
+                [4,1, 'M0,0 h30'],
+                [1,2, 'M0,0 h30 M0,60 h30'],
+                [2,2, 'M0,30 h30 M0,60 h30'],
+                [5,2, 'M0,30 v30 l30,-30'],
+              ],
+          },
         },
       };
+
+      function flipHorz(i) {
+        var sideGrid = document.getElementById('horz-f' + i);
+        var mainGrid = document.getElementById('horz-m' + i);
+        toggleClass(sideGrid, 'flippingH', true);
+        toggleClass(mainGrid, 'flippingH', true);
+        toggleClass(sideGrid, 'flipH');
+        toggleClass(mainGrid, 'flipH');
+      }
+      function flipVert(i) {
+        var sideGrid = document.getElementById('vert-f' + i);
+        var mainGrid = document.getElementById('vert-m' + i);
+        toggleClass(sideGrid, 'flippingV', true);
+        toggleClass(mainGrid, 'flippingV', true);
+        toggleClass(sideGrid, 'flipV');
+        toggleClass(mainGrid, 'flipV');
+      }
+      function rotate(i) {
+        var sideGrid = document.getElementById('rot-f' + i);
+        var mainGrid = document.getElementById('rot-m' + i);
+        toggleClass(sideGrid, 'rotating', true);
+        toggleClass(mainGrid, 'rotating', true);
+        toggleClass(sideGrid, 'rotate');
+        toggleClass(mainGrid, 'rotate');
+      }
     </script>
     <style>
       #Local {
@@ -114,6 +141,76 @@
             display: none;
           }
         }
+
+        #feeders {
+          position:absolute;
+          top: 0;
+          left: 9in;
+          width: 3in;
+
+          .feeder-info {
+            .feeder-titles {
+              text-align: center;
+              font-size: 12pt;
+              font-weight: bold;
+              margin: 0.25in 0px 0px 0px;
+            }
+            .feeder-buttons {
+              text-align: center;
+              margin: 0px;
+            }
+          }
+        }
+
+        .flippingH, .flippingV, .rotating {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: doFlipH 0.5s ease-in-out forwards;
+        }
+        .flippingH:not(.flipH) {
+          animation: unFlipH 0.5s ease-in-out forwards;
+        }
+        .flippingV.flipV {
+          animation: doFlipV 0.5s ease-in-out forwards;
+        }
+        .flippingV:not(.flipV) {
+          animation: unFlipV 0.5s ease-in-out forwards;
+        }
+        .rotating.rotate {
+          animation: doRotate 0.5s ease-in-out forwards;
+        }
+        .rotating:not(.rotate) {
+          animation: unRotate 0.5s ease-in-out forwards;
+        }
+      }
+
+      @keyframes doFlipH {
+        0% { transform: scale(1, 1); }
+        50% { transform: scale(0, 0.9); }
+        100% { transform: scale(-1, 1); }
+      }
+      @keyframes unFlipH {
+        0% { transform: scale(-1, 1); }
+        50% { transform: scale(0, 0.9); }
+        100% { transform: scale(1, 1); }
+      }
+      @keyframes doFlipV {
+        0% { transform: scale(1, 1); }
+        50% { transform: scale(0.9, 0); }
+        100% { transform: scale(1, -1); }
+      }
+      @keyframes unFlipV {
+        0% { transform: scale(1, -1); }
+        50% { transform: scale(0.9, 0); }
+        100% { transform: scale(1, 1); }
+      }
+      @keyframes doRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(180deg); }
+      }
+      @keyframes unRotate {
+        from { transform: rotate(180deg); }
+        to { transform: rotate(360deg); }
       }
     </style>
   </head>
@@ -127,12 +224,11 @@
         Step 2:  Use the clues you’ve gathered and the grid below to find a secret message.
       </p>
 
-      <svg id="grid" width="430" height="320" xmlns="http://www.w3.org/2000/svg">
+      <svg id="grid" viewBox="-10 -10 440 320" width="440" height="320" xmlns="http://www.w3.org/2000/svg">
         <use template="layer" data="{empty}" id="0" />
-        <use template="layer" data="{layer1}" id="1" />
-        <use template="layer" data="{layer2}" id="2" />
-        <use template="layer" data="{layer3}" id="3" />
-        <use template="layer" data="{layer4}" id="4" />
+        <for int="i" from="1" to="4">
+          <g id="layer-{i}"><use template="layer" data="{layers.{i}}" id="m{i}" /></g>
+        </for>
       </svg>
 
       <p class="flavor">
@@ -176,14 +272,39 @@
 
     </div>
 
+    <div id="feeders" class="no-print">
+      <for int="i" from="1" to="4">
+        <div id="feeder-{i}" class="feeder-info">
+          <p class="feeder-titles">
+            Feeder #{i}
+          </p>
+          <svg id="feeder-grid-{i}" viewBox="-10 -10 441 320" width="287" height="200" xmlns="http://www.w3.org/2000/svg">
+            <g id="f-{i}"><use template="layer" data="{layers.{i}}" id="f{i}" /></g>
+          </svg>
+          <p class="feeder-buttons">
+            <button onclick="flipHorz({i})">Flip horz</button>
+            <button onclick="flipVert({i})">Flip vert</button>
+            <button onclick="rotate({i})">Rotate</button>
+          </p>
+        </div>
+      </for>
+      
+    </div>
+
     <template id="layer">
-      <g id="layer-{id}" class="layer" iid="{id}">
-        <use template="layerGrid" />
-        <for each="cell" in="{data}">
-          <g ttransform="translate({cell.0*70+20},{cell.1*100+20})">
-            <path class="signal" dd="{cell.2}" />
+      <g class="layer">
+        <g id="rot-{id}">
+          <g id="horz-{id}">
+            <g id="vert-{id}">
+              <use template="layerGrid" />
+              <for each="cell" in="{data}">
+                <g ttransform="translate({cell.0*70+20},{cell.1*100+20})">
+                  <path class="signal" dd="{cell.2}" />
+                </g>
+              </for>
+            </g>
           </g>
-        </for>
+        </g>
       </g>
     </template>
 
