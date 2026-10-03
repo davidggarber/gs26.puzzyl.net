@@ -11,6 +11,7 @@ const safariEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails = {
   title: 'Giving Safari 26',
   cssRoot: 'css/',
   imageRoot: 'images/',
+  iconRoot: 'images/icons/',
   googleFonts: 'Henny+Penny,Fontdiner+Swanky,Fuzzy+Bubbles,Handlee',
   fontCss: 'css/Fonts.css',
   links: [],

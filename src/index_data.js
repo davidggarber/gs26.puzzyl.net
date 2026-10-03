@@ -53,5 +53,6 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Unfortunate Events Part I',             thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents1' },
     { round: 0, title: 'Unfortunate Events Part II',            thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents2' },
     { round: 0, title: 'Unfortunate Events Part III',           thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents3' },
+    { round: 0, title: 'Banned',                                thumb: '', author: 'Rorke Haining',       type: meta,     group: meta,   orientation: portrait,   cls:'', feeder: [] },
   ];
 }

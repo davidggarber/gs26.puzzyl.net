@@ -185,17 +185,17 @@ body, p, td, th {
 
 #icons { 
   position: absolute;
-  right: 0px;
-  top: 0px;
-  height: 0.3in;
+  right: -0.25in;
+  top: -0.25in;
+  height: 0.75in;
 }
 .debug #icons {
   box-shadow:0px 0px 15px #aa0000; 
 }
 
 #icons img {
-  height:0.3in;
-  filter: drop-shadow(0px 0px 10px #00000080);
+  height:0.75in;
+  xfilter: drop-shadow(0px 0px 10px #00000080);
 }
 
 #body {
