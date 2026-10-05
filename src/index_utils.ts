@@ -154,8 +154,8 @@ const orient: Record<string, string> = {
 };
 
 type IMetaFeeder = {
-  /** The title of the meta puzzle. */
-  title: string;
+  /** The short name of the meta puzzle. */
+  meta: string;
   /** Which index, among the feeders for that meta puzzles. */
   number: number;
 };
@@ -164,9 +164,9 @@ type IMetaFeeder = {
  * Details of a meta puzzle system
  */
 type IMetaInfo = {
-  /**
-   * The name of the meta-puzzle (which will itself be an entry in the list of puzzles)
-   */
+  /** Short name for this meta, which feeders will also reference. */
+  short: string;
+  /** Full name of the meta puzzle. */
   title: string;
   /** The cache key used by feeders puzzles, when players solve them and get materials for the meta */
   store: string;
@@ -174,6 +174,8 @@ type IMetaInfo = {
   count: number;
   /** An icon to indicate a feeder, and to show feeder progress. */
   icon: string;
+  /** The puzzle info. */
+  puzzle: IPuzzleInfo;
 }
 
 /**
@@ -202,12 +204,9 @@ type IPuzzleInfo = {
   cls: string;
   /** Any feeder puzzles associated with this puzzle. */
   feeder: IMetaFeeder[];
+  /** The meta puzzle group info for this meta-puzzle. */
+  metaInfo?: IMetaInfo;
 };
-
-const meta: Record<string, IMetaInfo> = {
-};
-// var challenge = {
-// }
 
 /**
  * The raw type of entries in index_data.js
@@ -283,26 +282,27 @@ var minis: IMiniGameInfo[] = [
 /** On a given release date, at what hour (UTC) the round is considered released. */
 const releaseHourUTC = 13; // 9am EDT, 6am PDT
 
-const metas: Record<string, IMetaInfo> = {
-    // anthem: {
-    //     title: 'Annual Anthem',
-    //     store: 'AnnualAnthemMeta',
-    //     count: 4,
-    //     icon: 'Icons/anthem.png',
-    // },
-    // coastal: {
-    //     title: 'Coastal Erosion',
-    //     store: 'CoastalErosionMeta',
-    //     count: 4,
-    //     icon: 'Icons/coastal.png',
-    // },
-    // everest: {
-    //     title: 'Up and Down Mount Everest',
-    //     store: 'UpAndDownMountEverestMeta',
-    //     count: 4,
-    //     icon: 'Icons/everest.png',
-    // },
-}
+// Each tuple is [meta info, puzzle info] for one meta puzzle.
+const raw_meta_tuples: [IMetaInfo, IPuzzleData][] = buildIndexOfMetas();
+
+const meta_puzzles: IPuzzleInfo[] = raw_meta_tuples.map(tup => ({
+  ...tup[1],
+  thumb: tup[1].thumb ?? '',
+  cls: tup[1].cls ?? '',
+  feeder: [],
+  type: types['meta'],
+  group: group['meta'],
+  orientation: orient[tup[1].orientation],
+  metaInfo: tup[0],
+}));
+
+const meta_sets: Record<string, IMetaInfo> = raw_meta_tuples.map(tup => ({
+  ...tup[0],
+  title: tup[1].title
+})).reduce((acc, tup) => {
+    acc[tup.short] = tup;
+    return acc;
+}, {} as Record<string, IMetaInfo>);
 
 /**
  * Must be called by index pages in the preBuild callback.
@@ -321,20 +321,27 @@ function initializeIndexUtils() {
   // Most puzzles are defined without .href or .file, so compute those values here.
   // Set them explicitly in the array when the name is not derivable from the title.
   for (let puz of puzzles) {
-      if (!puz.file) {
-          // The assumed name is a CamelCase version of the original
-          let words = puz.title.split(' ');
-          puz['file'] = '';
-          for (let w = 0; w < words.length; w++) {
-              if (words[w].length > 0) {
-                  let word = removePunctuation(words[w]);  // Strip punctuation
-                  word = word[0].toUpperCase() + word.substring(1);  // Camel case
-                  puz.file += word;
-              }
+    ensurePuzzleFile(puz);
+  }
+  for (let meta of meta_puzzles) {
+    ensurePuzzleFile(meta);
+  }
+}
+
+function ensurePuzzleFile(puz: IPuzzleInfo) {
+  if (!puz.file) {
+      // The assumed name is a CamelCase version of the original
+      let words = puz.title.split(' ');
+      puz['file'] = '';
+      for (let w = 0; w < words.length; w++) {
+          if (words[w].length > 0) {
+              let word = removePunctuation(words[w]);  // Strip punctuation
+              word = word[0].toUpperCase() + word.substring(1);  // Camel case
+              puz.file += word;
           }
       }
-      puz.href = puz.file + '.xhtml' + boilerLookup.urlEventArgs;
   }
+  puz.href = puz.file + '.xhtml' + boilerLookup.urlEventArgs;
 }
 
 /**
@@ -484,9 +491,9 @@ function syncProgress() {
  * Scan through all known meta materials and update their unlocked status in the UI.
  */
 function syncUnlockedMetas() {
-  let metaKeys = Object.keys(metas);
+  let metaKeys = Object.keys(meta_sets);
   for (let m = 0; m < metaKeys.length; m++) {
-    let metaInfo = metas[metaKeys[m]];
+    let metaInfo = meta_sets[metaKeys[m]];
     for (let i = 0; i <= metaInfo.count; i++) {
       updateUnlocked(metaInfo.store, i);
     }

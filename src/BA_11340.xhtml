@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/Banned.css" />
+    <script>
+      window.boiler = {
+        title: 'Banned - materials #1',
+        author: 'Rorke Haining',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          meta: 'BannedMeta',
+          index: 0,
+          data: [
+            [1,0,'M0,0 v60'],
+            [3,0,'M0,0 v60'],
+            [4,0,'M0,0 v60'],
+            [0,1,'M0,0 v60'],
+            [2,1,'M0,30 v30 h30'],
+            [3,1,'M0,0 h30'],
+            [5,1,'M0,0 v60 h30'],
+            [1,2,'M15,0 v60 m-15,0 h30'],
+            [2,2,'M0,0 h30'],
+            [4,2,'M30,0 h-30 v60 m0,-30 h30'],
+          ],
+        },
+        postSetup: unlockFeeder
+      };
+      //<![CDATA[
+      function unlockFeeder() {
+        if (!isIFrame() && !isPrint()) {
+          saveMetaMaterials(boiler.lookup.meta, 0, boiler.lookup.index, {
+            index: boiler.lookup.index, 
+            data: boiler.lookup.data,
+            unlocked: true,
+            src: urlSansArgs() });
+
+          updatePuzzleList(`${boiler.lookup.meta}-${boiler.lookup.index}`, 'loaded');
+          if (urlArgs['from'] != 'sync') {
+            // Pushing back to sync suggests WE unlocked it. Don't, if from=sync.
+            syncUnlockedFile(`${boiler.lookup.meta}-${boiler.lookup.index}`, urlSansArgs());
+          }
+        }
+      }
+      //]]>
+    </script>
+    <style>
+      #Local {
+        
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Grid {index+1} of 4. It may need to be rotated and/or flipped.
+      </p>
+      <svg id="grid" viewBox="-10 -10 440 320" width="440" height="320" xmlns="http://www.w3.org/2000/svg">
+        <use template="layer" data="{data}" id="0" />
+      </svg>
+      <p>Apply this in the <a href="Banned.xhtml">Banned</a> meta-puzzle.</p>
+    </div>
+
+    <template id="layer">
+      <g class="layer">
+        <g id="rot-{id}">
+          <g id="horz-{id}">
+            <g id="vert-{id}">
+              <use template="layerGrid" />
+              <for each="cell" in="{data}">
+                <g ttransform="translate({cell.0*70+20},{cell.1*100+20})">
+                  <path class="signal" dd="{cell.2}" />
+                </g>
+              </for>
+            </g>
+          </g>
+        </g>
+      </g>
+    </template>
+
+    <template id="layerGrid">
+      <g id="grid-{id}" class="layer-grid">
+        <path class="grid-lines" d="M0,0 h420 v300 h-420 Z M0,100 h420 M0,200 h420 M70,0 v300 M140,0 v300 M210,0 v300 M280,0 v300 M350,0 v300" />
+        <for int="y" until="3">
+          <for int="x" until="6">
+            <for int="r" until="3">
+              <for int="c" until="2">
+                <circle class="grid-dot" ccx="{x*70 + 20 + c*30}" ccy="{y*100 + 20 + r*30}" r="4.5" />
+              </for>
+            </for>
+          </for>
+        </for>
+      </g>
+    </template>
+
+  </body>
+</html>

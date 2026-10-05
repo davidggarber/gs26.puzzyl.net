@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/Banned.css" />
+    <script>
+      window.boiler = {
+        title: 'Banned - Forget materials',
+        author: 'Rorke Haining',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          meta: 'BannedMeta',
+          count: 4,
+        },
+        postSetup: forgetFeeders
+      };
+      //<![CDATA[
+      function forgetFeeders() {
+        for (var page = 0; page < boiler.lookup.count; page++) {
+          saveMetaMaterials(boiler.lookup.meta, 0, page, null);
+        }
+      }
+      //]]>
+    </script>
+    <style>
+      #Local {
+        p {
+          margin: 10px;
+          font-size: 20pt;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="clue" style="margin-top: 1in;">
+        All <a href="Banned.xhtml">Banned</a> materials have been re-locked.
+      </p>
+    </div>
+  </body>
+</html>

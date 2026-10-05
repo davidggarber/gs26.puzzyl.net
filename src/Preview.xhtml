@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
-    <link href="index.css" rel="Stylesheet" type="text/css" />
+    <link href="css/index.css" rel="Stylesheet" type="text/css" />
     <script src="index_data.js" />
     <script src="index_utils.js" />
     <script>
@@ -26,15 +26,16 @@
           nextRound: timeToNextRound(),
           pdf: pdfForRound(),
           showTeams: false,
-          showMetas: showMetas(),
+          showMetas: true, // showMetas(),
           showLegend: false,
           showForget: true,
           showRounds: showRounds(),
           puzzles: puzzles,
-          metas: metas,
-          feeders: false,
+          meta_puzzles: meta_puzzles,
+          metas: meta_sets,
+          feeders: true,
           solvable: false,
-          table_cols: showRounds() ? 6 : 5,
+          table_cols: showRounds() ? 7 : 6,  // or 6:5 if !feeders
           solves: {},
         },
       };
@@ -65,9 +66,12 @@
       #meta-table .html {
         width: 35%;
       }
-      #puz-col-headers th:not(.round) {
+      #puz-col-headers th:not(.round, .feeders) {
         text-align: left;
         padding: 2px 5px;
+      }
+      #meta-col-headers th:not(.round) {
+        text-align: left;
       }
 
       #pre-event {
@@ -106,7 +110,6 @@
           </ttr>    
         </tthead>
 
-        <!--{minRound}-->
         <ttbody id="puzzle_list">
           <for each="puz" in="puzzles">
             <if test="{puz.group}" ne="meta">
@@ -139,7 +142,7 @@
                     <if test="{feeders}">
                       <ttd class="feeders">
                         <for each="feed" in="{puz.feeder}">
-                          <a class="feedLink {metas.[feed.meta].store}-{feed.number}" target="_blank" title="{metas.[feed.meta].title} - Materials #{feed.number} (locked)" trim="all">
+                          <a class="feedLink {metas.[feed.meta].store}-{feed.number}" target="_blank" title="{metas.[feed.meta].title} - Materials #{feed.number+1} (locked)" trim="all">
                             <img ssrc="{metas.[feed.meta].icon}" /><sub>{feed.number + 1}</sub>
                           </a>
                         </for>  
@@ -192,65 +195,61 @@
 
     <template id="meta-template">
       <ttfoot id="meta_list">
-        <ttr>
-          <tth class="spacer">&nbsp;</tth>
-          <tth colspan="{table_cols}" style="text-align: center;">
-            <img src="images/Meta_puzzles.png" style="height:28px; padding-top: 10px;" />  
+        <ttr id="meta-col-headers">
+          <tth class="spacer" colspan="4">&nbsp;</tth>
+          <tth class="title-font" colspan="2">
+            Meta-Puzzles  
           </tth>
-          <tth class="spacer">&nbsp;</tth>
+          <tth class="spacer" colspan="3">&nbsp;</tth>
         </ttr>    
-        <for each="puz" in="{puzzles}">
-          <if test="puz.group" eq="meta">
-            <if test="puz.round" ge="{minRound}">
-              <if test="puz.round" le="{maxRound}">
-                <ttr id="{puz.file}" name="{puz.title}">
-                  <ttd class="spacer">&nbsp;</ttd>
-                  <if test="{showRounds}">
-                    <ttd class="empty">&nbsp;</ttd>
-                  </if>
-                  <ttd class="presence"></ttd>
-                  <ttd class="icons">
-                    <img ssrc="{metas.[puz.metaInfo].icon}"/>
-                  </ttd>
-                  <ttd class="html">
-                    <a class="hover" href="{puz.href}" target="_blank">
-                      {puz.title}
-                      <if exists="{puz.thumb}">
-                        <img class="thumb" ssrc="Thumbs/{puz.thumb}.jpg" />
-                      </if>
-                    </a>
-                  </ttd>
+        <for each="puz" in="{meta_puzzles}">
+          <if test="puz.round" ge="{minRound}">
+            <if test="puz.round" le="{maxRound}">
+              <ttr id="{puz.file}" name="{puz.title}">
+                <ttd class="spacer">&nbsp;</ttd>
+                <if test="{showRounds}">
                   <ttd class="empty">&nbsp;</ttd>
-                  <ttd class="authors">
-                    {puz.author}
-                  </ttd>
-                  <ttd class="completed">
-                    <span class="teammate-solves" xtrim="all">
-                    </span>
-                    <span class="checkmark" />
-                  </ttd>
-                  <ttd class="spacer">&nbsp;</ttd>
-                </ttr>
-                <ttr>
-                  <ttd colspan="4">&nbsp;</ttd>
-                  <ttd class="feeders">
-                    <for int="num" until="4">
-                      <a class="feedLink {metas.[puz.metaInfo].store}-{num}" target="_blank" title="Materials #{num+1} (locked)" trim="all">
-                        <img ssrc="{metas.[puz.metaInfo].icon}" /><sub>{num+1}</sub>
-                      </a>
-                    </for>  
-                  </ttd>
-                  <ttd>
-                    <if test="{showForget}">
-                      <if exists="{puz.forget}">
-                        <a href="{puz.forget}" target="_blank" style="font-size: smaller;">Forget materials</a>
-                      </if>
-                    </if>&nbsp;
-                  </ttd>
-                  <ttd colspan="2" />
-                  <ttd class="spacer">&nbsp;</ttd>
-                </ttr>
-              </if>
+                </if>
+                <ttd class="presence"></ttd>
+                <ttd class="icons">
+                  <img ssrc="{puz.metaInfo.icon}"/>
+                </ttd>
+                <ttd class="html" colspan="2">
+                  <a class="hover" href="{puz.href}" target="_blank">
+                    {puz.title}
+                    <if exists="{puz.thumb}">
+                      <img class="thumb" ssrc="Thumbs/{puz.thumb}.jpg" />
+                    </if>
+                  </a>
+                </ttd>
+                <ttd class="authors">
+                  {puz.author}
+                </ttd>
+                <ttd class="completed">
+                  <span class="teammate-solves" xtrim="all">
+                  </span>
+                  <span class="checkmark" />
+                </ttd>
+                <ttd class="spacer">&nbsp;</ttd>
+              </ttr>
+              <ttr>
+                <ttd colspan="4">&nbsp;</ttd>
+                <ttd class="feeders" colspan="2">
+                  <for int="num" until="{puz.metaInfo.count}">
+                    <a class="feedLink {puz.metaInfo.store}-{num}" target="_blank" title="Materials #{num+1} (locked)" trim="all">
+                      <img ssrc="{puz.metaInfo.icon}" /><sub>{num+1}</sub>
+                    </a>
+                  </for>  
+                </ttd>
+                <ttd>
+                  <if test="{showForget}">
+                    <if exists="{puz.forget}">
+                      <a href="{puz.forget}" target="_blank" style="font-size: smaller;">Forget materials</a>
+                    </if>
+                  </if>&nbsp;
+                </ttd>
+                <ttd colspan="2" />
+              </ttr>
             </if>
           </if>
         </for>

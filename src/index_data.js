@@ -1,4 +1,21 @@
 /**
+ * Called by index_utils and converted to meta-puzzle and meta-set data
+ * Returns an array tuple<IMetaInfo, IPuzzleInfo>
+ */
+function buildIndexOfMetas() {
+  const portrait = 'portrait';
+  const scrapbook = 'scrapbook';
+  const landscape = 'landscape';
+
+  return [
+    [ { short: 'banned',      store: 'BannedMeta',      count: 4, icon: 'images/icons/banned.png'       },  { round: 0, title: 'Banned',                          thumb: '', author: 'Rorke Haining', orientation: portrait,   cls:'' } ],
+    [ { short: 'unfortunate', store: 'UnfortunateMeta', count: 3, icon: 'images/icons/unfortunate.png', },  { round: 0, title: 'A Series of Unfortunate Events',  thumb: '', author: 'Jess McGatha',  orientation: portrait,   cls:'' } ],
+    [ { short: 'dance' ,      store: 'SquareDanceMeta', count: 4, icon: 'images/icons/dance.png',       },  { round: 0, title: 'Square Dance',                    thumb: '', author: 'Martyn Lovell', orientation: portrait,   cls:'' } ],
+    [ { short: 'hoarding',    store: 'HoardingMeta',    count: 4, icon: 'images/icons/hoarding.png',    },  { round: 0, title: 'Animal Hoarding',                 thumb: '', author: 'David Garber',  orientation: portrait,   cls:'' } ],
+  ];
+}
+
+/**
  * Called by index_utils, and converted to strongly-typed IPuzzleInfo records.
  */
 function buildIndexOfPuzzles() {
@@ -32,27 +49,28 @@ function buildIndexOfPuzzles() {
   const word = 'word';
 
   return [
-    { round: 0, title: 'Elective Operations',                   thumb: '', author: 'David Garber',        type: math,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
+    { round: 0, title: 'Elective Operations',                   thumb: '', author: 'David Garber',        type: math,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:0}] },
     { round: 0, title: 'Judging By Its Cover',                  thumb: '', author: 'Ken & Jen',           type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [] },
     { round: 0, title: 'Judging By Its Cover 2: Even Judgier',  thumb: '', author: 'Ken & Jen',           type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [], file:'JudgingByItsCover2' },
     { round: 0, title: 'Yolo',                                  thumb: '', author: 'Rorke Haining',       type: trivia,   group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Red Flags',                             thumb: '', author: 'Rorke Haining',       type: trivia,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'Oops! All Baerries',                    thumb: '', author: 'Andrew Giese',        type: trivia,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
     { round: 0, title: 'Hold My Beer',                          thumb: '', author: 'Andrew Giese',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Four Crosses',                          thumb: '', author: 'Martyn Lovell',       type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
     { round: 0, title: 'Zero, One Two Many!',                   thumb: '', author: 'Glenn Hollingsworth', type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Big Ideas',                             thumb: '', author: 'Martyn Lovell',       type: jigsaw,   group: puzzle, orientation: landscape,  cls:'', feeder: [] },
-    { round: 0, title: 'Mad Scientist Store',                   thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Argument Checker',                      thumb: '', author: 'Martyn Lovell',       type: rebus,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Bank of New England',                   thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
-    { round: 0, title: 'Back Alley Deal',                       thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
-    { round: 0, title: 'The Hawaiian Express',                  thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
-    { round: 0, title: 'Trite Optimism',                        thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [] },
-    { round: 0, title: 'Round Pegs, Triangle Holes',            thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Snakes In A Sudoku',                    thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
-    { round: 0, title: 'Unfortunate Events Part I',             thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents1' },
-    { round: 0, title: 'Unfortunate Events Part II',            thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents2' },
-    { round: 0, title: 'Unfortunate Events Part III',           thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [], file:'UnfortunateEvents3' },
+    { round: 0, title: 'Argument Checker',                      thumb: '', author: 'Martyn Lovell',       type: rebus,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'dance', number:0}] },
+    { round: 0, title: 'Big Ideas',                             thumb: '', author: 'Martyn Lovell',       type: jigsaw,   group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'dance', number:1}] },
+    { round: 0, title: 'Four Crosses',                          thumb: '', author: 'Martyn Lovell',       type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'dance', number:2}] },
+    { round: 0, title: 'Mad Scientist Store',                   thumb: '', author: 'Martyn Lovell',       type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'dance', number:3}] },
+    { round: 0, title: 'Bank of New England',                   thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:0}] },
+    { round: 0, title: 'Back Alley Deal',                       thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:1}] },
+    { round: 0, title: 'The Hawaiian Express',                  thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:2}] },
+    { round: 0, title: 'Trite Optimism',                        thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:3}] },
+    { round: 0, title: 'Round Pegs, Triangle Holes',            thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:1}] },
+    { round: 0, title: 'Snakes In A Sudoku',                    thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:2}] },
+    { round: 0, title: 'Unfortunate Events Part I',             thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:0}], file:'UnfortunateEvents1' },
+    { round: 0, title: 'Unfortunate Events Part II',            thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:1}], file:'UnfortunateEvents2' },
+    { round: 0, title: 'Unfortunate Events Part III',           thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:2}], file:'UnfortunateEvents3' },
+    // Metas
     { round: 0, title: 'Banned',                                thumb: '', author: 'Rorke Haining',       type: meta,     group: meta,   orientation: portrait,   cls:'', feeder: [] },
   ];
 }

@@ -1,0 +1,86 @@
+#all-materials {
+  position: absolute;
+}
+@media print {
+  #all-materials {
+    display: none;
+  }
+}
+.print,.iframe {
+  #all-materials {
+    display: none;
+  }
+}
+
+#all-materials .meta-card {
+  position: relative;
+  /* height: 2.75in; */
+}
+#all-materials .meta-card img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /* height: 2.5in; */
+}
+.meta-clue {
+  position: absolute;
+}
+.meta-clue.unlocked {
+  animation-name: fade-in;
+  animation-duration: 1000ms;
+}
+@keyframes fade-in {
+  0% { opacity: 0%; transform: scale(0.5); }
+  100% { opacity: 100%; transform: scale(1); }
+}
+.meta-clue.locked::after {
+  background-image: url('locked.png');
+  background-size: 32px 48px;
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 48px;
+}
+
+.portrait #all-materials {
+  left: 8.1in;
+  top: -0.9in;
+
+  .meta-card {
+    height: 2.75in;
+  }
+  .meta-card img {
+    height: 2.5in;
+  }
+  .meta-clue.locked::after {
+    top: 50px;
+    left: 120px;
+  }
+  .meta-clue {
+    top: 0.25in;
+    left: 0.75in;
+    width: 3in;
+  }
+}
+
+.landscape #all-materials {
+  left: 10.6in;
+  top: -0.9in;
+
+  .meta-card {
+    height: 2in;
+  }
+  .meta-card img {
+    height: 1.9in;
+  }
+  .meta-clue.locked::after {
+    top: 10px;
+    left: 100px;
+  }
+  .meta-clue {
+    top: 0.5in;
+    left: 0.4in;
+    width: 2.5in;
+  }
+}
