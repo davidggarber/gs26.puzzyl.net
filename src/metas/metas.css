@@ -18,8 +18,8 @@
 }
 #all-materials .meta-card img {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  xtop: 0px;
+  xleft: 0px;
   /* height: 2.5in; */
 }
 .meta-clue {
@@ -51,7 +51,7 @@
     height: 2.75in;
   }
   .meta-card img {
-    height: 2.5in;
+    xheight: 2.5in;
   }
   .meta-clue.locked::after {
     top: 50px;

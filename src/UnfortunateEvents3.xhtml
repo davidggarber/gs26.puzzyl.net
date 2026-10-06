@@ -5,6 +5,7 @@
     <script src="/kit.umd.js" />
     <script src="/event.js" />
     <script src="V/ue3.js" />
+    <script src="UnfortunateEvents/unfortunate.js" />
     <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
     <script>
       //<![CDATA[
@@ -21,6 +22,7 @@
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          part: 2,
           wordle: [
             'yxyxx',
             'yxyxx',
@@ -128,6 +130,8 @@
           },
           circle29: [],
         },
+        onInputChange: onInputChange,
+        onSubmit: onSubmit,
       };
 
       const radius = 90;
@@ -489,7 +493,7 @@
               <img class="left-edge-arrow" src="UnfortunateEvents/right-arrow.png" />
             </if>
             <for char="cell" in="row">
-              <letter class="wordle-{cell}" />
+              <letter class="wordle-{cell}" data-feeder-wordle="{part}-{row#}-{cell#}" />
             </for>
             <if test="{row# % 2}" eq="{1}">
               <img class="right-edge-arrow" src="UnfortunateEvents/left-arrow.png" />

@@ -5,6 +5,7 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <script src="V/ue2.js" />
+    <script src="UnfortunateEvents/unfortunate.js" />
     <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
     <script>
       window.boiler = {
@@ -19,6 +20,7 @@
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          part: 1,
           wordle: [
             'yyyxy',
             'yxyxy',
@@ -87,6 +89,8 @@
             ]
           }
         },
+        onInputChange: onInputChange,
+        onSubmit: onSubmit,
       };
     </script>
     <style>
@@ -337,7 +341,7 @@
               <img class="left-edge-arrow" src="UnfortunateEvents/right-arrow.png" />
             </if>
             <for char="cell" in="row">
-              <letter class="wordle-{cell}" />
+              <letter class="wordle-{cell}" data-feeder-wordle="{part}-{row#}-{cell#}" />
             </for>
             <if test="{row# % 2}" eq="{1}">
               <img class="right-edge-arrow" src="UnfortunateEvents/left-arrow.png" />

@@ -5,6 +5,7 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <script src="V/sue.js" />
+    <link rel="stylesheet" type="text/css" href="metas/metas.css" />
     <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
     <script>
       window.boiler = {
@@ -36,9 +37,60 @@
             ['GRIM', 4],
             ['PENULTIMATE', 9],
             ['???', 2],
+          ],
+          feeders: [
+            [
+              { edge: 'left', arrow: 'right', styles: 'ywyyw', event: 'Dropping the ball' },
+              { edge: 'right', arrow: 'left', styles: 'wwyww', event: 'Picking up the pieces' },
+              { edge: 'left', arrow: 'right', styles: 'wwwww', event: 'Breaking up' },
+              { edge: 'right', arrow: 'left', styles: 'yywgw', event: 'Going downhill fast' },
+              // { edge: 'below', arrow: 'down', styles: 'wwwww', event: '' },
+            ],
+            [
+              { edge: 'left', arrow: 'right', styles: 'yyywy', event: 'Losing the movie audio' },
+              { edge: 'right', arrow: 'left', styles: 'ywywy', event: 'Getting lost in a cave' },
+              { edge: 'left', arrow: 'right', styles: 'wwygy', event: 'Losing the game' },
+              { edge: 'right', arrow: 'left', styles: 'wgyyw', event: 'Allergy season' },
+              // { edge: 'below', arrow: 'down', styles: 'wwwww', event: '' },
+            ],
+            [
+              { edge: 'left', arrow: 'right', styles: 'ywyww', event: 'Feeling under the weather' },
+              { edge: 'right', arrow: 'left', styles: 'ywyww', event: 'Friends change' },
+              { edge: 'left', arrow: 'right', styles: 'gwyww', event: 'Endless work' },
+              { edge: 'right', arrow: 'left', styles: 'wwwwy', event: 'Running in circle' },
+              // { edge: 'below', arrow: 'down', styles: 'wwwww', event: '' },
+            ],
           ]
         },
+        metaParams: {
+          id: 'UnfortunateMeta',
+          count: 3,
+          onSync: injectMetaClues,
+          canChange: true,
+        },
       };
+
+      //<![CDATA[
+      function injectMetaClues(data) {  // data:object[]
+        for (var i = 0; i < 3; i++) {
+          console.log(`Meta ${i}: ` + JSON.stringify(data[i]));
+          if (data[i]) {
+            for (var r = 0; r < 5; r++) {
+              for (var c = 0; c < 5; c++) {
+                var ch = data[i][r][c];
+                var id = `feeder-${i}-${r}-${c}`;
+                var inp = document.querySelector(`#${id} input`);
+                if (inp) {
+                  inp.value = ch;
+                }
+              }
+            }
+          }
+        }
+      }
+      //]]>
+
+
     </script>
     <style>
       #Local {
@@ -77,6 +129,49 @@
           padding-left: 12px;
           padding-right: 6px;
 
+        }
+
+        .feeder-card {
+          background-image: url('metas/card.png');
+          background-size: 5.25in 3in;
+          background-repeat: no-repeat;
+          position: relative;
+          width: 5.25in;
+          height: 3in;
+          margin: 0.25in;
+          padding-top: 0.25in;
+
+          p.feeder-puzzle {
+            font-size: 12pt;
+            font-weight: bold;
+            width: 3in;
+            margin-left: 1in;
+            margin-top: 0.25in;
+            text-align: center;
+          }
+          p {
+            position: relative;
+            width: 136.32px;
+            margin-left: 172px;
+          }
+
+          .float-title {
+            position: absolute;
+            width: 1.5in;
+            top: 3px;
+          }
+          .float-left {
+            text-align: right;
+            right: 150px;
+          }
+          .float-right {
+            text-align: left;
+            left: 150px;
+          }
+          .below-edge-arrow {
+            width: 24px;
+            height: 14.6px;
+          }
         }
       }
     </style>
@@ -147,10 +242,39 @@
         </tr>
       </table>
 
-
       <use template='finalAnswer' left="2in" width="3in" />
 
+      <div id="all-materials" class="no-print">
+        <for int="i" until="3">
+          <use template="feeder-words" data="{feeders.[i]}" id="{i}" />
+        </for>        
       </div>
+
+    </div>
+
+    <template id="feeder-words">
+      <div id="feeder-card-{i}" class="feeder-card">
+        <p class="feeder-puzzle">{prequels.[id].title}</p>
+        <div class="wordle" data-letter-style="grid" trim="all">
+          <for each="row" in="{data}">
+            <p class="wordle-row">
+              <for char="ch" in="{row.styles}">
+                <letter id="feeder-{id}-{row#}-{ch#}" class="wordle-{ch}" />
+              </for>
+              <img class="{row.edge}-edge-arrow" src="UnfortunateEvents/{row.arrow}-arrow.png" />
+              <div class="float-title float-{row.edge}">{row.event}</div>
+            </p>
+          </for>
+          <p class="below">
+            <img class="below-edge-arrow" src="UnfortunateEvents/down-arrow.png" /><br />
+            <for char="ch" in="wwwww">
+              <letter id="feeder-{id}-4-{ch#}" class="wordle-{ch}" />
+            </for>
+          </p>
+        </div>
+      </div>
+    </template>
+
   </body>
 </html>
 
