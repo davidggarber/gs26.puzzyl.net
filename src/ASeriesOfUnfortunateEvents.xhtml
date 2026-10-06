@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/sue.js" />
+    <link href="UnfortunateEvents/unfortunate.css" rel="stylesheet" />
+    <script>
+      window.boiler = {
+        title: 'A Series Of Unfortunate Events',
+        author: 'Jess McGatha',
+        copyright: '2023',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          prequels: [
+            { title: 'Unfortunate Events Part I:', wordle: 'gwwwy' },
+            { title: 'Unfortunate Events Part II:', wordle: 'wywyy' },
+            { title: 'Unfortunate Events Part III:', wordle: 'wgwyw' },
+          ],
+          events: [
+            ['BAD', 10],
+            ['ROOM', 3],
+            ['WINDOW', 13],
+            ['MILL', 11],
+            ['ACADEMY', 12],
+            ['ELEVATOR', 5],
+            ['VILLAGE', 7],
+            ['HOSPITAL', 6],
+            ['CARNIVOROUS', 8],
+            ['SLOPE', 1],
+            ['GRIM', 4],
+            ['PENULTIMATE', 9],
+            ['???', 2],
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #finale-events, #next-events {
+          border-collapse: collapse;
+
+          .event-name {
+            padding-left: 0.5in;
+            padding-right: 0.1in;
+          }
+
+          .under-number {
+            display: none;
+          }
+
+          .border {
+            position: relative;
+            top: 0.85px;
+            display: inline-block;
+            border: solid 1px black;
+            width: 22px;
+            height: 22px;
+
+            .extract-circle {
+              position: relative;
+              padding: 0px;
+              left: -1px;
+              top: -1px;
+            }
+          }
+        }
+
+        .event-index {
+          font-size: 8pt;
+          text-align: right;
+          padding-left: 12px;
+          padding-right: 6px;
+
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        This is a meta puzzle. Use the final answers to collect one final Event. Then use the finale Event 
+        and the penultimate answers from the Unfortunate Events Parts I––III puzzles, 
+        and faster than you can say “<i>Lemony Snicket</i>" you’ll start to 
+        see a pleasant ending for all thirteen unfortunate events.
+      </p>
+
+      <h2>FINALE EVENT:</h2>
+      <ttable id="finale-events" data-input-style="grid">
+        <for each="e" in="{prequels}">
+          <ttr>
+            <ttd class="event-name">
+              <li>{e.title}</li>
+            </ttd>
+            <ttd trim="all" class="wordle">
+              <for char="cell" in="e.wordle">
+                <letter class="wordle-{cell}" />
+              </for>
+            </ttd>
+          </ttr>
+        </for>
+        <ttr>
+          <ttd>&nbsp;</ttd>
+          <ttd class="wordle">
+            <p class="bottom" style="position:relative; padding: 0px;">
+              <img src="UnfortunateEvents/down-arrow.png" /><br />
+              FINALE WORDLE
+            </p>
+            <p class="no-print">
+              <pattern pattern="5" />
+            </p>
+          </ttd>
+        </ttr>
+      </ttable>
+
+      <h2>EVENTS:</h2>
+      <ttable id="next-events" data-input-style="grid" data-extract-style="circle">
+        <for each="e" in="{events}">
+          <ttr>
+            <ttd class="event-name">
+              <li>{e.0}</li>
+            </ttd>
+            <ttd class="event-index">
+              {e.1}
+            </ttd>
+            <ttd class="wordle event-wordle" trim="all">
+              <span class="border"><letter extract="{e.1}" /></span>
+              <for int="i" until="4">
+                <letter class="wordle-w" />
+              </for>
+            </ttd>
+          </ttr>
+        </for>
+      </ttable>
+
+      <table if="answer">
+        <tr>
+          <td><h2>ANSWER:</h2></td>
+          <td data-letter-style="grid">
+            <pattern id="extracted" extract-numbered="13" />
+          </td>
+        </tr>
+      </table>
+
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+

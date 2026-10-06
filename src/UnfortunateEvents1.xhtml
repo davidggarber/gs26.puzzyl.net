@@ -167,20 +167,6 @@
         }
       }
 
-      .extract-circle {
-        border: solid 1px black;
-        background-color: #d9d9d9;
-        border-radius: 50%;
-        padding: 2px;
-
-        input {
-          border-radius: 50%;
-        }
-      }
-      .extract-circle:has(input:focus) {
-        background-color: gold;
-      }
-
       #breakups {
         margin-top: 0px;
         margin-left: 0.4in;
@@ -403,7 +389,7 @@
 
       </div>
 
-      <div id="wordle" data-input-style="grid">
+      <div id="center-wordle" class="wordle" data-input-style="grid">
         <for each="row" in="wordle" trim="all">
           <p id="wordle-{row#}">
             <if test="{row# % 2}" eq="{0}">
