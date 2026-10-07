@@ -21,6 +21,7 @@ function onSubmit(guess, response) {
     for (var i = 0; i < 5; i++) {
       metaWordles[4][i] = word[i];
     }
+    updatePuzzleList(`UnfortunateMeta-${boiler.lookup.part}`, 'loaded');
     cacheMetaWordles();
   }
 }
