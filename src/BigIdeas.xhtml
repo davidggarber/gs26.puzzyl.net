@@ -11,6 +11,7 @@
         author: 'Martyn Lovell',
         copyright: '2023',
         orientation: 'landscape',
+        feeder: 'dance',
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
@@ -63,6 +64,11 @@
     </script>
     <style>
       #Local {
+        #icons {
+          right: default;
+          left: 1.6in;
+        }
+
         #flavor {
           position: absolute;
           top: 0px;
@@ -159,23 +165,23 @@
             <for each="row" in="{centers}">
               <for char="cell" in="{row}">
                 <g class="transform-copy" transform-copy="drop-{cell#*4+10},{row#*4+1}">
-                <g class="moveable">
-                  <g class="drag-handles">
-                    <for int="y" until="4">
-                      <for int="x" until="4">
-                        <g transform="translate({59*x/2},{59*y/2})">
-                          <rect x="0" y="0" width="29.5" height="29.5" class="drag-handle" />
-                        </g>
+                  <g class="moveable">
+                    <g class="drag-handles">
+                      <for int="y" until="4">
+                        <for int="x" until="4">
+                          <g transform="translate({59*x/2},{59*y/2})">
+                            <rect x="0" y="0" width="29.5" height="29.5" class="drag-handle" />
+                          </g>
+                        </for>
                       </for>
-                    </for>
+                    </g>
+                    <rect class="square" x="0" y="0" width="118" height="118" />
+                    <text class="center" x="59" y="76">{cell}</text>
+                    <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
+                    <text class="bottom" x="59" y="112">{bottoms.[row#].[cell#]}</text>
+                    <text class="left">{lefts.[row#].[cell#]}</text>
+                    <text class="right">{rights.[row#].[cell#]}</text>
                   </g>
-                  <rect class="square" x="0" y="0" width="118" height="118" />
-                  <text class="center" x="59" y="76">{cell}</text>
-                  <text class="top" x="59" y="14">{tops.[row#].[cell#]}</text>
-                  <text class="bottom" x="59" y="112">{bottoms.[row#].[cell#]}</text>
-                  <text class="left">{lefts.[row#].[cell#]}</text>
-                  <text class="right">{rights.[row#].[cell#]}</text>
-                </g>
                 </g>
               </for>
             </for>

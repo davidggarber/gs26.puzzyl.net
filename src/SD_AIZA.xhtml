@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script>
+      window.boiler = {
+        title: 'Square Dance - materials #2',
+        author: 'Martyn Lovell',
+        copyright: '2023',
+        feeder: 'dance',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          meta: 'DanceMeta',
+          index: 1,
+          words: [ 'AIZA', 'BERA', 'ITTS', 'REUD' ],
+        },
+        postSetup: unlockFeeder
+      };
+      //<![CDATA[
+      function unlockFeeder() {
+        if (!isIFrame() && !isPrint()) {
+          saveMetaMaterials(boiler.lookup.meta, 0, boiler.lookup.index, {
+            index: boiler.lookup.index, 
+            words: boiler.lookup.words,
+            unlocked: true,
+            src: urlSansArgs() });
+
+          updatePuzzleList(`${boiler.lookup.meta}-${boiler.lookup.index}`, 'loaded');
+          if (urlArgs['from'] != 'sync') {
+            // Pushing back to sync suggests WE unlocked it. Don't, if from=sync.
+            syncUnlockedFile(`${boiler.lookup.meta}-${boiler.lookup.index}`, urlSansArgs());
+          }
+        }
+      }
+      //]]>
+    </script>
+    <style>
+      #Local {
+        rect {
+          fill: none;
+          stroke: black;
+          stroke-width: 1px;
+        }
+        text {
+          font-size: 16pt;
+          text-anchor: middle;
+          dominant-baseline: middle;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        Use these grids to solve the Square Dance meta-puzzle.
+      </p>
+      <svg id="grid" viewBox="-10 -10 480 100" width="720" height="320" xmlns="http://www.w3.org/2000/svg">
+        <for each="w" in="{words}">
+          <g ttransform="translate({w#*120},0)">
+            <for char="ch" in="{w}">
+              <g transform="translate({20 + 40 * (ch#%2)}, {20 + 40 * (ch#\2)})">
+                <rect x="-20" y="-20" width="40" height="40"/>
+                <text x="0" y="0">{ch}</text>
+              </g>
+            </for>
+          </g>
+        </for>
+      </svg>
+    </div>
+
+  </body>
+</html>

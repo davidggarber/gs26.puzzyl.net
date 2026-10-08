@@ -10,31 +10,209 @@
         title: 'Square Dance',
         author: 'Martyn Lovell',
         copyright: '2023',
+        feeder: 'dance',
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          dragDrop: 'svg',
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          feeders: [
+            [ 'ACTH', 'BAIA', 'ESRK', 'PLLA' ],
+            [ 'AIZA', 'BERA', 'ITTS', 'REUD' ],
+            [ 'APMA', 'DHNP', 'SPEA', 'UDSE' ],
+            [ 'AWIZ', 'ESCE', 'OMPE', 'UGNE' ],
+          ],
+        },
+        metaParams: {
+          id: 'DanceMeta',
+          count: 4,
+          onSync: injectMetaClues,
         },
       };
+
+      //<![CDATA[
+      function injectMetaClues(data) {  // data:object[]
+        for (var i = 0; i < 4; i++) {
+          if (!data[i]) {
+            continue;
+          }
+
+          for (var w = 0; w < 4; w++) {
+            if (!document.getElementById(`frag-${i*4+w}`)) {
+
+              // Time to inject this feeder square
+              // Find the next unused mover
+              var movers = document.getElementsByClassName('moveable');
+              var m = 0;
+              while (m < movers.length && movers[m].getElementsByClassName('hover').length > 0) {
+                m++;
+              }
+              var args={id:`frag-${i*4+w}`, word:data[i].words[w]};
+              var test = appendFromTemplate(movers[m], 'fragment', args);
+              console.log(test);
+            }
+          }
+        }
+      }
+      //]]>
+
     </script>
     <style>
       #Local {
-        
+        .flavor {
+          font-style: italic;
+          user-select: none;
+        }
+        #overlay {
+          position: relative;
+          margin: 0px;
+
+          .flavor {
+            position: absolute;
+            left: 0px;
+            width: 100%;
+          }
+
+          #svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            .basic {
+              fill: transparent;
+              stroke: black;
+              stroke-width: 1;
+            }
+            .spare {
+              fill: transparent;
+              stroke: none;
+            }
+            .hover {
+              fill: none;
+              stroke: black;
+              stroke-width: 1;
+            }
+            .fragment-letter {
+              font-size: 16pt;
+              text-anchor: middle;
+              dominant-baseline: middle;
+              user-select: none;
+            }
+            .drag-handle {
+              fill: #ffffff80;
+              stroke: none;
+            }
+            .locked {
+              display: none;
+              pointer-events: none;
+            }
+            .moveable:not(:has(> .revealed)) > .locked {
+              display: inline;
+            }
+          }
+        }
       }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
       <p class="flavor">
-        Hello!
+        This is a metapuzzle. The input for this puzzle comes from four other puzzles: 
+        <b>Argument Checker</b>, <b>Big Ideas</b>, <b>Four Crosses</b> and <b>Mad Scientist Store</b>.
+        When you enter a correct solution to each of those puzzles, you will be given a set of four fragments
+        each with four letters. When you’ve solved all four puzzles, you’ll have a total of 16 fragments. 
+        Reformat each fragment by adding a line break between the 2nd and 3rd letter to make these 16 2x2 tiles:
       </p>
 
+      <div id="overlay">
+        <svg id="svg" width="720" height="720" xmlns="http://www.w3.org/2000/svg">
+        
+          <g id="drop-layer">
+            <g id="from-feeders" transform="translate(20, 2)">
+              <for int="i" until="18">
+                <g id="source-{i}" class="drop-target drag-source" ttransform="translate({(i \ 3) * 120}, {(i % 3) * 120})">
+                  <if test="i" lt="16">
+                    <rect x="0" y="0" width="80" height="80" class="basic"/>
+                  </if>
+                  <else>
+                    <rect x="0" y="0" width="80" height="80" class="spare"/>
+                  </else>
+                </g>
+              </for>
+            </g>
 
-      <use template='finalAnswer' left="2in" width="3in" />
+            <g id="word-squares" transform="translate(80, 400)">
+              <for int="g" until="3">
+                <for int="x" until="2">
+                  <for int="y" until="2">
+                    <g id="dest-{g}-{x}-{y}" class="drop-target" ttransform="translate({g * 200 + (x * 80)}, {(y * 80)})">
+                      <rect x="0" y="0" width="80" height="80" class="basic"/>
+                    </g>
+                  </for>
+                </for>
+              </for>
+            </g>
+            
+            <g id="remaining" transform="translate(40, 610)">
+              <for int="i" until="8">
+                <g id="final-{i}" class="drop-target" ttransform="translate({i * 80}, 0)">
+                  <if test="i" lt="2">
+                    <rect x="0" y="0" width="80" height="80" class="spare"/>
+                  </if>
+                  <elseif test="i" ge="6">
+                    <rect x="0" y="0" width="80" height="80" class="spare"/>
+                  </elseif>
+                  <else>
+                    <rect x="0" y="0" width="80" height="80" class="basic"/>
+                  </else>
+                </g>
+              </for>
+            </g>
+          </g>
+
+          <g id="drag-layer">
+            <for int="i" until="16">
+              <g id="drag-{i}" class="transform-copy" transform-copy="source-{i}">
+                <g class="moveable">
+                  <image class="locked" href="metas/locked-transparent.png" x="10" y="10" width="60" height="60" />
+                  <rect x="0" y="0" width="80" height="80" class="drag-handle" />
+                </g>
+              </g>
+            </for>
+          </g>
+        
+        </svg>
+
+        <p class="flavor" style="top: 320px;">
+          Now rearrange twelve of the tiles to make three word squares, where all four rows in each square are 
+          words and all four columns (read top to bottom) are also 4-letter words. Cutting them out might help 
+          but probably isn’t necessary or desirable.
+        </p>
+
+        <p class="flavor" style="top: 560px;">
+          Take the four <b>remaining</b> tiles and arrange them left to right as two eight letter rows. 
+        </p>
+        <p class="flavor" style="top: 700px;">
+          Read the three-word phrase which is the clue for the three-word bad idea final answer, the second word of which is ‘and’.
+        </p>
+      </div>
+
+
+      <use template='finalAnswer' left="1in" width="4in" />
 
       </div>
+
+      <template id="fragment">
+        <g id="{id}" class="revealed">
+          <for int="w" until="4">
+            <g ttransform="translate({20 + 40 * (w%2)}, {20 + 40 * (w\2)})">
+              <rect x="-20" y="-20" width="40" height="40" class="hover"/>
+              <text class="fragment-letter">{word.[w]}</text>                
+            </g>
+          </for>
+        </g>
+      </template>
   </body>
 </html>
-

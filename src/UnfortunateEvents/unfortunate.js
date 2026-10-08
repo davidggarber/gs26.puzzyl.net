@@ -36,6 +36,8 @@ function queueCacheMetaWordles() {
 }
 
 function cacheMetaWordles() {
-  var words = metaWordles.map(row => row.join(''));
-  saveMetaMaterials('UnfortunateMeta', 0, boiler.lookup.part, words);
+  if (urlArgs['from'] != 'sync') {
+    var words = metaWordles.map(row => row.join(''));
+    saveMetaMaterials('UnfortunateMeta', 0, boiler.lookup.part, words);
+  }
 }
