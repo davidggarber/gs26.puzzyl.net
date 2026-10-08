@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="V/hrg.js" />
+    <script>
+      window.boiler = {
+        title: 'HR Guidelines',
+        author: 'Joey Marianer',
+        copyright: '2023',
+        feeder: 'hoarding',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          ideas: [
+            ['Lots of action while stealing cattle', 6, 4],
+            ['Pelvic joint gets a tear', 3, 2],
+            ['Being modest when there’s thunder', 6, 3],
+            ['Mist during a demolition', 4, 4],
+            ['An axe that can only be turned in one direction', 7, 4],
+            ['I don’t like to evaluate', 4, 2],
+            ['Listen to the back', 4, 4],
+            ['Conceal a roller coaster', 4, 3],
+            ['A horse’s foot on top of your house', 4, 4],
+            ['Joking gossip', 5, 5],
+            ['Headwear on a rodent', 3, 2],
+            ['Color regret', 3, 2],
+            ['A dog that is circular', 5, 5],
+          ]
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #table {
+          border-collapse: collapse;
+          width: 100%;
+
+          td {
+            border: 1px solid black;
+            vertical-align: middle;
+            padding: 4px;
+          }
+
+          .idea {
+            width: 5in;
+            font-size: 14pt;
+          }
+        }
+
+        .extract-box {
+          background-color: #ccc;
+        }
+
+        #below {
+          margin-top: 0.75in;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p class="flavor">
+        These are all bad ideas, but which one is the worst?
+      </p>
+
+      <ttable id="table" data-extract-style="box">
+        <for each="idea" in="{ideas}">
+          <tr>
+            <td class="idea">{idea.0}</td>
+            <td class="entry"><pattern pattern="{idea.1}" extract="{idea.2}" /></td>
+          </tr>
+        </for>
+      </ttable>
+
+      <div id="below">
+        <pattern id="extracted" pattern="4 4 5" />
+      </div>
+
+      <use template='finalAnswer' left="2in" width="3in" />
+
+      </div>
+  </body>
+</html>
+
