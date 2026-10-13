@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
+    <script src="V/ahd.js" />
     <script>
       window.boiler = {
         title: 'Animal Hoarding',
@@ -13,24 +14,115 @@
         abilities: {
           textInput: 'nearest',
           scratchPad: true,
+          wordSearch: true,
         },
         reactiveBuilder: 'pageBody',
         lookup: {
+          letters: [
+            'SWAaESUbMCA',
+            'EHRNPLSNAKc',
+            'LdBFefKRgHS',
+            'hLiLNTUjKEY',
+            'OEZADHAPBLN',
+            'OLkMACLAEEI',
+            'PIGINKLlBmU',
+            'SnUNKOIREHG',
+            'OoLpOAqOAAN',
+            'rOCORsOTtNE',
+            'uUCKvAGLETw',
+            'TAxTyBBARED',
+          ],
+          animals: 'abcdefghijklmnopqrstuvwxyz',
+          decoder: 'qkdhftvjsgwmyap',
         },
       };
     </script>
     <style>
       #Local {
-        
+        .border {
+          stroke: black;
+          stroke-width: 1;
+        }
+
+        #svg {
+          rect {
+            stroke: black;
+            stroke-width: 1;
+            fill: transparent;
+          }
+          text {
+            fill: black;
+            alignment-baseline: middle;
+            text-anchor: middle;
+            baseline-shift: middle;
+          }
+          image {
+            width: 0.5in;
+            height: 0.5in;
+          }
+          .word-select {
+            stroke-width: 52px;
+          }
+          .word-select-fill {
+            stroke-width: 48px;
+          }
+        }
+
+        #table {
+          border-collapse: collapse;
+          margin-left: 0.65in;
+
+          td {
+            text-align: center;
+          }
+
+          img {
+            width: 0.4in;
+            height: 0.4in;
+          }
+        }
       }
     </style>
   </head>
   <body id="Local">
     <div id="pageBody">
-      <p class="flavor">
-        Hello!
-      </p>
+      <svg id="svg" width="720" height="800" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select" data-angle-constraints="90">
+        <for int="x" until="12">
+          <path class="border" d="M{19+x*62},19 v744" />
+        </for>
+        <for int="y" until="13">
+          <path class="border" d="M19,{19+y*62} h682" />
+        </for>
 
+        <for each="row" in="{letters}">
+          <for char="ch" in="{row}">
+            <g transform="translate({50 + 62*ch#},{50 + 62*row#})">
+              <rect x="-31" y="-31" width="62" height="62" class="vertex" />
+              <if test="{ch}" in="{animals}">
+                <image x="-24" y="-24" hhref="AnimalHoarding/{ch}.png" />
+              </if>
+              <else>
+                <text>{ch}</text>
+              </else>
+            </g>
+          </for>
+        </for>
+      </svg>
+
+      <ttable id="table">
+        <ttr>
+          <for char="ch" in="{decoder}">
+            <ttd><img ssrc="AnimalHoarding/{ch}.png" /></ttd>
+          </for>
+        </ttr>
+        <ttr>
+          <for char="ch" in="{decoder}">
+            <ttd><letter /></ttd>
+          </for>
+        </ttr>
+      </ttable>
+
+      <use template='finalAnswer' left="2in" width="3in" />
 
     </div>
   </body>

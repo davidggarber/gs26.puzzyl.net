@@ -49,7 +49,6 @@ function buildIndexOfPuzzles() {
   const word = 'word';
 
   return [
-    { round: 0, title: 'Elective Operations',                   thumb: '', author: 'David Garber',        type: math,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:0}] },
     { round: 0, title: 'Judging By Its Cover',                  thumb: '', author: 'Ken & Jen',           type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [] },
     { round: 0, title: 'Judging By Its Cover 2: Even Judgier',  thumb: '', author: 'Ken & Jen',           type: audio,    group: puzzle, orientation: scrapbook,  cls:'', feeder: [], file:'JudgingByItsCover2' },
     { round: 0, title: 'Yolo',                                  thumb: '', author: 'Rorke Haining',       type: trivia,   group: puzzle, orientation: portrait,   cls:'', feeder: [] },
@@ -65,12 +64,13 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Back Alley Deal',                       thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:1}] },
     { round: 0, title: 'The Hawaiian Express',                  thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:2}] },
     { round: 0, title: 'Trite Optimism',                        thumb: '', author: 'Rorke Haining',       type: word,     group: puzzle, orientation: landscape,  cls:'', feeder: [{meta:'banned', number:3}] },
+    { round: 0, title: 'Elective Operations',                   thumb: '', author: 'David Garber',        type: math,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:0}] },
     { round: 0, title: 'Round Pegs, Triangle Holes',            thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:1}] },
     { round: 0, title: 'Snakes In A Sudoku',                    thumb: '', author: 'David Garber',        type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:2}] },
     { round: 0, title: 'HR Guidelines',                         thumb: '', author: 'Joey Marianer',       type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'hoarding', number:3}] },
-    { round: 0, title: 'Unfortunate Events Part I',             thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:0}], file:'UnfortunateEvents1' },
-    { round: 0, title: 'Unfortunate Events Part II',            thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:1}], file:'UnfortunateEvents2' },
-    { round: 0, title: 'Unfortunate Events Part III',           thumb: '', author: 'Jess McGatha',        type: word,     group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:2}], file:'UnfortunateEvents3' },
+    { round: 0, title: 'Unfortunate Events Part I',             thumb: '', author: 'Jess McGatha',        type: jigsaw,   group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:0}], file:'UnfortunateEvents1' },
+    { round: 0, title: 'Unfortunate Events Part II',            thumb: '', author: 'Jess McGatha',        type: jigsaw,   group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:1}], file:'UnfortunateEvents2' },
+    { round: 0, title: 'Unfortunate Events Part III',           thumb: '', author: 'Jess McGatha',        type: jigsaw,   group: puzzle, orientation: portrait,   cls:'', feeder: [{meta:'unfortunate', number:2}], file:'UnfortunateEvents3' },
     // Metas
     { round: 0, title: 'Banned',                                thumb: '', author: 'Rorke Haining',       type: meta,     group: meta,   orientation: portrait,   cls:'', feeder: [] },
   ];
