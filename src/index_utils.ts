@@ -126,6 +126,7 @@ const types: Record<string, IPuzzleType> = {
     search: { icon: 'search', alt: 'Word search puzzle' },
     trivia: { icon: 'trivia', alt: 'Trivia puzzle' },
     word: { icon: 'word', alt: 'Word puzzle' },
+    combo: { icon: 'combo', alt: 'Combination puzzle' },
 };
 /**
  * Group entries in the overall puzzle index based on their role in the event - especially scoring
