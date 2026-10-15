@@ -108,8 +108,14 @@
           stroke-width: 48px;
         }
 
-        .vertex.building {
-          stroke: none;
+        .vertex-g.hover {
+          cursor: pointer;
+        }
+        rect.vertex.building {
+          stroke: #ff999988;
+          stroke-width: 2px;
+          rx: 50%;
+          ry: 50%;
         }
       }
 
@@ -229,9 +235,9 @@
     <div id="pageBody">
       <div class="quarter" id="top-left">
         <h2>EVENT: LOSING THE MOVIE AUDIO</h2>
-        <svg id="movie-images" width="300" height="324" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select">
+        <svg id="movie-images" width="300" height="326" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select">
           <for int="img" until="30">
-            <g ttransform="translate({29 + 58 * (img%5)}, {27 + 54 * (img\5)})">
+            <g ttransform="translate({29 + 58 * (img%5)}, {28 + 54 * (img\5)})" class="vertex-g">
               <rect class="vertex" x="-27" y="-27" width="54" height="54" />
               <image hhref="UnfortunateEvents/2/Movie{img}.png" xx="{movies.[img].0 / -2}" yy="{movies.[img].1 / -2}" wwidth="{movies.[img].0}" hheight="{movies.[img].1}" />
             </g>
