@@ -6,8 +6,8 @@ function onInputChange(inp/*:TextInputElement*/) {
   var dat = getOptionalStyle(inp, 'data-feeder-wordle');
   if (dat) {
     coords = dat.split('-').map(Number);
-    if (inp.value) {
-      metaWordles[coords[1]][coords[2]] = inp.value;
+    if (inp.value != metaWordles[coords[1]][coords[2]]) {
+      metaWordles[coords[1]][coords[2]] = inp.value || ' ';
     }
 
     // Schedule one cache call; coalesce repeats until it runs.
