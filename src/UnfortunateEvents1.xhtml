@@ -99,7 +99,7 @@
               text: ['C ', 'E ', 'IN'],
               start: 'drop-6-8',
             },
-          ]
+          ],
         },
         onInputChange: onInputChange,
         onSubmit: onSubmit,
@@ -241,6 +241,13 @@
             text-anchor: middle;
             alignment-baseline: middle;
             fill: black;
+          }
+        }
+
+        g.moveable.selected {
+          rect {
+            stroke-width: 4px;
+            stroke-dasharray: none;
           }
         }
       }
