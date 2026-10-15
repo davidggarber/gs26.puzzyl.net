@@ -18,6 +18,7 @@ const safariEvent: import('@davidggarber/puzzyl-kit').PuzzleEventDetails = {
   icon: 'images/favicon.png',
   logo: 'images/logo.png',
   validation: true,
+  helpLink: '/TipsTricks.xhtml',
 };
 
 window.PuzzylKit.registerDefaultEvent(safariEvent);

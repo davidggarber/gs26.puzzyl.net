@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script>
+      window.boiler = {
+        title: 'Tips &amp; Tricks',
+        // author: '___',
+        // copyright: '2023',
+        feeder: 'help',
+        feederTitle: 'Help',
+        abilities: {
+          // textInput: 'nearest',
+          scratchPad: true,
+          decoder: true,
+        },
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          hasMetas: true,
+          hasLogin: false,
+          hasTeams: false,
+          hasVotes: false,
+        },
+      };
+    </script>
+    <style>
+      #Local {
+        #table {
+          border-collapse: collapse;
+        }
+        th {
+          font-size: 24pt;
+          font-weight: normal;
+        }
+        td {
+          padding: 0.1in;
+          font-family: 'National Park';
+        }
+        #help-toggle {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <ttable id="table">
+        <ttr>
+          <tth class="index">💻</tth>
+          <ttd><b>For the best experience, use a desktop or laptop computer.</b>
+            <br />Tablets, such as iPad, work ok.
+            <br />Mobile phones struggle to see enough of a puzzle, especially with a virtual keyboard.
+          </ttd>
+        </ttr>
+
+        <ttr>
+          <tth class="index">⌨️</tth>
+          <ttd><b>Think of these as (augmented) paper puzzles.</b>
+            <br />If you see an underline or a box, or a cell in a table, you can likely type into it.
+          </ttd>
+        </ttr>
+
+        <ttr>
+          <tth class="index">📝</tth>
+          <ttd><b>Take notes.</b>
+            <br />Like a paper puzzle, take notes anywhere on the page.
+            <br /><i>Ctrl+click</i> to start, or re-enter a note. Try it here!
+            <br />Notes can be repositioned - drag the star handle 
+              <img src="images/icons/ScratchMove.png" style="height:10pt;"/>.
+          </ttd>
+        </ttr>
+
+        <ttr>
+          <tth class="index">🖱️</tth>
+          <ttd><b>Some puzzles have richer interactions.</b>
+            <br />If you see dots to connect, or words to select, try using your mouse.
+            <br />Try drag-dropping things that look like puzzle pieces.
+          </ttd>
+        </ttr>  
+        
+        <ttr>
+          <tth class="index">🔣</tth>
+          <ttd><b>Recognize common codes.</b>
+            <br />Does it look like Morse Code? or Braille? Semaphore? or Pig Pen?
+            <br />The most common code is 1➜A, 2➜B, &hellip; 26➜Z.
+            <br />Several puzzles offer a link to a helpful decoder (<img src="images/icons/decoder.png" style="height:10pt;"/> in the corner below).
+          </ttd>
+        </ttr>
+
+        <ttr>
+          <tth class="index">⁉️</tth>
+          <ttd><b>Submit guesses.</b>
+            <br />Every puzzle has a "Submit" area at the bottom.
+            <br />It will confirm correct answers, and mark those puzzles complete on the home page.
+            <br />In some cases, it will confirm intermediate answers. No penalty for guessing.
+          </ttd>
+        </ttr>
+
+        <if test="{hasMetas}">
+          <ttr>
+            <tth class="index">🧩</tth>
+            <ttd><b>Meta puzzles.</b>
+              <br />A meta puzzle is one whose inputs come from solving other puzzles.
+              <br />As you solve the feeders that lead to it, progress will show on the home page.
+              <br />Those materials should then auto-populate on the meta puzzle's page.
+            </ttd>
+          </ttr>
+        </if>
+        
+        <ttr>
+          <tth class="index">&#x1f5a8;&#xfe0f;</tth>
+          <ttd><b>Want a printout?</b>
+            <br />PDFs for all puzzles in a round can be found from the home page.
+            <br />If printing the current puzzle from your browser, use these settings:
+            <br />&nbsp;&nbsp;&nbsp;✔️&nbsp;Paper size = Letter
+              &nbsp;&nbsp;&nbsp;✔️&nbsp;Confirm orientation matches
+            <br />&nbsp;&nbsp;&nbsp;✔️&nbsp;Margins = None
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔️&nbsp;Background graphics = checked
+          </ttd>
+        </ttr>
+
+        <if test="{hasLogin}">
+          <ttr>
+            <tth class="index">🪵</tth>
+            <ttd><b>Log in!</b>
+              <br />Logging in allows the organizers to see how many puzzles you've solved.
+              <br />Player name is arbitrary, and is not linked to your identity.
+              <br />Within a team, player name + avatar🐶 should be unique, or the system may merge you.
+            </ttd>
+          </ttr>
+        </if>
+
+        <if test="{hasTeams}">
+          <ttr>
+            <tth class="index">👨‍👩‍👧‍👦</tth>
+            <ttd><b>Join a team!</b>
+              <br />Team names are also arbitrary. Try to be unique. Anyone may join any team.
+              <br />All members of a team can see each other's progress on puzzles.
+              <br />Answers are <u>not</u> shared, so you can each enjoy every puzzle.
+              <br />But, if anyone unlocks materials for a meta, those are unlocked for all.
+            </ttd>
+          </ttr>
+        </if>
+
+        <if test="{hasVotes}">
+          <ttr>
+            <tth class="index">🌟</tth>
+            <ttd><b>Vote!</b>
+              <br />Let us know which puzzles are fun, boring, easy, or hard.
+              <br />A rating UI is at the top of every puzzle page.
+            </ttd>
+          </ttr>
+        </if>
+        
+      </ttable>
+
+    </div>
+  </body>
+</html>
+

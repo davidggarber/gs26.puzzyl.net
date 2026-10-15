@@ -245,13 +245,7 @@ body.build-error {
   }
 
   #decoder-toggle {
-      display: inline-block;
-      position: absolute;
-      bottom: 20pt;
-      right: 0.5in;
-      box-shadow:0px 0px 5px fuchsia;
-      z-index: 110; 
-      cursor: pointer;
+      height: 22px;
   }
   .print #decoder-toggle {
     display: none;
@@ -267,11 +261,15 @@ body.build-error {
   #ability {
       position: absolute;
       display: block;
-      right: 0.8in;
+      right: 0.5in;
       bottom: 20pt;
       font-size: 14pt;
       cursor: help;
-      z-index: 99;
+      z-index: 200;
+
+      #help-toggle {
+        height: 22px;
+      }
   }
   .print #ability {
     display: none;
