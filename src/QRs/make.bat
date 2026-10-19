@@ -21,6 +21,6 @@ D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle
 D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="ue3.svg" "https://gs26.puzzyl.net/UnfortunateEvents3.xhtml?gs26&print&iframe"
 D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="yol.svg" "https://gs26.puzzyl.net/Yolo.xhtml?gs26&print&iframe"
 D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="zer.svg" "https://gs26.puzzyl.net/ZeroOneTwoMany.xhtml?gs26&print&iframe"
-D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="ban.svg" "https://gs26.puzzyl.net/Banned.xhtml?gs26&print&iframe"
+D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="bnn.svg" "https://gs26.puzzyl.net/Banned.xhtml?gs26&print&iframe"
 D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="ser.svg" "https://gs26.puzzyl.net/ASeriesOfUnfortunateEvents.xhtml?gs26&print&iframe"
 D:\vsts\QRCode\Console\bin\Release\net6.0-windows\QRMake.exe -format="svg.circle" -save="squ.svg" "https://gs26.puzzyl.net/SquareDance.xhtml?gs26&print&iframe"

@@ -2,6 +2,7 @@
   --event-bg-color: #F58662;
   --event-fg-color: hsl(191, 83%, 29%);
   --event-shadow-color: #ffffff;
+  --thumb-full-size: 6;
 }
 
 .table .title-font {
@@ -197,14 +198,14 @@ td.html:hover {
   letter-spacing: -1.7px;
 }
 .html:hover img.thumb {
-  transform: scale(4) rotate(5deg);
+  transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg);
   transform-origin: bottom;
   border: solid 0.5px #ddd;
   animation-name: grow-big;
   animation-duration: 300ms;
 }
 .big img.thumb {
-  transform: scale(4);
+  transform: scale(var(--thumb-full-size));
   transform-origin: bottom;
   border: solid 0.5px #ddd;
 }
@@ -214,10 +215,10 @@ td.html:hover {
 }
 @keyframes grow-big {
   from { transform: scale(1) translate(0px,0px) rotate(0deg); }
-  to { transform: scale(4) translate(1px,0px) rotate(5deg); }
+  to { transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg); }
 }
 @keyframes shrink-little {
-  from { transform: scale(4) rotate(5deg); }
+  from { transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg); }
   to { transform: scale(1) translate(0px,0px) rotate(0deg); }
 }
 

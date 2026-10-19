@@ -1,4 +1,4 @@
-#print-view {
+#pageBody {
   margin-right:0px;
   margin-left:0px;
   margin-bottom:0px;
@@ -7,7 +7,7 @@
   background-color: black;
 }
 .page {
-  page-break-after:always;
+  xpage-break-after:always;
   margin:0px;
   padding:0px;
 }
@@ -18,22 +18,30 @@ iframe {
 
 .print-portrait               { width:8.5in; height:11in;  }
 .print-portrait iframe        { width:8.5in; height:11in; }
+.print-landscape              { width:8.5in; height:11in;  } /* the puzzle rotates to accomodate */
+.print-landscape iframe       { width:8.5in; height:11in; }
 .print-tallportrait           { width:8.5in; height:14in;  }
 .print-tallportrait iframe    { width:8.5in; height:14in; }
-.print-landscape              { width:11in; height:8.5in;  }
-.print-landscape iframe       { width:11in; height:8.5in; }
 .print-ledger-portrait        { width:11in; height:17in;  }
 .print-ledger-portrait iframe { width:11in; height:17in; }
+.print-scrapbook              { width:12in; height:12in;  }
+.print-scrapbook iframe       { width:12in; height:12in; }
 
-.layout-btn.current {
-  background-color: #ffee66 ;
-  border: solid 2px #ffcc33;
-  border-radius: 2px;
-  font-weight: bold;
+.scale {
+  display: inline-block;
+  zoom: 20%;
+
+  .page {
+    page-break-after:auto;
+  }
 }
 
 @media print {
   #layout {
     display: none;
   }
+}
+
+#ability {
+  display: none;
 }

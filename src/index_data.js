@@ -8,7 +8,7 @@ function buildIndexOfMetas() {
   const landscape = 'landscape';
 
   return [
-    [ { short: 'banned',      store: 'BannedMeta',      count: 4, icon: 'images/icons/banned.png'       },  { round: 0, title: 'Banned',                          thumb: 'ban', author: 'Rorke Haining', orientation: portrait,   cls:'' } ],
+    [ { short: 'banned',      store: 'BannedMeta',      count: 4, icon: 'images/icons/banned.png'       },  { round: 0, title: 'Banned',                          thumb: 'bnn', author: 'Rorke Haining', orientation: portrait,   cls:'' } ],
     [ { short: 'unfortunate', store: 'UnfortunateMeta', count: 3, icon: 'images/icons/unfortunate.png', },  { round: 0, title: 'A Series of Unfortunate Events',  thumb: 'ser', author: 'Jess McGatha',  orientation: portrait,   cls:'' } ],
     [ { short: 'dance' ,      store: 'DanceMeta',       count: 4, icon: 'images/icons/dance.png',       },  { round: 0, title: 'Square Dance',                    thumb: 'squ', author: 'Martyn Lovell', orientation: portrait,   cls:'' } ],
     // [ { short: 'hoarding',    store: 'HoardingMeta',    count: 4, icon: 'images/icons/hoarding.png',    },  { round: 0, title: 'Animal Hoarding',                 thumb: '', author: 'David Garber',  orientation: portrait,   cls:'' } ],

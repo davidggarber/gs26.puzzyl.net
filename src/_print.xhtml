@@ -1,18 +1,18 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="UTF-8" />
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <script src="index_data.js" />
     <script src="index_utils.js" />
+    <link href="../css/Print.css" rel="Stylesheet" type="text/css" />
     <script>
       window.boiler = {
         paperSize: 'none',
         abilities: {
         },
         preBuild: initializeUrls,
-        // postSetup: setupSolvables,
         reactiveBuilder: 'pageBody',
         lookup: {
           minRound: 0, // roundsFromUrl()[0],
@@ -28,7 +28,6 @@
         initializeIndexUtils(['print','iframe']);
       }
     </script>
-    <link href="../css/Print.css" rel="Stylesheet" type="text/css" />
     <style>
       #Local {
         body {
@@ -44,12 +43,12 @@
     <div id="pageBody">
       <for each="puz" in="{puzzles}">
         <div class="page print-portrait">
-          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg"></iframe>
+          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg" />
         </div>
       </for>
       <for each="puz" in="{meta_puzzles}">
         <div class="page print-portrait">
-          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg"></iframe>
+          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg" />
         </div>
       </for>
 
