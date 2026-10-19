@@ -1,1 +1,1 @@
-validation={"":{"URKRQ":"1","QERNE":"3Xrrc tbvat.","RARZL":"3Xrrc tbvat.","ULQEN":"3Xrrc tbvat.","SNVER":"3Xrrc tbvat.","URJRQ":"3Abg dhvgr. Jr’er ybbxvat sbe na hasbeghangr rirag."}};
+validation={"":{"URKRQ":"1|2Guvf Jbeqyr pbagvahrf va gur zrgn: N Frevrf bs Hasbeghangr Riragf.","QERNE":"3Xrrc tbvat.","RARZL":"3Xrrc tbvat.","ULQEN":"3Xrrc tbvat.","SNVER":"3Xrrc tbvat.","URJRQ":"3Abg dhvgr. Jr’er ybbxvat sbe na hasbeghangr rirag."}};
