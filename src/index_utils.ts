@@ -309,7 +309,7 @@ const meta_sets: Record<string, IMetaInfo> = raw_meta_tuples.map(tup => ({
  * Must be called by index pages in the preBuild callback.
  * Complete the initialization of the IPuzzleInfo records, because some fields are allowed to start blank.
  */
-function initializeIndexUtils() {
+function initializeIndexUtils(extraArg?: string|string[]) {
   // Pass any url arguments on to the puzzles, plus the event identifier
   //  - ps23 event is for single-player puzzling.
   //  - gs26 event is an event, with teams and a leaderboard.
@@ -318,6 +318,16 @@ function initializeIndexUtils() {
       ? window.location.search  // no change
       : window.location.search === '' ? '?gs26'
       : (window.location.search + '&gs26');
+
+  if (extraArg) {
+    const appendArgs = Array.isArray(extraArg) ? extraArg.join('&') : extraArg;
+    if (boilerLookup.urlEventArgs.startsWith('?')) {
+      boilerLookup.urlEventArgs += '&' + appendArgs;
+    }
+    else {
+      boilerLookup.urlEventArgs += '?' + appendArgs;
+    }
+  }
 
   // Most puzzles are defined without .href or .file, so compute those values here.
   // Set them explicitly in the array when the name is not derivable from the title.

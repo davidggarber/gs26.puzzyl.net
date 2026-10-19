@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="index_data.js" />
+    <script src="index_utils.js" />
+    <script>
+      window.boiler = {
+        paperSize: 'none',
+        abilities: {
+          textInput: 'nearest',
+          scratchPad: true,
+        },
+        preBuild: initializeUrls,
+        // postSetup: setupSolvables,
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          minRound: 0, // roundsFromUrl()[0],
+          maxRound: 1, //roundsFromUrl()[1],
+          nextRound: timeToNextRound(),
+          puzzles: puzzles,
+          meta_puzzles: meta_puzzles,
+          metas: meta_sets,
+        },
+      };
+
+      function initializeUrls() {
+        initializeIndexUtils(['print','iframe']);
+      }
+    </script>
+    <link href="../css/Print.css" rel="Stylesheet" type="text/css" />
+    <style>
+      #Local {
+        body {
+          background-color: black;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <for each="puz" in="{puzzles}">
+        <div class="page print-portrait">
+          <iframe ssrc="{puz.href}"></iframe>
+        </div>
+      </for>
+      <for each="puz" in="{meta_puzzles}">
+        <div class="page print-portrait">
+          <iframe ssrc="{puz.href}"></iframe>
+        </div>
+      </for>
+
+    </div>
+  </body>
+</html>
+

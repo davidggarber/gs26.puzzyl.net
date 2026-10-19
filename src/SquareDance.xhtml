@@ -108,7 +108,7 @@
               display: none;
               pointer-events: none;
             }
-            .moveable:not(:has(> .revealed)) > .locked {
+            body:not(.print) .moveable:not(:has(> .revealed)) > .locked {
               display: inline;
             }
           }
@@ -176,7 +176,7 @@
             <for int="i" until="16">
               <g id="drag-{i}" class="transform-copy" transform-copy="source-{i}">
                 <g class="moveable">
-                  <image class="locked" href="metas/locked-transparent.png" x="10" y="10" width="60" height="60" />
+                  <image class="locked no-print" href="metas/locked-transparent.png" x="10" y="10" width="60" height="60" />
                   <rect x="0" y="0" width="80" height="80" class="drag-handle" />
                 </g>
               </g>

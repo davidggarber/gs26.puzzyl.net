@@ -328,7 +328,7 @@
             </for>
 
             <circle r="20" stroke="red" fill="none" />
-            <use template="pent" text="" cls="gray" />
+            <use template="pent" rot="0" text="" cls="gray" />
             <for each="p" in="{flower.pents}">
               <g ttransform="translate({p.0 * -202/10}, {p.1 * -202/10})">
                 <use template="pent" rot="{36 + p# * 72}" cls="flow-{flower.pdata.[p#].0}" text="{flower.pdata.[p#].1}" />
