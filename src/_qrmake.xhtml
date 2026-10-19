@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="/kit.umd.js"></script>
+    <script src="/event.js"></script>
+    <script src="index_data.js" />
+    <script src="index_utils.js" />
+    <script>
+      window.boiler = {
+        paperSize: 'none',
+        abilities: {
+        },
+        preBuild: initializeUrls,
+        reactiveBuilder: 'pageBody',
+        lookup: {
+          minRound: 0, // roundsFromUrl()[0],
+          maxRound: 1, //roundsFromUrl()[1],
+          nextRound: timeToNextRound(),
+          puzzles: puzzles,
+          meta_puzzles: meta_puzzles,
+          metas: meta_sets,
+          qrmake: 'D:\\vsts\\QRCode\\Console\\bin\\Release\\net6.0-windows\\QRMake.exe',
+          format: 'svg.circle',
+          url_root: 'https://gs26.puzzyl.net',
+        },
+      };
+
+      function initializeUrls() {
+        initializeIndexUtils(['print','iframe']);
+      }
+    </script>
+    <link href="../css/Print.css" rel="Stylesheet" type="text/css" />
+    <style>
+      #Local {
+        p {
+          font-family: monospace;
+        }
+      }
+    </style>
+  </head>
+  <body id="Local">
+    <div id="pageBody">
+      <p>
+        <for each="puz" in="{puzzles}">
+          {qrmake} -format="{format}" -save="{puz.thumb}.svg" "{url_root}/{puz.href}"<br />
+        </for>
+        <for each="puz" in="{meta_puzzles}">
+          {qrmake} -format="{format}" -save="{puz.thumb}.svg" "{url_root}/{puz.href}"<br />
+        </for>
+      </p>
+    </div>
+  </body>
+</html>
+

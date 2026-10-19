@@ -10,8 +10,6 @@
       window.boiler = {
         paperSize: 'none',
         abilities: {
-          textInput: 'nearest',
-          scratchPad: true,
         },
         preBuild: initializeUrls,
         // postSetup: setupSolvables,
@@ -36,6 +34,9 @@
         body {
           background-color: black;
         }
+        #ability {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -43,12 +44,12 @@
     <div id="pageBody">
       <for each="puz" in="{puzzles}">
         <div class="page print-portrait">
-          <iframe ssrc="{puz.href}"></iframe>
+          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg"></iframe>
         </div>
       </for>
       <for each="puz" in="{meta_puzzles}">
         <div class="page print-portrait">
-          <iframe ssrc="{puz.href}"></iframe>
+          <iframe ssrc="{puz.href}&amp;qr=QRs/{puz.thumb}.svg"></iframe>
         </div>
       </for>
 
