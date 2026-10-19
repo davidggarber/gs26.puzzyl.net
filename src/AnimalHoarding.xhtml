@@ -88,15 +88,15 @@
     <div id="pageBody">
       <svg id="svg" width="720" height="800" xmlns="http://www.w3.org/2000/svg" class="word-select-area no-user-select" data-angle-constraints="90">
         <for int="x" until="12">
-          <path class="border" d="M{19+x*62},19 v744" />
+          <path class="border" dd="M{19+x*62},19 v744" />
         </for>
         <for int="y" until="13">
-          <path class="border" d="M19,{19+y*62} h682" />
+          <path class="border" dd="M19,{19+y*62} h682" />
         </for>
 
         <for each="row" in="{letters}">
           <for char="ch" in="{row}">
-            <g transform="translate({50 + 62*ch#},{50 + 62*row#})">
+            <g ttransform="translate({50 + 62*ch#},{50 + 62*row#})">
               <rect x="-31" y="-31" width="62" height="62" class="vertex" />
               <if test="{ch}" in="{animals}">
                 <image x="-24" y="-24" hhref="AnimalHoarding/{ch}.png" />
