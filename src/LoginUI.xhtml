@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8"></meta>
+    <script src="/kit.umd.js" />
+    <script src="/event.js" />
+    <link href="Login/loginUI.css" rel="Stylesheet" type="text/css" />
+    <script src="login.js" />
+    <script>
+      window.boiler = {
+        reloadOnRefresh: false,
+        reactiveBuilder: 'pageBody',
+        paperSize: 'postcard',
+        preSetup: toggleLogout,
+        postSetup: postSetup,
+        lookup: {
+          logo: {
+            gs26: 'images/logo.png',
+          },
+          eventTitle: {
+            gs26: 'Giving Safari 26',
+          },
+        }
+      };
+    </script>
+  </head>
+  <body id="LoginUI">
+    <div id='pageBody'>
+
+      <div id="login-mode">
+        <div id="login-titlebar" class="titlebar">
+          Log in to {eventTitle.[_safari_]}
+        </div>
+        <table id="login-table" class="table">
+          <tr>
+            <th class="left" style="width:1in;">Your name</th>
+            <td class="middle"><input id="playerName" type="text" class="text" oninput="validateName()" /></td>
+            <td rowspan="3" style="vertical-align: top;">
+              <img id="logo" ssrc="{logo.[_safari_]}" />
+            </td>
+          </tr>
+          <tr>
+            <th class="left">Emoji avatar</th>
+            <td class="middle" style="white-space: nowrap;"><input id="avatar" type="text" class="text" oninput="max1emoji()" onfocus="selectAll(this)" />
+              <div style="display:inline-block">
+                <sup class="avatar-top" title="Teammates should pick different avatars">⭐</sup>
+                <span class="avatar-middle" >
+                  Type your own, or<br />
+                  <a id="undo" href="javascript:prevEmoji()" class="a-no-underline" title="undo" style="color:transparent">⤺</a>
+                  <a href="javascript:randomEmoji(true)">randomize</a>
+                  <a id="redo" href="javascript:nextEmoji()" class="a-no-underline" title="redo" style="color:transparent">⤳</a>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th class="left">Team name</th>
+            <td class="middle"><input id="teamName" type="text" class="text" /></td>
+          </tr>
+          <tr>
+            <td class="left">&nbsp;</td>
+            <td colspan="2">
+              <i>Leave the team blank if you are playing solo.</i>
+            </td>
+          </tr>
+          <tr>
+            <td class="left"></td>
+            <td class="middle" style="text-align: center;">
+              <button id="login-button" onclick="login()" disabled="true">Login</button>
+              <if test="{_is_modal_}">
+                <button onclick="cancel()">Cancel</button>
+              </if>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="logged-in-mode">
+        <div id="logged-in-titlebar" class="titlebar">
+          You are logged in to {eventTitle.[_safari_]}
+        </div>
+        <table id="logged-in-table" class="table">
+          <tr>
+            <td class="left" style="width:3.25in; text-align:left;">Welcome <span id="logged-in-player"></span>!</td>
+            <td class="middle" rowspan="3" style="vertical-align: top;">
+              <img id="logo" ssrc="{logo.[_safari_]}" />
+            </td>
+          </tr>
+          <tr>
+            <td class="left" style="text-align:left; padding-top:20px;">
+              <span id="logged-in-team">You are on team</span>
+              <br />
+              <span id="logged-in-team2" />
+            </td> 
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:left; padding-top: 20px">
+              Would you like to <button onclick="invite_logout()">Change?</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="logout-mode">
+        <div id="logout-titlebar" class="titlebar">
+          Log out of {eventTitle.[_safari_]} ?
+        </div>
+        <table id="logout-table" class="table">
+          <tr>
+            <th class="left" style="width:3.25in;">You are logged in as <span id="logout-player" class="logout-big"></span></th>
+            <td rowspan="3" style="vertical-align: top;">
+              <img id="logo" ssrc="{logo.[_safari_]}" />
+            </td>
+          </tr>
+          <tr>
+            <th class="left">With emoji avatar <span id="as-avatar" class="logout-big"></span></th>
+          </tr>
+          <tr>
+            <th class="left" id="on-team-name">On team</th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <if test="{_is_modal_}">
+                <button onclick="logout()">Confirm Logout</button>
+                <button onclick="cancel()">Cancel</button>
+              </if>
+              <else>
+                <button onclick="logout()">Logout</button>
+                <button onclick="toggleLogout(LOGGED_IN_MODE)">Cancel</button>
+              </else>
+              <br />
+              <span style="white-space: nowrap" trim="all">
+                <input type="checkbox" id="delete" /> 
+                <label for="delete">Erase player</label>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </body>
+</html>

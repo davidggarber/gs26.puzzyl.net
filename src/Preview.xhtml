@@ -7,13 +7,14 @@
     <script src="/kit.umd.js"></script>
     <script src="/event.js"></script>
     <link href="css/index.css" rel="Stylesheet" type="text/css" />
+    <link href="Login/loginBar.css" rel="Stylesheet" type="text/css" />
     <script src="index_data.js" />
     <script src="index_utils.js" />
     <script>
       window.boiler = {
         paperSize: 'minimalist',
         title: 'Giving Safari 26',
-        titleSync: roundName(),
+        titleSync: getMenuName(),
         abilities: {
           textInput: 'nearest',
         },
@@ -41,43 +42,7 @@
       };
     </script>
     <style>
-      #Menu #Login-bar {
-        position: relative;
-        left: 0px;
-        top: 2px;
-        font-size: 14pt;
-        margin: 0px;
-      }
-      #Menu #Login-icon {
-        height: 36px;
-      }
-
-      #puz-col-headers th.feeders {
-        text-align: center;
-      }
-      .spacer {
-        width: 20%;
-        min-width: 0px;
-      }
-      #meta-table .spacer {
-        width: 25%;
-      }
-
-      #meta-table .html {
-        width: 35%;
-      }
-      #puz-col-headers th:not(.round, .feeders) {
-        text-align: left;
-        padding: 2px 5px;
-      }
-      #meta-col-headers th:not(.round) {
-        text-align: left;
-      }
-
-      #pre-event {
-        font-weight: bold;
-        font-style: italic;
-        color: #385723;
+      #Menu {
       }
     </style>
   </head>
@@ -163,19 +128,21 @@
             </if>
           </for>
         </ttbody>
-        <if test="{showMetas}">
-          <use template="meta-template" />
-        </if>
+        
+        <ttfoot id="meta_list">
+          <if test="{showMetas}">
+            <use template="meta-template" />
+          </if>
 
-        <if test="{showForget}">
-          <ttfoot>
+          <if test="{showForget}">
             <ttr>
               <ttd id="forget-all-progress" colspan="{table_cols+2}" style="text-align: center;">
                 To reset local saved progress for all puzzles in this event, click <a href="Forget_all_progress.xhtml{urlEventArgs}">HERE</a>.
               </ttd>
             </ttr>
-          </ttfoot>
-        </if>      
+          </if>      
+        </ttfoot>
+
 
       </ttable>
 
@@ -194,67 +161,64 @@
     </div>
 
     <template id="meta-template">
-      <ttfoot id="meta_list">
-        <ttr id="meta-col-headers">
-          <tth class="spacer" colspan="4">&nbsp;</tth>
-          <tth class="title-font" colspan="2">
-            Meta-Puzzles  
-          </tth>
-          <tth class="spacer" colspan="3">&nbsp;</tth>
-        </ttr>    
-        <for each="puz" in="{meta_puzzles}">
-          <if test="puz.round" ge="{minRound}">
-            <if test="puz.round" le="{maxRound}">
-              <ttr id="{puz.file}" name="{puz.title}">
-                <ttd class="spacer">&nbsp;</ttd>
-                <if test="{showRounds}">
-                  <ttd class="empty">&nbsp;</ttd>
-                </if>
-                <ttd class="presence"></ttd>
-                <ttd class="icons">
-                  <img ssrc="{puz.metaInfo.icon}"/>
-                </ttd>
-                <ttd class="html" colspan="2">
-                  <a class="hover" href="{puz.href}" target="_blank">
-                    {puz.title}
-                    <if exists="{puz.thumb}">
-                      <img class="thumb" ssrc="thumbs/{puz.thumb}.png" />
-                    </if>
+      <ttr id="meta-col-headers">
+        <tth class="spacer">&nbsp;</tth>
+        <tth class="title-font" colspan="{table_cols}" style="text-align: center;">
+          Meta-Puzzles  
+        </tth>
+        <tth class="spacer">&nbsp;</tth>
+      </ttr>    
+      <for each="puz" in="{meta_puzzles}">
+        <if test="puz.round" ge="{minRound}">
+          <if test="puz.round" le="{maxRound}">
+            <ttr id="{puz.file}" name="{puz.title}">
+              <ttd class="spacer">&nbsp;</ttd>
+              <if test="{showRounds}">
+                <ttd class="empty">&nbsp;</ttd>
+              </if>
+              <ttd class="presence"></ttd>
+              <ttd class="icons">
+                <img ssrc="{puz.metaInfo.icon}"/>
+              </ttd>
+              <ttd class="html" colspan="2">
+                <a class="hover" href="{puz.href}" target="_blank">
+                  {puz.title}
+                  <if exists="{puz.thumb}">
+                    <img class="thumb" ssrc="thumbs/{puz.thumb}.png" />
+                  </if>
+                </a>
+              </ttd>
+              <ttd class="authors">
+                {puz.author}
+              </ttd>
+              <ttd class="completed">
+                <span class="teammate-solves" xtrim="all">
+                </span>
+                <span class="checkmark" />
+              </ttd>
+              <ttd class="spacer">&nbsp;</ttd>
+            </ttr>
+            <ttr>
+              <ttd colspan="{table_cols - 3}">&nbsp;</ttd>
+              <ttd class="feeders" colspan="2" style="text-align: right; padding-right: 24px;">
+                <for int="num" until="{puz.metaInfo.count}">
+                  <a class="feedLink {puz.metaInfo.store}-{num}" target="_blank" title="Materials #{num+1} (locked)" trim="all">
+                    <img ssrc="{puz.metaInfo.icon}" /><sub>{num+1}</sub>
                   </a>
-                </ttd>
-                <ttd class="authors">
-                  {puz.author}
-                </ttd>
-                <ttd class="completed">
-                  <span class="teammate-solves" xtrim="all">
-                  </span>
-                  <span class="checkmark" />
-                </ttd>
-                <ttd class="spacer">&nbsp;</ttd>
-              </ttr>
-              <ttr>
-                <ttd colspan="4">&nbsp;</ttd>
-                <ttd class="feeders" colspan="2">
-                  <for int="num" until="{puz.metaInfo.count}">
-                    <a class="feedLink {puz.metaInfo.store}-{num}" target="_blank" title="Materials #{num+1} (locked)" trim="all">
-                      <img ssrc="{puz.metaInfo.icon}" /><sub>{num+1}</sub>
-                    </a>
-                  </for>  
-                </ttd>
-                <ttd>
-                  <if test="{showForget}">
-                    <if exists="{puz.forget}">
-                      <a href="{puz.forget}" target="_blank" style="font-size: smaller;">Forget materials</a>
-                    </if>
-                  </if>&nbsp;
-                </ttd>
-                <ttd colspan="2" />
-              </ttr>
-            </if>
+                </for>  
+              </ttd>
+              <ttd>
+                <if test="{showForget}">
+                  <if exists="{puz.forget}">
+                    <a href="{puz.forget}" target="_blank" style="font-size: smaller;">Forget materials</a>
+                  </if>
+                </if>&nbsp;
+              </ttd>
+              <ttd colspan="2" />
+            </ttr>
           </if>
-        </for>
-      </ttfoot>
-      
+        </if>
+      </for>      
     </template>
 
     <template id="sortableTH">

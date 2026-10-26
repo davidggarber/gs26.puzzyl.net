@@ -1,0 +1,126 @@
+#LoginUI {
+  background-color: white;
+  overflow: hidden;
+
+  #Login-bar {
+    display: none;
+  }
+  #logo {
+    height: 1.1in;
+  }
+  .table {
+    margin: 0.5in 0.25in 0px 0.25in;
+  }
+  .iPad .table {
+    margin: 0.5in 0.1in 0px 0.25in;
+  }
+
+  #login-mode {
+    display: block;
+  }
+
+  #logged-in-mode {
+    display: none;
+  }
+
+  #logout-mode {
+    display: none;
+  }
+
+  input.text {
+    font-size: 16pt;
+    width: 95%;
+  }
+  #avatar {
+    width: 0.65in;
+    font-size: 24pt;
+    text-align: center;
+  }
+  #as-avatar {
+    font-size: 16pt;
+  }
+  .avatar-top {
+    position: relative;
+    top: -16px;
+    left: -5px;
+    cursor: help;
+  }
+  .avatar-middle {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    top: 0px;
+    left: -8px;
+    white-space: nowrap;
+  }
+  .a-no-underline {
+    text-decoration: none;
+    font-size: 12pt;
+  }
+  #page {
+    height: 2in;
+  }
+  button {
+    font-size: 16pt;
+  }
+
+  .titlebar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 5in;
+    height: 28px;
+    font-size: 14pt;
+    background-color: rgb(45, 85, 164);
+    color: white;
+    padding: 4px;
+    text-align: center;
+  }
+  #logged-in-titlebar {
+    background-color: rgb(45, 164, 67);
+  }
+  #logout-titlebar {
+    background-color: rgb(164, 45, 45);
+  }
+  #logged-in-player {
+    font-weight: bold;
+    font-size: 18pt;
+  }
+  #logged-in-team2 {
+    font-weight: bold;
+    font-size: 16pt;
+  }
+  .logout-big {
+    font-size: 14pt;
+  }
+  #backlink {
+    display: none;
+  }
+  #ability {
+    display: none;
+  }
+}
+
+#LoginUI.logged-in {
+  #login-mode {
+    display: none;
+  }
+  #logged-in-mode {
+    display: block;
+  }
+  #logout-mode {
+    display: none;
+  }
+}
+
+#LoginUI.logout {
+  #login-mode {
+    display: none;
+  }
+  #logged-in-mode {
+    display: none;
+  }
+  #logout-mode {
+    display: block;
+  }
+}

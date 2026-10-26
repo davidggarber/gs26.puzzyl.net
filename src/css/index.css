@@ -107,6 +107,38 @@
   text-shadow: 0 0 2px white, 0 0 1px white, 0 0 6px lime;
 }
 
+#puz-col-headers th.feeders {
+  text-align: center;
+}
+.spacer {
+  width: 20%;
+  min-width: 0px;
+}
+#meta-table .spacer {
+  width: 25%;
+}
+
+#meta-table .html {
+  width: 35%;
+}
+#puz-col-headers th:not(.round, .feeders) {
+  text-align: left;
+  padding: 2px 5px;
+}
+#meta-col-headers th:not(.round) {
+  text-align: left;
+}
+
+#pre-event {
+  font-weight: bold;
+  font-style: italic;
+  color: #385723;
+}
+#ability {
+  display: none;
+}
+
+
 tr.solved .checkmark {
   background-image: url('/images/icons/Check.png');
   background-size: 25px 22.5px;
@@ -293,18 +325,21 @@ td.html:hover {
   display: none;
 }
 
+#Login-bar {
+  background-color: #ffff00;
+  border-radius: 5px;
+  padding-right: 10px;
+}
+#Login-bar.logged-in {
+  background-color: #88888844;
+}
+
 #login-perks {
   padding: 10px;
   margin: 0px;
   margin-left: -10px;
   background-color: yellow;
   border-radius: 5px;
-}
-#Login-player {
-  background-color: gold;
-}
-.logged-in-player #Login-player {
-  background-color: transparent;
 }
 .logged-in-player #login-perks {
   background-color: #ffffee;

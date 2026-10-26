@@ -75,3 +75,10 @@ function buildIndexOfPuzzles() {
     { round: 0, title: 'Zero, One Two Many!',                   thumb: 'zer', author: 'Glenn Hollingsworth', type: logic,    group: puzzle, orientation: portrait,   cls:'', feeder: [] },
   ];
 }
+
+function getMenuName() {
+  if (getEventCode() === 'gs26') {
+    return 'Index26';
+  }
+  return 'Index23';
+}

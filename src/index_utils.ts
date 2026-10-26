@@ -832,6 +832,7 @@ function showMetas() {
  * Mini-events are a single round, so hide round labels
  */
 function showRounds() {
-  let search = window.location.search.toLowerCase();
-  return !search.includes('mini=');
+  return false;
+  // let search = window.location.search.toLowerCase();
+  // return !search.includes('mini=');
 }

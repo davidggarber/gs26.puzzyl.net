@@ -111,6 +111,45 @@ Ensure `package.json` references desired puzzyl-kit version.
 ```
 Then rerun `npm install` etc.
 
+### Testing an unpublished local kit patch
+
+With the kit checked out in the adjacent `..\puzzyl-kit` directory, run:
+
+```powershell
+npm run kit:local
+npm run typecheck
+npm run build
+npm run dev
+```
+
+`kit:local` builds the kit, packs it as an npm tarball, and installs that snapshot
+into this project's `node_modules`, including its TypeScript declarations. It does
+not change `package.json` or `package-lock.json`, and does not publish anything.
+Install the kit checkout's development dependencies there first if necessary.
+Build, pack, and install errors stop the command and are reported in the terminal.
+
+To use a checkout elsewhere (quote paths containing spaces):
+
+```powershell
+npm run kit:local -- "D:\other checkout\puzzyl-kit"
+```
+
+Rerun `npm run kit:local` after each kit change, even if its version number has not
+changed. This installs a snapshot, not a live link. Run `npm run build` afterward
+to refresh the bundle used for static deployment; the normal dev server reads the
+installed kit directly. `dev:alpha` still serves the adjacent checkout instead,
+so use `dev` when testing the installed snapshot.
+
+To discard the local installation and restore the locked, published dependencies:
+
+```powershell
+npm ci
+npm run build
+```
+
+The local override is machine-local; CI and other developers continue using the
+published dependency. Restoring it requires the usual GitHub Packages authentication.
+
 *TODO: but then test layout-preserving tests.*
 
 
