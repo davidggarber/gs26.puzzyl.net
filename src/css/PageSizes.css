@@ -509,7 +509,7 @@ body.build-error {
 }
 
 #Login-bar {
-  position: relative;
+  position: absolute;
   left: 0px;
   top: 2px;
   font-size: 14pt;
