@@ -39,6 +39,21 @@ Use class="scrapbook landscape"   for 12" x 12" except when printing, when it's 
   transform: rotate(90deg) translate(0px, 48px);
   transform-origin: 408px 408px;
 }
+.print.iframe.scrapbook {
+  display: flow-root;
+  width: 8.5in;
+  height: 11in;
+  /* Scaling does not shrink the original layout's scrollable area. */
+  overflow: hidden;
+
+  #page {
+    transform: scale(0.68, 0.9);
+    transform-origin: top left;
+  }
+  #qr {
+    transform: scale(1.4706, 1.1111);
+  }
+}
 
 .icon.print.iframe.letter.landscape #page {
   transform: rotate(90deg) translate(0px, 48px);

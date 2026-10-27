@@ -70,8 +70,6 @@ function getEventCode():string {
 function getSyncConfig(): import('@davidggarber/puzzyl-kit').EventSyncConfig|undefined {
   const code = getEventCode();
   if (window.location.search) {
-    const urlArgs = new URLSearchParams(window.location.search);
-
     if (code === 'gs26') {
       // gs26 means this is the giving event, with team and sync support
       return {
