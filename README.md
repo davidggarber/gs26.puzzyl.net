@@ -48,6 +48,11 @@ It will be published to an Azure static web app, visible to the public at `https
 
 We use a plain Node.js static file server for local development. There is no bundler.
 
+The landing page (`src/index.html`) checks the visitor's device clock on load.
+After October 28, 2026 at 3:00 PM Pacific (22:00 UTC), it redirects to
+`Ideas.xhtml?gs26`; at or before that time, it redirects to `NYI.xhtml`.
+Without JavaScript, the page provides a manual link to `NYI.xhtml`.
+
 **Why not Vite:** Vite is designed around owning the HTML entry point and bundling a JavaScript app.
 Our pages are `.xhtml` files that must be served raw as `application/xhtml+xml`. The only workable
 Vite approach required fetching the xhtml via JavaScript and manually transplanting elements into a

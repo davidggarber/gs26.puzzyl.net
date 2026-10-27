@@ -1,9 +1,29 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url='NYI.xhtml'" />
   </head>
   <body id="Index">
-    <a href="NYI.xhtml">Giving Safari 26 is coming soon</a>.
+    <a id="destination" href="NYI.xhtml">Continue to Giving Safari 26</a>.
+    <script>
+      // Pacific time is UTC-7 on October 28, 2026 (before daylight saving ends).
+      const launchTime = new Date('2026-10-28T15:00:00-07:00').getTime();
+      const closeTime = new Date('2026-10-28T23:59:59-07:00').getTime();
+      var destination = 'NYI.xhtml';
+      var friendly = 'Giving Safari 26 will be ready very soon!';
+      if (Date.now() > closeTime) {
+        // Post-event, show puzzles, but not login
+        destination = 'Ideas.xhtml';
+        friendly = 'Try puzzles from Giving Safari 26!';
+      }
+      else if (Date.now() >= launchTime) {
+        // During the event, show puzzles with login
+        destination = 'Ideas.xhtml?gs26';
+        friendly = 'Join Giving Safari 26!';
+      }
+      var link = document.getElementById('destination');
+      link.href = destination;
+      link.textContent = friendly;
+      window.location.replace(destination);
+    </script>
   </body>
 </html>
