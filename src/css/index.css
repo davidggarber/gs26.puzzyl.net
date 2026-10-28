@@ -224,6 +224,9 @@
     max-height: 0.25in;
     max-width: 0.25in;
     border: solid 1px #ccc;
+    transform: translate(0px,0px) scale(1) rotate(0deg);
+    transform-origin: bottom;
+    transition: transform 300ms ease;
   }
   td.html:hover {
     font-size: 11pt;
@@ -232,10 +235,7 @@
   }
   .html:hover img.thumb {
     transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg);
-    transform-origin: bottom;
     border: solid 0.5px #ddd;
-    animation-name: grow-big;
-    animation-duration: 300ms;
   }
   .big img.thumb {
     transform: scale(var(--thumb-full-size));
@@ -245,14 +245,6 @@
   .table tr.big td,th {
     background-color: #385723;
     color: white;
-  }
-  @keyframes grow-big {
-    from { transform: scale(1) translate(0px,0px) rotate(0deg); }
-    to { transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg); }
-  }
-  @keyframes shrink-little {
-    from { transform: translate(70px,0px) scale(var(--thumb-full-size)) rotate(5deg); }
-    to { transform: scale(1) translate(0px,0px) rotate(0deg); }
   }
 
   .feedLink img {
