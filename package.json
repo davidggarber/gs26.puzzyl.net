@@ -15,7 +15,7 @@
                     "typecheck":  "tsc --noEmit"
                 },
     "dependencies":  {
-                         "@davidggarber/puzzyl-kit":  "0.1.21"
+                         "@davidggarber/puzzyl-kit":  "0.1.22"
                      },
     "devDependencies":  {
                             "typescript":  "^5.9.2"
