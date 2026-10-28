@@ -18,7 +18,7 @@ type Kit_PlayerNameAvatar = {
   Player: string,
   Avatar: string;
 }
-// REVIEW: this doesn't line up with SolveSummary in eventSync.ts
+// Map puzzle names to a list of solvers' avatars.
 type Kit_SolveSummary = Record<string, Kit_PlayerNameAvatar[]>
 
 type Kit_UnlockedPiece = {
@@ -45,13 +45,13 @@ const kit = {
   splitEmoji: (str:string):string[]
     => splitEmoji(str),
   syncTeamName: (): string
-    => _teamName,
+    => getSyncDetails().teamName,
   syncTeamMates: (): Kit_PlayerPresence[]
-    => _teammates || [],
+    => getTeamSyncData().teamMates,
   syncTeamSolves: (): Kit_SolveSummary
-    => _teamSolves || {},
+    => getTeamSyncData().teamSolves,
   syncRemoteUnlocked: (): Kit_UnlockedPiece[]
-    => _remoteUnlocked || [],
+    => getTeamSyncData().remoteUnlocked,
 };
 
 /**
@@ -652,20 +652,22 @@ function mergeSolves(overwrite:boolean)
     return true;  // Special case: clear all
   }
 
-  // _teamSolves is a list of tuples: PuzzleName and a list of players (PlayerName + Avatar)
+  // team solves is a map of puzzle names to a list of players
+  // list of tuples: PuzzleName and a list of players (PlayerName + Avatar)
   // boilerLookup.solves is a dictionary of puzzle names to the list of players
   let changes = false;
   const solvedPuzzles = Object.keys(kit.syncTeamSolves());
   for (let i = 0; i < solvedPuzzles.length; i++) {
     let puz = solvedPuzzles[i];
-    // The value is a concatenated string of avatars
+    // The incoming value is a list of players + avatars
     let update = kit.syncTeamSolves()[puz];
+    // The locally cached value is too
     let keep = boilerLookup.solves[puz] || [];
     // Make sure that new solvers are appended to existing ones
     for (let u = 0; u < update.length; u++) {
       let plyr = update[u];
-      if (!keep.find(p => p.Player==plyr.Player && p.Avatar == plyr.Avatar)) {
-        keep.push(update[u]);
+      if (!keep.find(k => k.Player == plyr.Player && k.Avatar == plyr.Avatar)) {
+        keep.push(plyr);
         changes = true;
       }
     }
