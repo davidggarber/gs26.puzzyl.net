@@ -32,10 +32,10 @@
             unlocked: true,
             src: urlSansArgs() });
 
-          updatePuzzleList(`${boiler.lookup.meta}-${boiler.lookup.index}`, 'loaded');
+          updatePuzzleList(`${boiler.title}`, 'loaded');
           if (urlArgs['from'] != 'sync') {
             // Pushing back to sync suggests WE unlocked it. Don't, if from=sync.
-            syncUnlockedFile(`${boiler.lookup.meta}-${boiler.lookup.index}`, urlSansArgs());
+            syncUnlockedFile(`${boiler.title}`, urlSansArgs());
           }
         }
       }
@@ -65,7 +65,7 @@
         <for each="w" in="{words}">
           <g ttransform="translate({w#*120},0)">
             <for char="ch" in="{w}">
-              <g transform="translate({20 + 40 * (ch#%2)}, {20 + 40 * (ch#\2)})">
+              <g ttransform="translate({20 + 40 * (ch#%2)}, {20 + 40 * (ch#\2)})">
                 <rect x="-20" y="-20" width="40" height="40"/>
                 <text x="0" y="0">{ch}</text>
               </g>

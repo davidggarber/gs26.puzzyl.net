@@ -43,10 +43,10 @@
             unlocked: true,
             src: urlSansArgs() });
 
-          updatePuzzleList(`${boiler.lookup.meta}-${boiler.lookup.index}`, 'loaded');
+          updatePuzzleList(`${boiler.title}`, 'loaded');
           if (urlArgs['from'] != 'sync') {
             // Pushing back to sync suggests WE unlocked it. Don't, if from=sync.
-            syncUnlockedFile(`${boiler.lookup.meta}-${boiler.lookup.index}`, urlSansArgs());
+            syncUnlockedFile(`${boiler.title}`, urlSansArgs());
           }
         }
       }

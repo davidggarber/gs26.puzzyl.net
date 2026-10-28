@@ -22,7 +22,7 @@ type Kit_PlayerNameAvatar = {
 type Kit_SolveSummary = Record<string, Kit_PlayerNameAvatar[]>
 
 type Kit_UnlockedPiece = {
-  Piece: string;
+  PuzzleName: string;
   Url: string;
 }
 
@@ -69,7 +69,7 @@ const boilerLookup = {
     return window.boiler.lookup.teamname;
   },
   set teamname(value: string) {
-    window.boiler.lookup.teamname = value.trim();
+    window.boiler.lookup.teamname = value?.trim() || '';
   },
 
   /** List of teammate names, received from the server. Other players who claimed the same teamname */
@@ -506,7 +506,7 @@ function syncUnlockedMetas() {
   for (let m = 0; m < metaKeys.length; m++) {
     let metaInfo = meta_sets[metaKeys[m]];
     for (let i = 0; i <= metaInfo.count; i++) {
-      updateUnlocked(metaInfo.store, i);
+      updateUnlocked(metaInfo, i);
     }
   }
 }
@@ -544,22 +544,22 @@ function updateSolves(puzFile:string) {
  * @param meta The meta-material store name.
  * @param i The material index.
  */
-function updateUnlocked(meta:string, i:number) {
-  let puzFile = `${meta}-${i}`;
+function updateUnlocked(metaInfo:IMetaInfo, i:number) {
+  // The material title is predictable
+  let puzFile = `${metaInfo.title} - materials #${i+1}`;
+  let puzStore = `${metaInfo.store}-${i}`;
   if (!(puzFile in _unlocked_feeders)) {
     let pStatus = kit.getPuzzleStatus(puzFile);
-    if (pStatus) {
-      let mat = kit.loadMetaMaterials(meta, 0, i);
-      if (mat) {
-        _unlocked_feeders[puzFile] = true;
-        let links = document.getElementsByClassName(puzFile);
-        for (let a = 0; a < links.length; a++) {
-          const link = links[a] as HTMLLinkElement;
-          kit.toggleClass(link, 'unlocked', true);
-          link.href = mat.src + boilerLookup.urlEventArgs;
-          if (link.title.endsWith(' (locked)')) {
-            link.title = link.title.substring(0, link.title.length - 9);
-          }
+    let mat = kit.loadMetaMaterials(metaInfo.store, 0, i);
+    if (pStatus || mat) {
+      _unlocked_feeders[puzFile] = true;
+      let links = document.getElementsByClassName(puzStore);
+      for (let a = 0; a < links.length; a++) {
+        const link = links[a] as HTMLLinkElement;
+        kit.toggleClass(link, 'unlocked', true);
+        link.href = mat.src + boilerLookup.urlEventArgs;
+        if (link.title.endsWith(' (locked)')) {
+          link.title = link.title.substring(0, link.title.length - 9);
         }
       }
     }
@@ -597,10 +597,10 @@ function refreshTeamProgress() {
     let foundNew = false;
     let newlyUnlocked = [];
     for (let ru of kit.syncRemoteUnlocked()) {
-      if (!ru.Piece) {
+      if (!ru.PuzzleName) {
         continue;  // bad data. Don't load, since we'll never be able to acknowledge the load
       }
-      if (!(ru.Piece in _unlocked_feeders)) {
+      if (!(ru.PuzzleName in _unlocked_feeders)) {
         newlyUnlocked.push(ru.Url);
         // Don't add to _unlocked_feeders. That happens once it's confirmed.
         foundNew = true;
