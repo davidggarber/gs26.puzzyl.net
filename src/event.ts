@@ -69,25 +69,25 @@ function getEventCode():string {
 
 function getSyncConfig(): import('@davidggarber/puzzyl-kit').EventSyncConfig|undefined {
   const code = getEventCode();
-  if (window.location.search) {
-    if (code === 'gs26') {
-      // gs26 means this is the giving event, with team and sync support
-      return {
-        eventName: 'Giving Safari 26',
-        eventSync: 'GivingSafari26',
-        eventKey: 'gs26',
-        hasLogin: true,
-        hasTeams: true,
-        syncSolves: true,
-        syncUsage: true,
-        offerRatings: {
-          fun: true,
-          difficulty: true,
-          feedback: true
-        }
-      };
-    }
-  }
+  // if (window.location.search) {
+  //   if (code === 'gs26') {
+  //     // gs26 means this is the giving event, with team and sync support
+  //     return {
+  //       eventName: 'Giving Safari 26',
+  //       eventSync: 'GivingSafari26',
+  //       eventKey: 'gs26',
+  //       hasLogin: true,
+  //       hasTeams: true,
+  //       syncSolves: true,
+  //       syncUsage: true,
+  //       offerRatings: {
+  //         fun: true,
+  //         difficulty: true,
+  //         feedback: true
+  //       }
+  //     };
+  //   }
+  // }
 
   // Otherwise, this is just a collection of PS23 puzzles, with no sync
   return {
